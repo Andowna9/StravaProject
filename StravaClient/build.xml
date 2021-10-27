@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="2.client" name="StravaClient">
+
+    <property environment="env"/>
+    <property name="source.dir" location="src"/>
+    <property name="build.dir" location="bin"/>
+    <property name="lib.dir" location="lib"/>
+    <property name="server.name" value="StravaServer"/>
+    <property name="policy.file" location="security/java.policy"/>
+    <property name="javafx.sdk.path" value="C:/dev/javafx-sdk-17.0.0.1/lib"/>
+
+    <path id="full.classpath">
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="${javafx.sdk.path}">
+            <include name="*.jar"/>
+        </fileset>
+        <pathelement location="${build.dir}"/>
+    </path>
+
+    <target name="1.build" description="Builds the project">
+        <delete dir="${build.dir}"/>
+        <mkdir dir="${build.dir}"/>
+        <javac srcdir="${source.dir}" destdir="${build.dir}" classpathref="full.classpath" deprecation="true" fork="true" includeAntRuntime="no"/>
+    </target>
+
+    <target name="2.client" depends="1.build" description="Runs the Client">
+        <java classname="com.moma.fans.ClientApp" classpathref="full.classpath" fork="true">
+            <jvmarg value="-Djava.security.policy=${policy.file}"/>
+            <jvmarg value="--module-path=${javafx.sdk.path}"/>
+            <jvmarg value="--add-modules=javafx.controls,javafx.fxml"/>
+        </java>
+    </target>
+</project>
