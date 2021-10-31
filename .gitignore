@@ -28,6 +28,10 @@ hs_err_pid*
 .idea/
 out/
 
+# Eclipse
+*.project
+*.classpath
+
 # Project
 bin/
 dist/
