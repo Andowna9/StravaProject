@@ -21,7 +21,6 @@ public class ClientApp extends Application {
         stage.show();
 
     }
-/*Prueba */
     public static void main(String [] args) {
 
         // RMI Test
