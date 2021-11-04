@@ -1,37 +1,33 @@
 package com.moma.fans;
 
+import com.moma.fans.remote.IRemoteFacade;
+import com.moma.fans.remote.RemoteFacade;
+
 import java.rmi.Naming;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 
-public class Server extends UnicastRemoteObject implements ServerAPI {
-
-    public Server() throws RemoteException {
-
-        super();
-    }
+public class Server {
 
     public static void main(String [] args) {
 
-        try {
-
-            ServerAPI serviceObject = new Server();
-            Naming.rebind("//localhost:1099/StravaServer", serviceObject);
-            System.out.println("* Server active *");
-
+        // Administrador de seguridad requerido por RMI
+        if (System.getSecurityManager() == null) {
+            System.setSecurityManager(new SecurityManager());
         }
 
-        catch (Exception e) {
+        // Ligar la instancia de RemoteFacade al servicio de nombres de RMI
 
-            System.err.println("Exception running server: " + e.getMessage());
+        try {
+
+            String name = "//" + args[0] + ":" + args[1] + "/" + args[2];
+            IRemoteFacade remoteFacade = new RemoteFacade();
+            Naming.rebind(name, remoteFacade);
+            System.out.println("* Servidor " + name + " activo!");
+
+        } catch (Exception e) {
+            System.err.println("Excepción en servidor Strava: " + e.getMessage());
             e.printStackTrace();
         }
 
-    }
 
-    @Override
-    public String test() throws RemoteException {
-
-        return "Test";
     }
 }

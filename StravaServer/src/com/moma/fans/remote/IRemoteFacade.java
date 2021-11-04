@@ -1,9 +1,9 @@
-package com.moma.fans;
+package com.moma.fans.remote;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface ServerAPI extends Remote {
+public interface IRemoteFacade extends Remote {
 
     String test() throws RemoteException;
 

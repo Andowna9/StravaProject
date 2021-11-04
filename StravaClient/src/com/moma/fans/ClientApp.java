@@ -1,44 +1,32 @@
 package com.moma.fans;
 
+import com.moma.fans.gui.LoginView;
+import com.moma.fans.gui.ProfileCreationView;
+import com.moma.fans.gui.RegisterView;
+import com.moma.fans.gui.ScreenController;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
-import java.rmi.Naming;
 
 public class ClientApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
 
-        StackPane root = new StackPane();
-        root.getChildren().add(new Button("Press me!"));
+        // Añadimos todas las pantallas con sus nombres
+        ScreenController.getInstance().addScreen("Inicio de sesión", new LoginView());
+        ScreenController.getInstance().addScreen("Registro", new RegisterView());
+        ScreenController.getInstance().addScreen("Creación de perfil", new ProfileCreationView());
 
-        stage.setScene(new Scene(root, 300, 200));
-        stage.setResizable(false);
+
+        ScreenController.getInstance().setStage(stage, 500, 400);
+        ScreenController.getInstance().setScreen("Inicio de sesión");
+        stage.setResizable(true);
         stage.show();
 
     }
+
     public static void main(String [] args) {
-
-        // RMI Test
-
-        /*
-
-        try {
-
-            ServerAPI serviceStub = (ServerAPI) Naming.lookup("//localhost:1099/StravaServer");
-            System.out.println("Server says: " + serviceStub.test());
-
-        } catch (Exception e) {
-
-            System.err.println("Exception running client: " + e.getMessage());
-            e.printStackTrace();
-        } */
-
-        // JAVAFX Test
 
         launch();
     }
