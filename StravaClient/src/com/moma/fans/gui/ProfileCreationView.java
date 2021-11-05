@@ -1,17 +1,17 @@
 package com.moma.fans.gui;
 
-import javafx.beans.binding.DoubleBinding;
-import javafx.beans.binding.NumberBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.util.StringConverter;
 
+/**
+ * Vista de creación de perfil de usuario.
+ * @author AlexNitu
+ * @author JonanC
+ */
 public class ProfileCreationView extends VBox {
 
     public ProfileCreationView() {
@@ -42,11 +42,12 @@ public class ProfileCreationView extends VBox {
 
         Label lblMinHeartRate = new Label("Frecuencia cardiaca máxima:");
         Slider sldMinHeartRate = new Slider(50, 220, 80);
-        Label lblHeartRateMin = new Label(Double.toString(sldMinHeartRate.getValue()));
+        Label lblHeartRateMin = new Label("80");
+
 
         Label lblMaxHeartRate = new Label("Frecuencia cardiaca mínima:");
         Slider sldMaxHeartRate = new Slider(50, 220, 80);
-        Label lblHeartRateMax = new Label(Double.toString(sldMaxHeartRate.getValue()));
+        Label lblHeartRateMax = new Label("80");
 
         Button btnBack = new Button("Atrás");
         Button btnOK = new Button("OK");
@@ -59,30 +60,21 @@ public class ProfileCreationView extends VBox {
         gp.add(lblMaxHeartRate, 0, 5); gp.add(sldMaxHeartRate, 1, 5); gp.add(lblHeartRateMax, 2, 5);
         gp.add(btnBack, 0, 7); gp.add(btnOK, 2, 7);
 
-        final ColumnConstraints col = new ColumnConstraints();
-        col.setPercentWidth( 50 );
-        // gp.getColumnConstraints().addAll(col, col);
+        sldMaxHeartRate.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+                lblHeartRateMax.setText(String.valueOf(newValue.intValue()));
+            }
+        });
 
         sldMinHeartRate.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                lblHeartRateMin.setText("" + (int) sldMinHeartRate.getValue());
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+                lblHeartRateMin.setText(String.valueOf(newValue.intValue()));
             }
         });
 
-        sldMaxHeartRate.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                lblHeartRateMax.setText("" + (int) sldMaxHeartRate.getValue());
-            }
-        });
 
-        /* sampleRateSlider.valueProperty().addListener((ov, old_val, new_val) -> {
-            int value = (int) Math.round(new_val.doubleValue());
-            sampleRateSlider.setValue(value);
-            System.out.println(value);
-            sampleRateValueLabel.setText(getDisplayString(value));
-        }); */
 
         this.setAlignment(Pos.CENTER);
         this.getChildren().add(gp);

@@ -1,12 +1,7 @@
 package com.moma.fans;
 
-import com.moma.fans.gui.CreateChallengeView;
-import com.moma.fans.gui.LoginView;
-import com.moma.fans.gui.ProfileCreationView;
-import com.moma.fans.gui.RegisterView;
-import com.moma.fans.gui.ScreenController;
+import com.moma.fans.gui.*;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ClientApp extends Application {
@@ -19,10 +14,10 @@ public class ClientApp extends Application {
         ScreenController.getInstance().addScreen("Registro", new RegisterView());
         ScreenController.getInstance().addScreen("Creación de perfil", new ProfileCreationView());
         ScreenController.getInstance().addScreen("Creación de reto", new CreateChallengeView());
-
+        ScreenController.getInstance().addScreen("Home", new HomeView());
 
         ScreenController.getInstance().setStage(stage, 500, 400);
-        ScreenController.getInstance().setScreen("Inicio de sesión");
+        ScreenController.getInstance().setScreen("Home");
         stage.setResizable(true);
         stage.show();
 

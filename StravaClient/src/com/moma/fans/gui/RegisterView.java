@@ -6,6 +6,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Vista para registrar una nueva cuenta.
+ * @author JonanC
+ */
 public class RegisterView extends VBox {
 
     public RegisterView() {

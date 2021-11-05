@@ -9,6 +9,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Vista que permite crear un reto.
+ * @author UnaiCL
+ */
 public class CreateChallengeView extends Parent {
 
 	public CreateChallengeView() {

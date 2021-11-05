@@ -6,6 +6,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 
+/**
+ * Vista para hacer login en el servicio remoto.
+ * @author JonanC
+ */
+
 public class LoginView extends BorderPane {
 
     public  LoginView() {

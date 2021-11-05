@@ -2,16 +2,46 @@ package com.moma.fans.remote;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Date;
 
-public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
+/**
+ * Esta clase es una Fachada Remota que implementa la interfaz del servidor
+ * mediante llamadas a distintos servicios.
+ * @author JonanC
+ */
+public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
 
     public RemoteFacade() throws RemoteException {
         super();
     }
 
     @Override
-    public String test() throws RemoteException {
+    public void register(String email, String passHash, String name, Date birthDate, int weight, int height, short minHeartRate, short maxHeartRate) throws RemoteException {
 
-        return "TEST";
+    }
+
+    @Override
+    public long login(String email, String passHash) throws RemoteException {
+        return 0;
+    }
+
+    @Override
+    public void logout(long token) throws RemoteException {
+
+    }
+
+    @Override
+    public boolean createTrainingSession(long token, String title, String sport, double distance, Date date, int duration) throws RemoteException {
+        return false;
+    }
+
+    @Override
+    public boolean createChallenge(long token, String title, String sport, Date startDate, Date endDate, double distance, int timeToAchieve) throws RemoteException {
+        return false;
+    }
+
+    @Override
+    public boolean acceptChallenge(long token, int challengeID) throws RemoteException {
+        return false;
     }
 }
