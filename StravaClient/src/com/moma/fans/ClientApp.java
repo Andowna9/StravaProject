@@ -22,7 +22,7 @@ public class ClientApp extends Application {
 
 
         ScreenController.getInstance().setStage(stage, 500, 400);
-        ScreenController.getInstance().setScreen("Creación de reto");
+        ScreenController.getInstance().setScreen("Inicio de sesión");
         stage.setResizable(true);
         stage.show();
 
