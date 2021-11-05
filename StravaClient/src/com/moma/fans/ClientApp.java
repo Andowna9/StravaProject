@@ -1,5 +1,6 @@
 package com.moma.fans;
 
+import com.moma.fans.gui.CreateChallengeView;
 import com.moma.fans.gui.LoginView;
 import com.moma.fans.gui.ProfileCreationView;
 import com.moma.fans.gui.RegisterView;
@@ -17,6 +18,7 @@ public class ClientApp extends Application {
         ScreenController.getInstance().addScreen("Inicio de sesión", new LoginView());
         ScreenController.getInstance().addScreen("Registro", new RegisterView());
         ScreenController.getInstance().addScreen("Creación de perfil", new ProfileCreationView());
+        ScreenController.getInstance().addScreen("Creación de reto", new CreateChallengeView());
 
 
         ScreenController.getInstance().setStage(stage, 500, 400);
