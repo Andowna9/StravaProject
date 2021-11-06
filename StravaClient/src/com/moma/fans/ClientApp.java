@@ -17,7 +17,7 @@ public class ClientApp extends Application {
         ScreenController.getInstance().addScreen("Home", new HomeView());
 
         ScreenController.getInstance().setStage(stage, 500, 400);
-        ScreenController.getInstance().setScreen("Home");
+        ScreenController.getInstance().setScreen("Inicio de sesión");
         stage.setResizable(true);
         stage.show();
 

@@ -22,7 +22,7 @@ public interface IRemoteFacade extends Remote {
      * @param minHeartRate mínima frecuencia cardiaca
      * @param maxHeartRate máxima frecuencia cardiaca
      */
-    public void register(String email, String passHash, String name, Date birthDate,
+    public void register(String email, String passHash, String nickname, Date birthDate,
                          float weight, float height,
                          short minHeartRate, short maxHeartRate) throws RemoteException;
 

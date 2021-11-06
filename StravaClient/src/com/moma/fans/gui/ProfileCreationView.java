@@ -22,11 +22,8 @@ public class ProfileCreationView extends VBox {
 
         // Campos obligatorios
 
-        Label lblName = new Label("Nombre:");
+        Label lblName = new Label("Nombre de usuario:");
         TextField tfName = new TextField();
-
-        Label lblSurname = new Label("Apellido:");
-        TextField tfSurname = new TextField();
 
         Label lblBirthDate = new Label("Fecha de nacimiento:");
         DatePicker dpBirth = new DatePicker();
@@ -53,12 +50,11 @@ public class ProfileCreationView extends VBox {
         Button btnOK = new Button("OK");
 
         gp.add(lblName, 0, 0); gp.add(tfName, 1, 0);
-        gp.add(lblSurname, 0, 1); gp.add(tfSurname, 1, 1);
-        gp.add(lblBirthDate, 0, 2); gp.add(dpBirth, 1, 2);
-        gp.add(lblWeight, 0, 3); gp.add(spinWeight, 1, 3); gp.add(lblKg, 2,3);
-        gp.add(lblMinHeartRate, 0, 4); gp.add(sldMinHeartRate, 1, 4); gp.add(lblHeartRateMin, 2, 4);
-        gp.add(lblMaxHeartRate, 0, 5); gp.add(sldMaxHeartRate, 1, 5); gp.add(lblHeartRateMax, 2, 5);
-        gp.add(btnBack, 0, 7); gp.add(btnOK, 2, 7);
+        gp.add(lblBirthDate, 0, 1); gp.add(dpBirth, 1, 1);
+        gp.add(lblWeight, 0, 2); gp.add(spinWeight, 1, 2); gp.add(lblKg, 2,2);
+        gp.add(lblMinHeartRate, 0, 3); gp.add(sldMinHeartRate, 1, 3); gp.add(lblHeartRateMin, 2, 3);
+        gp.add(lblMaxHeartRate, 0, 4); gp.add(sldMaxHeartRate, 1, 4); gp.add(lblHeartRateMax, 2, 4);
+        gp.add(btnBack, 0, 5); gp.add(btnOK, 2, 5);
 
         sldMaxHeartRate.valueProperty().addListener(new ChangeListener<Number>() {
             @Override

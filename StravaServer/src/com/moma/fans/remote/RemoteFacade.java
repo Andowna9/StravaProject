@@ -18,7 +18,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     }
 
     @Override
-    public void register(String email, String passHash, String name, Date birthDate, float weight, float height, short minHeartRate, short maxHeartRate) throws RemoteException {
+    public void register(String email, String passHash, String nickname, Date birthDate, float weight, float height, short minHeartRate, short maxHeartRate) throws RemoteException {
 
     }
 
