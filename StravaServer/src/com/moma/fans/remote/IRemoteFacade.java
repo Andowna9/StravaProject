@@ -2,6 +2,7 @@ package com.moma.fans.remote;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.time.Duration;
 import java.util.Date;
 
 /**
@@ -22,7 +23,7 @@ public interface IRemoteFacade extends Remote {
      * @param maxHeartRate máxima frecuencia cardiaca
      */
     public void register(String email, String passHash, String name, Date birthDate,
-                         int weight, int height,
+                         float weight, float height,
                          short minHeartRate, short maxHeartRate) throws RemoteException;
 
     /**
@@ -53,7 +54,7 @@ public interface IRemoteFacade extends Remote {
      * @return true si se ha podido crear la sesión correctamente, false en caso contrario
      */
     public boolean createTrainingSession(long token, String title, String sport,
-                                         double distance, Date date, int duration) throws RemoteException;
+                                         double distance, Date date, Duration duration) throws RemoteException;
 
     /**
      * Crea un reto al que cualquier usuario puede apuntarse.
@@ -68,7 +69,7 @@ public interface IRemoteFacade extends Remote {
      */
     public boolean createChallenge(long token, String title, String sport,
                                    Date startDate, Date endDate,
-                                   double distance, int timeToAchieve) throws RemoteException;
+                                   double distanceToAchieve, Duration timeToAchieve) throws RemoteException;
 
     /**
      * Añade un reto a la lista de aceptados de un usuario.

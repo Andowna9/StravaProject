@@ -2,6 +2,7 @@ package com.moma.fans.remote;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.time.Duration;
 import java.util.Date;
 
 /**
@@ -11,12 +12,13 @@ import java.util.Date;
  */
 public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
 
+
     public RemoteFacade() throws RemoteException {
         super();
     }
 
     @Override
-    public void register(String email, String passHash, String name, Date birthDate, int weight, int height, short minHeartRate, short maxHeartRate) throws RemoteException {
+    public void register(String email, String passHash, String name, Date birthDate, float weight, float height, short minHeartRate, short maxHeartRate) throws RemoteException {
 
     }
 
@@ -31,12 +33,12 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     }
 
     @Override
-    public boolean createTrainingSession(long token, String title, String sport, double distance, Date date, int duration) throws RemoteException {
+    public boolean createTrainingSession(long token, String title, String sport, double distance, Date date, Duration duration) throws RemoteException {
         return false;
     }
 
     @Override
-    public boolean createChallenge(long token, String title, String sport, Date startDate, Date endDate, double distance, int timeToAchieve) throws RemoteException {
+    public boolean createChallenge(long token, String title, String sport, Date startDate, Date endDate, double distanceToAchieve, Duration timeToAchieve) throws RemoteException {
         return false;
     }
 
