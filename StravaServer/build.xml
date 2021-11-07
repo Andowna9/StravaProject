@@ -10,7 +10,7 @@
     <property name="policy.file" location="security/java.policy"/>
     <property name="rmiregistry.IP" value="localhost"/>
     <property name="rmiregistry.port" value="1099"/>
-    <property name="server.name" value="eAuctions"/>
+    <property name="server.name" value="StravaServer"/>
 
 
     <target name="1.build" description="Builds the project">
@@ -22,7 +22,7 @@
     <target name="2.export" depends="1.build" description="Export the project into a .jar file">
         <delete dir="${dist.dir}"/>
         <mkdir dir="${dist.dir}"/>
-        <jar destfile="${dist.dir}/${export.file}" basedir="${build.dir}" includes="**/IRemoteFacade.class"/>
+        <jar destfile="${dist.dir}/${export.file}" basedir="${build.dir}" includes="**/IRemoteFacade.class, **/dto/*DTO.class"/>
     </target>
 
     <target name="3.server" depends="1.build" description="Runs the com.moma.fans.Server">

@@ -1,9 +1,14 @@
 package com.moma.fans.remote;
 
+import com.moma.fans.data.dto.ChallengeDTO;
+import com.moma.fans.data.dto.TrainingSessionDTO;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.time.Duration;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Esta clase es una Fachada Remota que implementa la interfaz del servidor
@@ -11,7 +16,6 @@ import java.util.Date;
  * @author JonanC
  */
 public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
-
 
     public RemoteFacade() throws RemoteException {
         super();
@@ -45,5 +49,15 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     @Override
     public boolean acceptChallenge(long token, int challengeID) throws RemoteException {
         return false;
+    }
+
+    @Override
+    public List<TrainingSessionDTO> getTrainingSessions(long token) throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public HashMap<String, List<ChallengeDTO>> getChallenges(long token) throws RemoteException {
+        return null;
     }
 }

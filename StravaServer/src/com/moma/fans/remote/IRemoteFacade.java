@@ -1,9 +1,14 @@
 package com.moma.fans.remote;
 
+import com.moma.fans.data.dto.ChallengeDTO;
+import com.moma.fans.data.dto.TrainingSessionDTO;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.time.Duration;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Interfaz que define la funcionalidad que el servidor expone.
@@ -15,7 +20,7 @@ public interface IRemoteFacade extends Remote {
      * Crea una cuenta de usuario.
      * @param email correo electrónico
      * @param passHash contraseña con algoritmo hash aplicada
-     * @param name nombre
+     * @param nickname nombre de usuario
      * @param birthDate fecha de nacimiento
      * @param weight peso
      * @param height altura
@@ -63,7 +68,7 @@ public interface IRemoteFacade extends Remote {
      * @param sport deporte asociado
      * @param startDate fecha de inicio
      * @param endDate fecha de finalización
-     * @param distance distancia objetivo (km)
+     * @param distanceToAchieve distancia objetivo (km)
      * @param timeToAchieve tiempo objetivo (min)
      * @return true si se crea el reto correctamente, false en caso contrario
      */
@@ -83,13 +88,13 @@ public interface IRemoteFacade extends Remote {
      * @param token identificación del usuario
      * @return lista de sesiones de entrenamiento en formato DTO
      */
-    // public List<TrainingSessionDTO> getTrainingSessions(long token) throws RemoteException;
+    public List<TrainingSessionDTO> getTrainingSessions(long token) throws RemoteException;
 
     /**
      * @param token identificación del usuario
      * @return retos divididos en categorías (propios, aceptados y disponibles)
      */
-    // public HashMap<String,List<ChallengeDTO>> getChallenges(long token);
+     public HashMap<String, List<ChallengeDTO>> getChallenges(long token) throws RemoteException;
 
 
 }
