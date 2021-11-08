@@ -1,6 +1,6 @@
 package com.moma.fans;
 
-import com.moma.fans.gui.*;
+import com.moma.fans.views.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

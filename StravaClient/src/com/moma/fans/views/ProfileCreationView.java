@@ -1,4 +1,4 @@
-package com.moma.fans.gui;
+package com.moma.fans.views;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

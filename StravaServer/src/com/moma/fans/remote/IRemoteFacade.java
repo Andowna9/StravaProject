@@ -19,7 +19,7 @@ public interface IRemoteFacade extends Remote {
     /**
      * Crea una cuenta de usuario.
      * @param email correo electrónico
-     * @param passHash contraseña con algoritmo hash aplicada
+     * @param password contraseña
      * @param nickname nombre de usuario
      * @param birthDate fecha de nacimiento
      * @param weight peso
@@ -27,7 +27,7 @@ public interface IRemoteFacade extends Remote {
      * @param minHeartRate mínima frecuencia cardiaca
      * @param maxHeartRate máxima frecuencia cardiaca
      */
-    public void register(String email, String passHash, String nickname, Date birthDate,
+    public void register(String email, String password, String nickname, Date birthDate,
                          float weight, float height,
                          short minHeartRate, short maxHeartRate) throws RemoteException;
 
@@ -35,12 +35,12 @@ public interface IRemoteFacade extends Remote {
      * Crea una sesión antes de que el usuario pueda acceder
      * al resto de la funcionalidad.
      * @param email correo electrónico
-     * @param passHash contraseña encriptada como hash
+     * @param password contraseña
      * @return token para identificar la sesión del usuario
      * @throws RemoteException si las credenciales no han sido registradas
      * (el usuario no existe)
      */
-    public long login(String email, String passHash) throws RemoteException;
+    public long login(String email, String password) throws RemoteException;
 
     /**
      * Finaliza la sesión con el servidor.

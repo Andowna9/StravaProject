@@ -1,4 +1,4 @@
-package com.moma.fans.gui;
+package com.moma.fans.views;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
