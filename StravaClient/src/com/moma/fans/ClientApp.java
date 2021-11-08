@@ -14,12 +14,12 @@ public class ClientApp extends Application {
         ScreenController.getInstance().addScreen("Registro", new RegisterView());
         ScreenController.getInstance().addScreen("Creación de perfil", new ProfileCreationView());
         ScreenController.getInstance().addScreen("Creación de reto", new CreateChallengeView());
-        ScreenController.getInstance().addScreen("Creación de sesion de entrenamiento", new CreateTrainingSessionView());
+        ScreenController.getInstance().addScreen("Creación de sesión de entrenamiento", new CreateTrainingSessionView());
         ScreenController.getInstance().addScreen("Home", new HomeView());
 
-        ScreenController.getInstance().setStage(stage, 500, 400);
+        ScreenController.getInstance().setStage(stage, 600, 400);
         ScreenController.getInstance().setScreen("Inicio de sesión");
-        stage.setResizable(true);
+        stage.setResizable(false);
         stage.show();
 
     }

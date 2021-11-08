@@ -43,7 +43,7 @@ public class RegisterView extends VBox {
                 createCenteredButton("Registrarse")
         );
 
-        this.setPadding(new Insets(20.0d));
+        this.setPadding(new Insets(20, 80, 20, 80));
         this.setSpacing(10.0d);
         this.getChildren().addAll(
                 eRegVbox,

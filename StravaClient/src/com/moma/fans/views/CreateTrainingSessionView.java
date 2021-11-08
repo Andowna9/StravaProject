@@ -6,14 +6,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,26 +19,16 @@ import javafx.scene.layout.VBox;
  * Vista que permite crear una sesion de entrenamiento
  * @author Julen396
  */
-public class CreateTrainingSessionView extends Parent {
+public class CreateTrainingSessionView extends VBox {
 
 	public CreateTrainingSessionView() {
 		
 		
         // Vertical
-        VBox mainVbox = new VBox();
-        mainVbox.setSpacing(15.0d);
-	    mainVbox.setPadding(new Insets(10.0d, 0, 0, 50.0d));
-        
-		// Horizontal superior
-        HBox topControls = new HBox();
-        topControls.setAlignment(Pos.CENTER_RIGHT);
-        Hyperlink hlLogout = new Hyperlink("Cerrar sesión");
-        hlLogout.setBorder(Border.EMPTY);
-        hlLogout.setAlignment(Pos.CENTER_RIGHT);
-        topControls.getChildren().add(hlLogout);
+        this.setSpacing(25);
         
         //Creación de labels
-        Label lblTitle = new Label("Crear nueva sesion de entrenamiento");
+        Label lblTitle = new Label("Crear nueva sesión de entrenamiento");
         lblTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
         
         Label lblName = new Label("Titulo");       
@@ -89,7 +76,7 @@ public class CreateTrainingSessionView extends Parent {
         gridPane.setPadding(new Insets(10, 10, 10, 10)); 
         gridPane.setVgap(15); 
         gridPane.setHgap(20);       
-        gridPane.setAlignment(Pos.CENTER); 
+        gridPane.setAlignment(Pos.CENTER);
          
         	//Añadir los nodos al grid
         gridPane.add(lblName, 0, 0); 
@@ -111,13 +98,10 @@ public class CreateTrainingSessionView extends Parent {
         buttonsBox.setSpacing(50);
         buttonsBox.getChildren().addAll(btnCreate, btnCancel);
         
-        //Añadir secciones al vertical
-        mainVbox.getChildren().addAll(topControls, lblTitle, gridPane, buttonsBox);
+        //Añadir secciones al vertical (vista)
+        this.getChildren().addAll(lblTitle, gridPane, buttonsBox);
         
-        mainVbox.setAlignment(Pos.CENTER);
-        
-        // Añadir secciones a la vista
-        this.getChildren().addAll(mainVbox);
+        this.setAlignment(Pos.CENTER);
         
         // Eventos |----------------------------------|
         btnCreate.setOnAction(event -> ScreenController.getInstance().setScreen("Home"));

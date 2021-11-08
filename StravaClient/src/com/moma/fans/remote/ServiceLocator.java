@@ -29,7 +29,6 @@ public class ServiceLocator {
 
             String URL = "//" + ip + ":" + port + "/" + serviceName;
             this.service = (IRemoteFacade) Naming.lookup(URL);
-            System.out.println("Server says: " + service.test());
 
         } catch (Exception e) {
 
