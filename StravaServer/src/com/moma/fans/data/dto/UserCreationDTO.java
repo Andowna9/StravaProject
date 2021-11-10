@@ -1,27 +1,17 @@
 package com.moma.fans.data.dto;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
-/**
- * Clase que representa el objeto de transferencia para
- * {@link com.moma.fans.data.domain.User}.
- * Implementa el patrón de diseño DTO.
- * @author JonanC
- */
-public class UserDTO implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class UserCreationDTO {
 
     private String nickname;
     private String email;
+    private String password;
     private LocalDate birthDate;
     private float weight;
     private float height;
     private short minHeartRate;
     private short maxHeartRate;
-
-    // Implicit default constructor
 
     public String getNickname() {
         return nickname;
@@ -37,6 +27,14 @@ public class UserDTO implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public LocalDate getBirthDate() {

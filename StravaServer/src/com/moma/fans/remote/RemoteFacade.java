@@ -3,6 +3,8 @@ package com.moma.fans.remote;
 import com.moma.fans.data.domain.User;
 import com.moma.fans.data.dto.ChallengeDTO;
 import com.moma.fans.data.dto.TrainingSessionDTO;
+import com.moma.fans.data.dto.UserAssembler;
+import com.moma.fans.data.dto.UserCreationDTO;
 import com.moma.fans.services.ChallengeAppService;
 import com.moma.fans.services.TrainingSessionAppService;
 import com.moma.fans.services.UserAppService;
@@ -10,10 +12,7 @@ import com.moma.fans.services.UserAppService;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.time.Duration;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Esta clase es una Fachada Remota que implementa la funcionalidad del servidor
@@ -26,26 +25,79 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     Map<Long, User> serverState = new HashMap<>();
 
     // Servicios
-    UserAppService userAppService = new UserAppService();
-    TrainingSessionAppService trainingSessionAppService = new TrainingSessionAppService();
-    ChallengeAppService challengeAppService = new ChallengeAppService();
+    UserAppService userService = new UserAppService();
+    TrainingSessionAppService trainingSessionService = new TrainingSessionAppService();
+    ChallengeAppService challengeService = new ChallengeAppService();
+
+    // DTO Assemblers
+    UserAssembler userAssembler = new UserAssembler();
 
     public RemoteFacade() throws RemoteException {
         super();
     }
 
     @Override
-    public void register(String email, String password, String nickname, Date birthDate, float weight, float height, short minHeartRate, short maxHeartRate) throws RemoteException {
+    public long register(UserCreationDTO userDTO) throws RemoteException {
+
+        User user = userAssembler.toUser(userDTO);
+        boolean isValid = userService.register(user);
+
+        if (isValid) {
+
+            return Calendar.getInstance().getTimeInMillis();
+
+        }
+
+        else {
+
+            throw new RemoteException("La cuenta ya existe!");
+        }
 
     }
 
     @Override
-    public long login(String email, String password) throws RemoteException {
-        return 0;
+    public synchronized long login(String email, String password) throws RemoteException {
+
+        User user = userService.login(email, password);
+
+        if (user != null) {
+
+            if (!serverState.containsValue(user)) {
+
+                long token = Calendar.getInstance().getTimeInMillis();
+                serverState.put(token, user);
+
+                return token;
+
+            } else {
+
+                throw new RemoteException("Ya se ha iniciado sesión!");
+            }
+
+        }
+
+        else {
+
+            throw new RemoteException("Credenciales incorrectas!");
+        }
+
     }
 
     @Override
-    public void logout(long token) throws RemoteException {
+    public synchronized void logout(long token) throws RemoteException {
+
+        if (serverState.containsKey(token)) {
+
+            serverState.remove(token);
+
+        }
+
+        else {
+
+            throw new RemoteException("La sesión proporcionada no existe!");
+
+        }
+
 
     }
 

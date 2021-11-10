@@ -5,13 +5,14 @@ import com.moma.fans.data.domain.User;
 /**
  * Clase de utilidad que forma parte del patrón DTO.
  * Se encarga de la conversión de objetos
- * {@link com.moma.fans.data.domain.User}
- * a objetos {@link UserDTO}.
+ * usuario.
+ * @see UserCreationDTO
+ * @see UserDTO
  * @author JonanC
  */
 public class UserAssembler {
 
-    public UserDTO userToDTO(User user) {
+    public UserDTO toDTO(User user) {
 
         UserDTO userDTO = new UserDTO();
         userDTO.setNickname(user.getNickname());
@@ -23,5 +24,12 @@ public class UserAssembler {
         userDTO.setMaxHeartRate(user.getMaxHeartRate());
 
         return userDTO;
+    }
+
+    public User toUser(UserCreationDTO userDTO) {
+
+        return new User(userDTO.getNickname(), userDTO.getEmail(),
+                userDTO.getPassword(), userDTO.getBirthDate(), userDTO.getWeight(),
+                userDTO.getHeight(), userDTO.getMinHeartRate(), userDTO.getMaxHeartRate());
     }
 }
