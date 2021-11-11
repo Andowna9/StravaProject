@@ -21,9 +21,6 @@ public class ClientApp extends Application {
         ScreenController.getInstance().setStage(stage, 600, 400);
         ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN);
 
-        Image icon = new Image("logo-strava.png");
-        stage.getIcons().add(icon);
-
         stage.setResizable(false);
         stage.show();
 
