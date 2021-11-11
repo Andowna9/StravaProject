@@ -2,13 +2,14 @@ package com.moma.fans.data.dto;
 
 import java.io.Serializable;
 import java.time.Duration;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Clase que representa el objeto de transferencia para
  * {@link com.moma.fans.data.domain.TrainingSession}.
  * Implementa el patrón de diseño DTO.
  * @author JonanC
+ * @author Julen
  */
 public class TrainingSessionDTO implements Serializable {
 
@@ -17,7 +18,7 @@ public class TrainingSessionDTO implements Serializable {
     private String title;
     private String sport;
     private double distance;
-    private Date date;
+    private LocalDate date;
     private Duration duration;
 
     // Implicit default constructor
@@ -46,11 +47,11 @@ public class TrainingSessionDTO implements Serializable {
         this.distance = distance;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

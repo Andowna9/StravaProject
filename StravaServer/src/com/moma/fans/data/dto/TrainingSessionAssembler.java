@@ -1,6 +1,8 @@
 package com.moma.fans.data.dto;
 
+import com.moma.fans.data.domain.Sport;
 import com.moma.fans.data.domain.TrainingSession;
+import com.moma.fans.data.domain.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +13,11 @@ import java.util.List;
  * {@link com.moma.fans.data.domain.TrainingSession}
  * a objetos {@link TrainingSessionDTO}.
  * @author JonanC
+ * @author Julen
  */
 public class TrainingSessionAssembler {
 
-    public TrainingSessionDTO trainingSessionToDTO(TrainingSession trainingSession) {
+    public TrainingSessionDTO toDTO(TrainingSession trainingSession) {
 
         TrainingSessionDTO trainingSessionDTO = new TrainingSessionDTO();
 
@@ -34,9 +37,15 @@ public class TrainingSessionAssembler {
 
         for (TrainingSession ts: trainingSessions) {
 
-            trainingSessionsDTO.add(this.trainingSessionToDTO(ts));
+            trainingSessionsDTO.add(this.toDTO(ts));
         }
 
         return trainingSessionsDTO;
+    }
+    
+    public TrainingSession toTrainingSession(TrainingSessionDTO trainingSession) {
+
+        return new TrainingSession(trainingSession.getTitle(),Sport.valueOf(trainingSession.getSport()) ,trainingSession.getDistance() , trainingSession.getDate(), trainingSession.getDuration());
+
     }
 }
