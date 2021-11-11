@@ -156,4 +156,19 @@ public class User {
         return Objects.hashCode(email);
     }
 
+    public boolean acceptChallenge(Challenge challenge){
+        try {
+            acceptedChallenges.add(challenge);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public ArrayList<Challenge> checkAcceptedChallenges(){
+        return (ArrayList<Challenge>) acceptedChallenges;
+    }
+
+
 }

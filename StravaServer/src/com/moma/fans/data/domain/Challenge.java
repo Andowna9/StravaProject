@@ -9,14 +9,38 @@ import java.util.Date;
  */
 public class Challenge {
 
-    private String title;
+    private int id;
+    private String name;
     private Sport sport;
-    private double distanceToAchieve;
+    private Double distance;
     private Duration timeToAchieve;
     private Date startDate;
     private Date endDate;
 
     private User creator;
+
+    // Constructores
+    public Challenge(int id, String name, Date startDate, Date endDate, double distance, Duration timeToAchieve, Sport sport){
+
+        this.id = id;
+        this.name = name;
+        this.startDate = startDate;
+        this.distance = distance;
+        this.timeToAchieve = timeToAchieve;
+        this.sport = sport;
+
+    }
+
+    public Challenge(){
+        this.id = 0;
+        this.name = "";
+        this.startDate = new Date();
+        this.endDate = new Date();
+        this.distance = 0.0;
+        this.timeToAchieve = Duration.ZERO;
+        this.sport = Sport.RUNNING;
+
+    }
 
     // Métodos principales
 
@@ -24,12 +48,20 @@ public class Challenge {
 
     // Getters y setters
 
-    public String getTitle() {
-        return title;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public int getId(){
+        return this.id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Sport getSport() {
@@ -40,12 +72,12 @@ public class Challenge {
         this.sport = sport;
     }
 
-    public double getDistanceToAchieve() {
-        return distanceToAchieve;
+    public double getDistance() {
+        return distance;
     }
 
-    public void setDistanceToAchieve(double distanceToAchieve) {
-        this.distanceToAchieve = distanceToAchieve;
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 
     public Duration getTimeToAchieve() {
