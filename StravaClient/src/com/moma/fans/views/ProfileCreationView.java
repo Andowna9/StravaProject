@@ -1,5 +1,6 @@
 package com.moma.fans.views;
 
+import com.moma.fans.controllers.UserController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
@@ -14,7 +15,11 @@ import javafx.scene.layout.VBox;
  */
 public class ProfileCreationView extends VBox {
 
-    public ProfileCreationView() {
+    private UserController controller;
+
+    public ProfileCreationView(UserController controller) {
+
+        this.controller = controller;
 
         GridPane gp = new GridPane();
         gp.setAlignment(Pos.CENTER);

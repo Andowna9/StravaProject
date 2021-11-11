@@ -1,8 +1,11 @@
 package com.moma.fans.data.dto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class UserCreationDTO {
+public class UserCreationDTO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String nickname;
     private String email;

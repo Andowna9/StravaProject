@@ -1,10 +1,8 @@
 package com.moma.fans.remote;
 
+import com.moma.fans.data.domain.Challenge;
 import com.moma.fans.data.domain.User;
-import com.moma.fans.data.dto.ChallengeDTO;
-import com.moma.fans.data.dto.TrainingSessionDTO;
-import com.moma.fans.data.dto.UserAssembler;
-import com.moma.fans.data.dto.UserCreationDTO;
+import com.moma.fans.data.dto.*;
 import com.moma.fans.services.ChallengeAppService;
 import com.moma.fans.services.TrainingSessionAppService;
 import com.moma.fans.services.UserAppService;
@@ -31,6 +29,8 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
 
     // DTO Assemblers
     UserAssembler userAssembler = new UserAssembler();
+    TrainingSessionAssembler trainingSessionAssembler = new TrainingSessionAssembler();
+    ChallengeAssembler challengeAssembler = new ChallengeAssembler();
 
     public RemoteFacade() throws RemoteException {
         super();
@@ -89,7 +89,6 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
         if (serverState.containsKey(token)) {
 
             serverState.remove(token);
-
         }
 
         else {
@@ -102,27 +101,86 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     }
 
     @Override
-    public boolean createTrainingSession(long token, String title, String sport, double distance, Date date, Duration duration) throws RemoteException {
-        return false;
+    public boolean createTrainingSession(long token, TrainingSessionDTO trainingSessionDTO) throws RemoteException {
+
+        if (serverState.containsKey(token)) {
+
+            User user = serverState.get(token); // TODO Mejorar con servicio
+            user.addTrainingSession(trainingSessionAssembler.toTrainingSession(trainingSessionDTO));
+
+            return true;
+
+        }
+
+        else {
+
+            throw new RemoteException("Hay que iniciar sesión para consultar las sesiones de entrenamiento");
+        }
     }
 
     @Override
-    public boolean createChallenge(long token, String title, String sport, Date startDate, Date endDate, double distanceToAchieve, Duration timeToAchieve) throws RemoteException {
-        return false;
+    public boolean createChallenge(long token, ChallengeCreationDTO challengeDTO) throws RemoteException {
+
+        if (serverState.containsKey(token)) {
+
+            User user = serverState.get(token);
+            Challenge challenge = challengeAssembler.toChallenge(challengeDTO);
+
+            challengeService.createChallenge(user, challenge);
+
+            return true;
+        }
+
+        else {
+
+            throw new RemoteException("Hay que iniciar sesión para crear un reto");
+        }
     }
 
     @Override
     public boolean acceptChallenge(long token, int challengeID) throws RemoteException {
-        return false;
+
+        if (serverState.containsKey(token)) {
+
+            User user = serverState.get(token);
+            challengeService.acceptChallenge(user, challengeID);
+
+            return true;
+        }
+
+        else {
+
+            throw new RemoteException("Hay que iniciar sesión para poder aceptar un reto");
+        }
     }
 
     @Override
     public List<TrainingSessionDTO> getTrainingSessions(long token) throws RemoteException {
-        return null;
+
+        if (serverState.containsKey(token)) {
+
+            User user = serverState.get(token); // TODO Mejorar con servicio
+            return trainingSessionAssembler.toDTO(user.getTrainingSessions());
+        }
+
+        else {
+
+            throw new RemoteException("Hay que iniciar sesión para consultar las sesiones de entrenamiento");
+        }
+
     }
 
     @Override
     public HashMap<String, List<ChallengeDTO>> getChallenges(long token) throws RemoteException {
-        return null;
+
+        if (serverState.containsKey(token)) {
+
+            return null;
+        }
+
+        else {
+
+            throw new RemoteException("Hay que iniciar sesión para consultar los retos");
+        }
     }
 }

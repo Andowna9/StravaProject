@@ -1,6 +1,7 @@
 package com.moma.fans.data.dto;
 
 import com.moma.fans.data.domain.Challenge;
+import com.moma.fans.data.domain.Sport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public class ChallengeAssembler {
 
-    public ChallengeDTO challengeToDTO(Challenge challenge) {
+    public ChallengeDTO toDTO(Challenge challenge) {
 
         ChallengeDTO challengeDTO = new ChallengeDTO();
 
@@ -29,15 +30,22 @@ public class ChallengeAssembler {
         return challengeDTO;
     }
 
-    public List<ChallengeDTO> challengesToDTO(List<Challenge> challenges) {
+    public List<ChallengeDTO> toDTO(List<Challenge> challenges) {
 
         List<ChallengeDTO> challengesDTO = new ArrayList<>();
 
         for (Challenge ch: challenges) {
 
-            challengesDTO.add(this.challengeToDTO(ch));
+            challengesDTO.add(this.toDTO(ch));
         }
 
         return challengesDTO;
+    }
+
+    public Challenge toChallenge(ChallengeCreationDTO challengeDTO) {
+
+        return new Challenge(challengeDTO.getTitle(), challengeDTO.getStartDate(),
+                challengeDTO.getEndDate(),challengeDTO.getDistanceToAchieve(), challengeDTO.getTimeToAchieve(),
+                Sport.valueOf(challengeDTO.getSport()));
     }
 }

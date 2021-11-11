@@ -1,7 +1,8 @@
 package com.moma.fans.data.domain;
 
 import java.time.Duration;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * Clase que representa un reto deportivo.
@@ -10,35 +11,25 @@ import java.util.Date;
 public class Challenge {
 
     private int id;
-    private String name;
+    private String title;
     private Sport sport;
-    private Double distance;
+    private double distanceToAchieve;
     private Duration timeToAchieve;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     private User creator;
 
-    // Constructores
-    public Challenge(int id, String name, Date startDate, Date endDate, double distance, Duration timeToAchieve, Sport sport){
+    // Constructor
 
-        this.id = id;
-        this.name = name;
+    public Challenge(String title, LocalDate startDate, LocalDate endDate, double distanceToAchieve, Duration timeToAchieve, Sport sport){
+
+        this.title = title;
         this.startDate = startDate;
-        this.distance = distance;
+        this.endDate = endDate;
+        this.distanceToAchieve = distanceToAchieve;
         this.timeToAchieve = timeToAchieve;
         this.sport = sport;
-
-    }
-
-    public Challenge(){
-        this.id = 0;
-        this.name = "";
-        this.startDate = new Date();
-        this.endDate = new Date();
-        this.distance = 0.0;
-        this.timeToAchieve = Duration.ZERO;
-        this.sport = Sport.RUNNING;
 
     }
 
@@ -56,12 +47,12 @@ public class Challenge {
         return this.id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Sport getSport() {
@@ -72,12 +63,12 @@ public class Challenge {
         this.sport = sport;
     }
 
-    public double getDistance() {
-        return distance;
+    public double getDistanceToAchieve() {
+        return distanceToAchieve;
     }
 
-    public void setDistance(double distance) {
-        this.distance = distance;
+    public void setDistanceToAchieve(double distance) {
+        this.distanceToAchieve = distance;
     }
 
     public Duration getTimeToAchieve() {
@@ -88,19 +79,42 @@ public class Challenge {
         this.timeToAchieve = timeToAchieve;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public void setCreator(User creator) {
+
+        this.creator = creator;
+    }
+
+    public User getCreator() {
+
+        return creator;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Challenge challenge = (Challenge) o;
+        return id == challenge.id && Objects.equals(title, challenge.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title);
     }
 }

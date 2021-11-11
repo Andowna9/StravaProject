@@ -1,5 +1,6 @@
 package com.moma.fans.remote;
 
+import com.moma.fans.data.dto.ChallengeCreationDTO;
 import com.moma.fans.data.dto.ChallengeDTO;
 import com.moma.fans.data.dto.TrainingSessionDTO;
 import com.moma.fans.data.dto.UserCreationDTO;
@@ -19,7 +20,7 @@ public interface IRemoteFacade extends Remote {
 
     /**
      * Crea una cuenta de usuario.
-     * @param userDTO Contenedor con información de creación de usuario.
+     * @param userDTO contenedor con información de creación de usuario
      */
     public long register(UserCreationDTO userDTO) throws RemoteException;
 
@@ -43,30 +44,18 @@ public interface IRemoteFacade extends Remote {
     /**
      * Registra la sesión de entrenamiento de un usuario dado.
      * @param token identificación del usuario
-     * @param title título de la sesión
-     * @param sport deporte asociado
-     * @param distance distancia recorrida (km)
-     * @param date fecha
-     * @param duration duración de la actividad (min)
+     * @param trainingSessionDTO conteneder de información de sesión de entrenamiento
      * @return true si se ha podido crear la sesión correctamente, false en caso contrario
      */
-    public boolean createTrainingSession(long token, String title, String sport,
-                                         double distance, Date date, Duration duration) throws RemoteException;
+    public boolean createTrainingSession(long token, TrainingSessionDTO trainingSessionDTO) throws RemoteException;
 
     /**
      * Crea un reto al que cualquier usuario puede apuntarse.
      * @param token identificación del usuario
-     * @param title título del reto
-     * @param sport deporte asociado
-     * @param startDate fecha de inicio
-     * @param endDate fecha de finalización
-     * @param distanceToAchieve distancia objetivo (km)
-     * @param timeToAchieve tiempo objetivo (min)
+     * @param  challengeDTO contenedor de información de reto
      * @return true si se crea el reto correctamente, false en caso contrario
      */
-    public boolean createChallenge(long token, String title, String sport,
-                                   Date startDate, Date endDate,
-                                   double distanceToAchieve, Duration timeToAchieve) throws RemoteException;
+    public boolean createChallenge(long token, ChallengeCreationDTO challengeDTO) throws RemoteException;
 
     /**
      * Añade un reto a la lista de aceptados de un usuario.

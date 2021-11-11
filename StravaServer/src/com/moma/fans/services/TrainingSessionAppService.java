@@ -16,10 +16,10 @@ import com.moma.fans.data.domain.User;
  */
 public class TrainingSessionAppService {
 	
-	private Map<User, List<TrainingSession> > trainingSessions = new HashMap<>();
+	private Map<User, List<TrainingSession>> trainingSessions = new HashMap<>();
 	
 	public void createTrainingSession(User user, TrainingSession tr) {
-		
+
 		if (trainingSessions.get(user)==null) {
 			trainingSessions.put(user, new ArrayList<>());
 		}

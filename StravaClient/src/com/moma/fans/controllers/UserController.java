@@ -3,15 +3,15 @@ package com.moma.fans.controllers;
 import com.moma.fans.remote.ServiceLocator;
 
 /**
- * Controlador de operaciones con retos
- * (creación, recuperación, apuntarse, etc.).
+ * Controlador de operaciones de acceso
+ * a nivel de usuario de la aplicación.
  * @author JonanC
  */
-public class ChallengeController {
+public class UserController {
 
     private ServiceLocator serviceLocator;
 
-    public ChallengeController(ServiceLocator serviceLocator) {
+    public UserController(ServiceLocator serviceLocator) {
 
         this.serviceLocator = serviceLocator;
     }

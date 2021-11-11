@@ -31,7 +31,7 @@ public class TrainingSessionAssembler {
 
     }
 
-    public List<TrainingSessionDTO> trainingSessionsToDTO(List<TrainingSession> trainingSessions) {
+    public List<TrainingSessionDTO> toDTO(List<TrainingSession> trainingSessions) {
 
         List<TrainingSessionDTO> trainingSessionsDTO = new ArrayList<>();
 
@@ -45,7 +45,7 @@ public class TrainingSessionAssembler {
     
     public TrainingSession toTrainingSession(TrainingSessionDTO trainingSession) {
 
-        return new TrainingSession(trainingSession.getTitle(),Sport.valueOf(trainingSession.getSport()) ,trainingSession.getDistance() , trainingSession.getDate(), trainingSession.getDuration());
+        return new TrainingSession(trainingSession.getTitle(),Sport.valueOf(trainingSession.getSport()) ,trainingSession.getDistance() , trainingSession.getDateTime(), trainingSession.getDuration());
 
     }
 }

@@ -2,6 +2,7 @@ package com.moma.fans.views;
 
 import java.time.LocalDate;
 
+import com.moma.fans.controllers.TrainingSessionController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -21,9 +22,11 @@ import javafx.scene.layout.VBox;
  */
 public class CreateTrainingSessionView extends VBox {
 
-	public CreateTrainingSessionView() {
-		
-		
+    private TrainingSessionController controller;
+	public CreateTrainingSessionView(TrainingSessionController controller) {
+
+        this.controller = controller;
+
         // Vertical
         this.setSpacing(25);
         

@@ -1,7 +1,7 @@
 package com.moma.fans.data.domain;
 
 import java.time.Duration;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Clase que representa una sesión de entrenamiento de un deporte.
@@ -13,19 +13,19 @@ public class TrainingSession {
     private String title;
     private Sport sport;
     private double distance;
-    private LocalDate date;
+    private LocalDateTime dateTime;
     private Duration duration;
 
     // Métodos principales
 
     // TODO
     
-    public TrainingSession(String title, Sport sport, double distance, LocalDate date, Duration duration) {
+    public TrainingSession(String title, Sport sport, double distance, LocalDateTime dateTime, Duration duration) {
 		super();
 		this.title = title;
 		this.sport = sport;
 		this.distance = distance;
-		this.date = date;
+		this.dateTime = dateTime;
 		this.duration = duration;
 	}
     
@@ -56,12 +56,12 @@ public class TrainingSession {
         this.distance = distance;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDateTime getDate() {
+        return dateTime;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDate(LocalDateTime date) {
+        this.dateTime = date;
     }
 
     public Duration getDuration() {

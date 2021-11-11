@@ -1,5 +1,6 @@
 package com.moma.fans.views;
 
+import com.moma.fans.controllers.UserController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -13,7 +14,11 @@ import javafx.scene.paint.Paint;
 
 public class LoginView extends BorderPane {
 
-    public  LoginView() {
+    private UserController controller;
+
+    public  LoginView(UserController controller) {
+
+        this.controller = controller;
 
         VBox mainVbox = new VBox();
         mainVbox.setSpacing(15.0d);

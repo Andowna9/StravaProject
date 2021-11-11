@@ -22,8 +22,10 @@ public class User {
     private short minHeartRate;
     private short maxHeartRate;
 
+    // Sesiones de entrenamiento
     List<TrainingSession> trainingSessions = new ArrayList<>();
 
+    // Retos
     List<Challenge> createdChallenges = new ArrayList<>();
     List<Challenge> acceptedChallenges = new ArrayList<>();
 
@@ -39,6 +41,22 @@ public class User {
     }
 
     // Métodos principales
+
+    public void addTrainingSession(TrainingSession tr) {
+
+        trainingSessions.add(tr);
+    }
+
+    public void addAcceptedChallenge(Challenge challenge){
+
+        acceptedChallenges.add(challenge);
+
+    }
+
+    public void addCreatedChallenge(Challenge challenge) {
+
+        createdChallenges.add(challenge);
+    }
 
     /**
      * Permite validar el acceso a una cuenta de usuario.
@@ -67,7 +85,7 @@ public class User {
             StringBuilder sb = new StringBuilder();
 
             // Formato hexadecimal
-            for (int i = 0; i < bytes.length; i++) {
+            for(int i = 0; i < bytes.length; i++) {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100,16).substring(1));
             }
             generatedPassword = sb.toString();
@@ -142,6 +160,23 @@ public class User {
         this.maxHeartRate = maxHeartRate;
     }
 
+    public List<TrainingSession> getTrainingSessions() {
+
+        return trainingSessions;
+    }
+
+    public List<Challenge> getAcceptedChallenges() {
+
+        return acceptedChallenges;
+    }
+
+    public List<Challenge> getCreatedChallenges() {
+
+        return createdChallenges;
+    }
+
+    // Equals y Hashcode
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -154,20 +189,6 @@ public class User {
     public int hashCode() {
 
         return Objects.hashCode(email);
-    }
-
-    public boolean acceptChallenge(Challenge challenge){
-        try {
-            acceptedChallenges.add(challenge);
-            return true;
-        } catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public ArrayList<Challenge> checkAcceptedChallenges(){
-        return (ArrayList<Challenge>) acceptedChallenges;
     }
 
 

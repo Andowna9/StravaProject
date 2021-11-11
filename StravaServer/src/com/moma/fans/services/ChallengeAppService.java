@@ -15,33 +15,33 @@ import java.util.*;
  */
 public class ChallengeAppService {
 
-    List<Challenge> allChallenges = new ArrayList<Challenge>();
-    Map<User, ArrayList<Challenge>> userChallenges = new HashMap<User, ArrayList<Challenge>>();
+    private static int count = 0;
 
-    ArrayList<Challenge> activeChallenges = new ArrayList<Challenge>();
-    ArrayList<Challenge> finishedChallenges = new ArrayList<Challenge>();
+    Map<Integer, Challenge> allChallenges = new HashMap<>();
+
+    ArrayList<Challenge> activeChallenges = new ArrayList<>();
+    ArrayList<Challenge> finishedChallenges = new ArrayList<>();
 
 
-    public boolean createChallenge(int id, String name, Date startDate, Date endDate, Double distance, Duration timeToAchieve, Sport sport){
-        boolean success = false;
+    public void createChallenge(User creator, Challenge challenge) {
 
-        Challenge newChallenge = new Challenge();
-        newChallenge.setId(id);
-        newChallenge.setName(name);
-        newChallenge.setStartDate(startDate);
-        newChallenge.setEndDate(endDate);
-        newChallenge.setDistance(distance);
-        newChallenge.setTimeToAchieve(timeToAchieve);
-        newChallenge.setSport(sport);
+        // Se genera un id y se añade el reto al usuario correspondiente
+        challenge.setId(count++);
+        challenge.setCreator(creator);
+        creator.addCreatedChallenge(challenge);
 
-        try {
-            allChallenges.add(newChallenge);
-            success = true;
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        // Se añade a la estructura de datos que guarda todos los retos
+        allChallenges.put(challenge.getId(), challenge);
 
-        return success;
+    }
+
+    public void acceptChallenge(User user, int challengeID) {
+
+        // Obtener reto a partir de id y añadirlo a lista de usuario
+
+        Challenge challenge = allChallenges.get(challengeID);
+        user.addAcceptedChallenge(challenge);
+
     }
 
     public void setChallengeToActive(Challenge nChallenge){

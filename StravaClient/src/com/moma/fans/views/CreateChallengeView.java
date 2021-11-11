@@ -2,6 +2,7 @@ package com.moma.fans.views;
 
 import java.time.LocalDate;
 
+import com.moma.fans.controllers.ChallengeController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -23,7 +24,7 @@ import javafx.scene.layout.VBox;
  */
 public class CreateChallengeView extends VBox {
 
-	public CreateChallengeView() {
+	public CreateChallengeView(ChallengeController challengeController) {
 		
 		
         // Vertical

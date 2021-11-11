@@ -1,5 +1,6 @@
 package com.moma.fans.views;
 
+import com.moma.fans.controllers.UserController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -12,7 +13,11 @@ import javafx.scene.layout.VBox;
  */
 public class RegisterView extends VBox {
 
-    public RegisterView() {
+    private UserController controller;
+
+    public RegisterView(UserController controller) {
+
+        this.controller = controller;
 
         VBox eRegVbox = new VBox();
         eRegVbox.setSpacing(15.0d);
