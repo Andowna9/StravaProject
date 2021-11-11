@@ -11,17 +11,19 @@ public class ClientApp extends Application {
     public void start(Stage stage) throws Exception {
 
         // Añadimos todas las pantallas con sus nombres
-        ScreenController.getInstance().addScreen("Inicio de sesión", new LoginView());
-        ScreenController.getInstance().addScreen("Registro", new RegisterView());
-        ScreenController.getInstance().addScreen("Creación de perfil", new ProfileCreationView());
-        ScreenController.getInstance().addScreen("Creación de reto", new CreateChallengeView());
-        ScreenController.getInstance().addScreen("Creación de sesión de entrenamiento", new CreateTrainingSessionView());
-        ScreenController.getInstance().addScreen("Home", new HomeView());
+        ScreenController.getInstance().addScreen(ScreenController.State.LOG_IN, new LoginView());
+        ScreenController.getInstance().addScreen(ScreenController.State.REGISTER, new RegisterView());
+        ScreenController.getInstance().addScreen(ScreenController.State.PROFILE_CREATION, new ProfileCreationView());
+        ScreenController.getInstance().addScreen(ScreenController.State.CHALLENGE_CREATION, new CreateChallengeView());
+        ScreenController.getInstance().addScreen(ScreenController.State.TRAINING_SESSION_CREATION, new CreateTrainingSessionView());
+        ScreenController.getInstance().addScreen(ScreenController.State.HOME, new HomeView());
 
         ScreenController.getInstance().setStage(stage, 600, 400);
-        ScreenController.getInstance().setScreen("Inicio de sesión");
-        
-        //stage.getIcons().add(new Image("../../resources/images/logo-strava.png"));
+        ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN);
+
+        Image icon = new Image("logo-strava.png");
+        stage.getIcons().add(icon);
+
         stage.setResizable(false);
         stage.show();
 

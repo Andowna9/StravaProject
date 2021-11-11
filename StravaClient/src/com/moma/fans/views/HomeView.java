@@ -98,9 +98,9 @@ public class HomeView extends VBox {
         this.getChildren().addAll(topControls, tFlow, splitPane);
         
         // Eventos |----------------------------------|
-        btnCreateSession.setOnAction(event -> ScreenController.getInstance().setScreen("Creación de sesión de entrenamiento"));
-        btnCreateChallenge.setOnAction(event -> ScreenController.getInstance().setScreen("Creación de reto"));
-        hlLogout.setOnAction(event -> ScreenController.getInstance().setScreen("Inicio de sesión"));
+        btnCreateSession.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.TRAINING_SESSION_CREATION));
+        btnCreateChallenge.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.CHALLENGE_CREATION));
+        hlLogout.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN));
 
     }
 }

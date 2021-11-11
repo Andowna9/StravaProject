@@ -104,8 +104,8 @@ public class CreateTrainingSessionView extends VBox {
         this.setAlignment(Pos.CENTER);
         
         // Eventos |----------------------------------|
-        btnCreate.setOnAction(event -> ScreenController.getInstance().setScreen("Home"));
-        btnCancel.setOnAction(event -> ScreenController.getInstance().setScreen("Home"));
+        btnCreate.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.HOME));
+        btnCancel.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.HOME));
         
 	}
 	

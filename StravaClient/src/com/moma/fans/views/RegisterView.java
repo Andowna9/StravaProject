@@ -75,7 +75,7 @@ public class RegisterView extends VBox {
         hBox.getChildren().add(btn);
         
         // Events
-        btn.setOnAction(event -> ScreenController.getInstance().setScreen("Home"));
+        btn.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.HOME));
 
         return hBox;
     }
