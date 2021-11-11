@@ -2,6 +2,7 @@ package com.moma.fans;
 
 import com.moma.fans.views.*;
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class ClientApp extends Application {
@@ -19,6 +20,8 @@ public class ClientApp extends Application {
 
         ScreenController.getInstance().setStage(stage, 600, 400);
         ScreenController.getInstance().setScreen("Inicio de sesión");
+        
+        //stage.getIcons().add(new Image("../../resources/images/logo-strava.png"));
         stage.setResizable(false);
         stage.show();
 

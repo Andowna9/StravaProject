@@ -35,8 +35,8 @@ public class CreateTrainingSessionView extends VBox {
         Label lblSport = new Label("Deporte");
         Label lblStartDate = new Label("Fecha inicio");
         Label lblStartime = new Label("Hora de inicio");
-        Label lblDuration = new Label("Duracion(Minutos):");
-        Label lblDistance = new Label("Distancia(Kilometros):");        
+        Label lblDuration = new Label("Duracion (Minutos)");
+        Label lblDistance = new Label("Distancia (Kilometros)");        
   	  
         //Creación de Textfields      
         TextField tfName = new TextField();

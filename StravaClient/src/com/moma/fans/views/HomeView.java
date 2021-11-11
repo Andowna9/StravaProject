@@ -1,5 +1,6 @@
 package com.moma.fans.views;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.Border;
@@ -12,27 +13,49 @@ import javafx.scene.text.TextFlow;
 /**
  * Vista con panel principal de opciones.
  * @author JonanC
+ * @author UnaiCL
  */
 public class HomeView extends VBox {
 
     public HomeView() {
 
+    	// Cerrar sesión (Parte superior)
         HBox topControls = new HBox();
         topControls.setAlignment(Pos.CENTER_RIGHT);
         Hyperlink hlLogout = new Hyperlink("Cerrar sesión");
         hlLogout.setBorder(Border.EMPTY);
+        hlLogout.setPadding(new Insets(10, 21, 0, 10));
         topControls.getChildren().add(hlLogout);
 
+        // Texto superior, dedicado a cada usuario
         TextFlow tFlow = new TextFlow();
         Text t1 = new Text("Panel de ");
         Text t2 = new Text("@Usuario");
         t2.setStyle("-fx-font-weight: bold");
         tFlow.getChildren().addAll(t1, t2);
         tFlow.setTextAlignment(TextAlignment.CENTER);
+        tFlow.setPadding(new Insets(0, 0, 15, 0));
 
+        /*
+         * |--------------------------------------------|
+         *  Creación del splitpane
+         */
+        
         SplitPane splitPane = new SplitPane();
 
-
+        // Creación y configuración de las cajas
+        VBox sessionsBox = new VBox();
+        VBox challengesBox = new VBox();
+           
+        sessionsBox.setAlignment(Pos.CENTER);
+        sessionsBox.setPadding(new Insets(0, 0, 12, 0));
+        sessionsBox.setSpacing(12);
+        
+        challengesBox.setAlignment(Pos.CENTER);
+        challengesBox.setPadding(new Insets(0, 0, 12, 0));
+        challengesBox.setSpacing(12);
+        
+        // Panel de sesiones
         TableView<String> tblSessions = new TableView<>();
 
         TabPane tabPane = new TabPane();
@@ -42,6 +65,7 @@ public class HomeView extends VBox {
         Tab acceptedChallenges = new Tab("Retos aceptados");
         Tab availableChallenges = new Tab("Retos disponibles");
 
+        // Panel de challenges
         ListView<String> challengeList = new ListView<>();
         challengeList.getItems().addAll("Reto 1", "Reto 2", "Reto 3");
 
@@ -51,12 +75,32 @@ public class HomeView extends VBox {
         tabPane.getTabs().add(acceptedChallenges);
         tabPane.getTabs().add(availableChallenges);
 
-        splitPane.getItems().addAll(tblSessions, tabPane);
-
-
-
-
+        // Botones
+        Button btnCreateSession = new Button("Crear sesión de entrenamiento"); 
+        //btnCreate.setStyle("-fx-background-color: #99ff99;");
+        
+        Button btnCreateChallenge = new Button("Crear reto");
+        //btnCancel.setStyle("-fx-background-color: #ff6666;");
+        
+        // Añadir elementos a las VBox
+        sessionsBox.getChildren().addAll(tblSessions, btnCreateSession);
+        challengesBox.getChildren().addAll(tabPane, btnCreateChallenge);
+        
+        /*
+         * |--------------------------------------------|
+         *  FIN Creación del splitpane
+         */
+        
+        // Añadir las VBox a los paneles
+        splitPane.getItems().addAll(sessionsBox, challengesBox);
+        
+        
         this.getChildren().addAll(topControls, tFlow, splitPane);
+        
+        // Eventos |----------------------------------|
+        btnCreateSession.setOnAction(event -> ScreenController.getInstance().setScreen("Creación de sesión de entrenamiento"));
+        btnCreateChallenge.setOnAction(event -> ScreenController.getInstance().setScreen("Creación de reto"));
+        hlLogout.setOnAction(event -> ScreenController.getInstance().setScreen("Inicio de sesión"));
 
     }
 }

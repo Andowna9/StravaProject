@@ -73,6 +73,9 @@ public class RegisterView extends VBox {
         hBox.setAlignment(Pos.CENTER);
         Button btn = new Button(text);
         hBox.getChildren().add(btn);
+        
+        // Events
+        btn.setOnAction(event -> ScreenController.getInstance().setScreen("Home"));
 
         return hBox;
     }

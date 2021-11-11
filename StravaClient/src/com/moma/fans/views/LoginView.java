@@ -56,6 +56,7 @@ public class LoginView extends BorderPane {
 
         // Events
         hlRegister.setOnAction(event -> ScreenController.getInstance().setScreen("Registro"));
+        btnLogin.setOnAction(event -> ScreenController.getInstance().setScreen("Home"));
 
     }
 
