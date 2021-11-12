@@ -3,8 +3,9 @@ package com.moma.fans;
 import com.moma.fans.controllers.UserController;
 import com.moma.fans.controllers.ChallengeController;
 import com.moma.fans.controllers.TrainingSessionController;
+import com.moma.fans.gui.views.*;
 import com.moma.fans.remote.ServiceLocator;
-import com.moma.fans.views.*;
+import com.moma.fans.gui.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -21,7 +22,6 @@ public class Client extends Application {
 
         // Service Locator
         ServiceLocator serviceLocator = new ServiceLocator();
-        System.out.println();
         serviceLocator.setService(args.get(0), args.get(1), args.get(2));
 
         // Controladores

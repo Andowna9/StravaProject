@@ -1,15 +1,18 @@
-package com.moma.fans.views;
+package com.moma.fans.gui.views;
 
 import java.rmi.RemoteException;
 
 import com.moma.fans.controllers.UserController;
 
+import com.moma.fans.gui.IReset;
+import com.moma.fans.gui.ScreenController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -17,10 +20,14 @@ import javafx.scene.layout.VBox;
  * Vista para registrar una nueva cuenta.
  * @author JonanC
  */
-public class RegisterView extends VBox {
+public class RegisterView extends VBox implements IReset {
 
     private UserController controller;
-    
+
+    TextField tfEmail;
+    PasswordField passField;
+    PasswordField passFieldConfirm;
+
     public RegisterView(UserController controller) {
 
         this.controller = controller;
@@ -31,19 +38,19 @@ public class RegisterView extends VBox {
         VBox vboxEmail = new VBox();
         vboxEmail.setSpacing(2.0d);
         Label lblEmail = new Label("Correo electrónico:");
-        TextField tfEmail = new TextField();
+        tfEmail = new TextField();
         vboxEmail.getChildren().addAll(lblEmail, tfEmail);
 
         VBox vboxPass = new VBox();
         vboxPass.setSpacing(2.0d);
         Label lblPassword = new Label("Contraseña:");
-        PasswordField passField = new PasswordField();
+        passField = new PasswordField();
         vboxPass.getChildren().addAll(lblPassword, passField);
 
         VBox vboxConfirmPass = new VBox();
         vboxPass.setSpacing(2.0d);
         Label lblConfirmPassword = new Label("Confirmar contraseña:");
-        PasswordField passFieldConfirm = new PasswordField();
+        passFieldConfirm = new PasswordField();
         vboxConfirmPass.getChildren().addAll(lblConfirmPassword, passFieldConfirm);
         
         // Creación botones
@@ -56,21 +63,28 @@ public class RegisterView extends VBox {
         btnFacebookRegister = new Button();
         
         eRegVbox.getChildren().addAll(
-                createCenteredBoldLabel("Registro simple"),
+                createCenteredBoldLabel("Registro habitual"),
                 vboxEmail,
                 vboxPass,
                 vboxConfirmPass,
                 createCenteredButton("Registrarse", btnNormalRegister)
         );
 
+        Hyperlink hlLogin = new Hyperlink("Volver a inicio de sesión");
+        hlLogin.setBorder(Border.EMPTY);
+        hlLogin.setAlignment(Pos.CENTER_LEFT);
+
+        hlLogin.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN));
+
         this.setPadding(new Insets(20, 80, 20, 80));
-        this.setSpacing(10.0d);
+        this.setSpacing(5.0d);
         this.getChildren().addAll(
                 eRegVbox,
                 createCenteredBoldLabel("O"),
                 createCenteredButton("Registrarse con Google", btnGoogleRegister),
                 createCenteredBoldLabel("O"),
-                createCenteredButton("Registrarse con Facebook", btnFacebookRegister)
+                createCenteredButton("Registrarse con Facebook", btnFacebookRegister),
+                hlLogin
         );
 
         // Events
@@ -86,7 +100,7 @@ public class RegisterView extends VBox {
 					ScreenController.getInstance().setScreen(ScreenController.State.PROFILE_CREATION);
 				} catch (RemoteException e) {
 					alert.setHeaderText("Error en el registro");
-					alert.setContentText(e.getMessage());
+					alert.setContentText(e.getCause().getMessage());
 					alert.showAndWait();
 				}
 				
@@ -115,5 +129,13 @@ public class RegisterView extends VBox {
         
 
         return hBox;
+    }
+
+    @Override
+    public void resetLayout() {
+
+        tfEmail.clear();
+        passField.clear();
+        passFieldConfirm.clear();
     }
 }

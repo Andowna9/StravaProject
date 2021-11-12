@@ -1,4 +1,4 @@
-package com.moma.fans.views;
+package com.moma.fans.gui;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -76,6 +76,19 @@ public class ScreenController {
         stage.setTitle(state.toString());
         stage.getScene().setRoot(screenMap.get(state));
 
+    }
+
+    /**
+     * Reinicia el estado proporcionado.
+     * @param state estado que representa una pantalla
+     */
+    public void resetLayout(State state) {
+
+        Parent screen = screenMap.get(state);
+
+        if (screen instanceof IReset) {
+            ((IReset) screen).resetLayout();
+        }
     }
 
     /**

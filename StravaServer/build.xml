@@ -16,7 +16,7 @@
     <target name="1.build" description="Builds the project">
         <delete dir="${build.dir}"/>
         <mkdir dir="${build.dir}"/>
-        <javac srcdir="${source.dir}" destdir="${build.dir}" classpath="${classpath}" deprecation="true" fork="true" includeAntRuntime="no"/>
+        <javac srcdir="${source.dir}" destdir="${build.dir}" encoding="UTF-8" classpath="${classpath}" deprecation="true" fork="true" includeAntRuntime="no"/>
     </target>
 
     <target name="2.export" depends="1.build" description="Export the project into a .jar file">

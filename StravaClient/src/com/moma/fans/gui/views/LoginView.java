@@ -1,9 +1,11 @@
-package com.moma.fans.views;
+package com.moma.fans.gui.views;
 
 import java.rmi.RemoteException;
 
 import com.moma.fans.controllers.UserController;
 
+import com.moma.fans.gui.IReset;
+import com.moma.fans.gui.ScreenController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -26,9 +28,12 @@ import javafx.scene.paint.Paint;
  * @author JonanC
  */
 
-public class LoginView extends BorderPane {
+public class LoginView extends BorderPane implements IReset {
 
     private UserController controller;
+
+    private TextField tfEmail;
+    private PasswordField passField;
 
     public  LoginView(UserController controller) {
 
@@ -41,13 +46,13 @@ public class LoginView extends BorderPane {
         VBox vboxEmail = new VBox();
         vboxEmail.setSpacing(2.0d);
         Label lblEmail = new Label("Correo electrónico:");
-        TextField tfEmail = new TextField();
+        tfEmail = new TextField();
         vboxEmail.getChildren().addAll(lblEmail, tfEmail);
 
         VBox vboxPass = new VBox();
         vboxPass.setSpacing(2.0d);
         Label lblPassword = new Label("Contraseña:");
-        PasswordField passField = new PasswordField();
+        passField = new PasswordField();
         vboxPass.getChildren().addAll(lblPassword, passField);
 
         HBox noteBox = new HBox();
@@ -84,17 +89,25 @@ public class LoginView extends BorderPane {
 				
 				// Controlar errores al hacer login
 				try {
-					Boolean login = controller.login(tfEmail.getText(), passField.getText());
-					ScreenController.getInstance().setScreen(ScreenController.State.REGISTER);
+					controller.login(tfEmail.getText(), passField.getText());
+					ScreenController.getInstance().setScreen(ScreenController.State.HOME);
+                    resetLayout();
 				} catch (RemoteException e) {
 					alert.setHeaderText("Error al iniciar sesión");
-					alert.setContentText(e.getMessage());
+					alert.setContentText(e.getCause().getMessage());
 					alert.showAndWait();
 				}
 				
 			}
 		});
 
+    }
+
+    @Override
+    public void resetLayout() {
+
+        tfEmail.clear();
+        passField.clear();
     }
 
 

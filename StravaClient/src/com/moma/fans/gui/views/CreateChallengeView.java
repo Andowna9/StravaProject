@@ -1,8 +1,9 @@
-package com.moma.fans.views;
+package com.moma.fans.gui.views;
 
 import java.time.LocalDate;
 
 import com.moma.fans.controllers.ChallengeController;
+import com.moma.fans.gui.ScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;

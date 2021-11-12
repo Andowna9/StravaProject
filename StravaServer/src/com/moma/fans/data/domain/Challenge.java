@@ -18,7 +18,6 @@ public class Challenge {
     private Duration timeToAchieve;
     private LocalDate startDate;
     private LocalDate endDate;
-    private State
 
     private User creator;
 

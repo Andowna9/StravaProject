@@ -24,7 +24,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
 
     // Servicios
     UserAppService userService = new UserAppService();
-    TrainingSessionAppService trainingSessionService = new TrainingSessionAppService();
+    // TrainingSessionAppService trainingSessionService = new TrainingSessionAppService();
     ChallengeAppService challengeService = new ChallengeAppService();
 
     // DTO Assemblers
@@ -171,11 +171,12 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     }
 
     @Override
-    public HashMap<String, List<ChallengeDTO>> getChallenges(long token) throws RemoteException {
+    public List<ChallengeDTO> getAvailableChallenges(long token) throws RemoteException {
 
         if (serverState.containsKey(token)) {
 
-            return null;
+            User user = serverState.get(token);
+            return challengeAssembler.toDTO(challengeService.getAvailableChallenges(user));
         }
 
         else {

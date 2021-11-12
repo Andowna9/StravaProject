@@ -14,9 +14,9 @@ import com.moma.fans.remote.ServiceLocator;
 public class UserController {
 
     private ServiceLocator serviceLocator;
-	//This attibute stores the token when login success
-	private long token = -1; //-1 = login has not been done or fails
-    
+
+	// Este atributo guarda el token en caso de éxito
+	private long token = -1;
     
     public UserController(ServiceLocator serviceLocator) {
 
@@ -44,14 +44,11 @@ public class UserController {
 	}
 	
 	public void register(String email, String password) throws RemoteException {
+
 		UserCreationDTO uDTO = new UserCreationDTO();
 		uDTO.setEmail(email);
 		uDTO.setPassword(password);
 		
-		try {
-			this.serviceLocator.getService().register(uDTO);
-		} catch (RemoteException e) {
-			throw new RemoteException("Error al registrar un nuevo usuario");
-		}
+		this.serviceLocator.getService().register(uDTO);
 	}
 }

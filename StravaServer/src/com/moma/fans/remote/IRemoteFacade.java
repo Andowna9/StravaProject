@@ -75,7 +75,7 @@ public interface IRemoteFacade extends Remote {
      * @param token identificación del usuario
      * @return retos divididos en categorías (propios, aceptados y disponibles)
      */
-     public HashMap<String, List<ChallengeDTO>> getChallenges(long token) throws RemoteException;
+     public List<ChallengeDTO> getAvailableChallenges(long token) throws RemoteException;
 
 
 }

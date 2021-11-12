@@ -1,9 +1,10 @@
-package com.moma.fans.views;
+package com.moma.fans.gui.views;
 
 import java.rmi.RemoteException;
 
 import com.moma.fans.controllers.UserController;
 
+import com.moma.fans.gui.ScreenController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -86,11 +87,8 @@ public class HomeView extends VBox {
         tabPane.getTabs().add(availableChallenges);
 
         // Botones
-        Button btnCreateSession = new Button("Crear sesión de entrenamiento"); 
-        //btnCreate.setStyle("-fx-background-color: #99ff99;");
-        
+        Button btnCreateSession = new Button("Crear sesión de entrenamiento");
         Button btnCreateChallenge = new Button("Crear reto");
-        //btnCancel.setStyle("-fx-background-color: #ff6666;");
         
         // Añadir elementos a las VBox
         sessionsBox.getChildren().addAll(tblSessions, btnCreateSession);
@@ -111,23 +109,25 @@ public class HomeView extends VBox {
         btnCreateSession.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.TRAINING_SESSION_CREATION));
         btnCreateChallenge.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.CHALLENGE_CREATION));
         hlLogout.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent arg0) {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Error Dialog");
-				
-				try {
-					controller.logout();
-					ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN);
-				} catch (RemoteException e) {
-					alert.setHeaderText("Error al iniciar sesión");
-					alert.setContentText(e.getMessage());
-					alert.showAndWait();
-				}
-				
-			}
-		});
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+
+                ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN);
+
+               try {
+                    controller.logout();
+                    ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN);
+                } catch (RemoteException e) {
+                    alert.setHeaderText("Error al iniciar sesión");
+                    alert.setContentText(e.getCause().getMessage());
+                    alert.showAndWait();
+                }
+            }
+        });
 
     }
+
 }

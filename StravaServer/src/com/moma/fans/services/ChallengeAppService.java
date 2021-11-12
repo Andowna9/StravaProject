@@ -1,10 +1,8 @@
 package com.moma.fans.services;
 
 import com.moma.fans.data.domain.Challenge;
-import com.moma.fans.data.domain.Sport;
 import com.moma.fans.data.domain.User;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -20,14 +18,28 @@ public class ChallengeAppService {
 
     Map<Integer, Challenge> allChallenges = new HashMap<>();
 
-    public ArrayList<Challenge> getAvailable(){
+    /**
+     * Obtiene la lista de retos disponibles
+     * para un usuario, es decir, aquellos
+     * que no son suyos y todavía no ha aceptado.
+     * @param user usuario
+     * @return
+     */
+    public List<Challenge> getAvailableChallenges(User user) {
 
-        LocalDate today = LocalDate.now();
-        ArrayList<Challenge> availableChallenges = new ArrayList<Challenge>();
+        LocalDate today = LocalDate.now(); // Obtenemos la fecha de hoy
+        List<Challenge> availableChallenges = new ArrayList<>();
 
-        for (Challenge ch: allChallenges.values() ){
-            if (ch.getStartDate().isAfter(today)){
-                availableChallenges.add(ch);
+        for (Challenge ch: allChallenges.values()) {
+
+            // Si todavía no ha terminado el plazo
+            if (today.isAfter(ch.getStartDate()) && today.isBefore(ch.getEndDate())){
+
+                // Si el reto no ha sido aceptado ni creado por el usuario
+                if (!user.getAcceptedChallenges().contains(ch) && !user.getCreatedChallenges().contains(ch)) {
+
+                    availableChallenges.add(ch);
+                }
             }
         }
 
@@ -55,24 +67,6 @@ public class ChallengeAppService {
         user.addAcceptedChallenge(challenge);
 
     }
-
-    public void setChallengeToActive(Challenge nChallenge){
-        activeChallenges.add(nChallenge);
-    }
-
-    public void setChallengeToFinished(Challenge nChallenge){
-        finishedChallenges.add(nChallenge);
-    }
-
-    public ArrayList<Challenge> getActiveChallenges(){
-
-    }
-
-    public ArrayList<Challenge> getFinishedChallenges(){
-        return finishedChallenges;
-    }
-
-
 
 
 }
