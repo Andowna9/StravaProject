@@ -10,6 +10,7 @@ import java.util.Objects;
 /**
  * Clase que representa un usuario.
  * @author JonanC
+ * @author AlexNitu
  */
 public class User {
 

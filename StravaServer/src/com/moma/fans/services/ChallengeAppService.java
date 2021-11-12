@@ -5,6 +5,7 @@ import com.moma.fans.data.domain.Sport;
 import com.moma.fans.data.domain.User;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -19,8 +20,19 @@ public class ChallengeAppService {
 
     Map<Integer, Challenge> allChallenges = new HashMap<>();
 
-    ArrayList<Challenge> activeChallenges = new ArrayList<>();
-    ArrayList<Challenge> finishedChallenges = new ArrayList<>();
+    public ArrayList<Challenge> getAvailable(){
+
+        LocalDate today = LocalDate.now();
+        ArrayList<Challenge> availableChallenges = new ArrayList<Challenge>();
+
+        for (Challenge ch: allChallenges.values() ){
+            if (ch.getStartDate().isAfter(today)){
+                availableChallenges.add(ch);
+            }
+        }
+
+        return availableChallenges;
+    }
 
 
     public void createChallenge(User creator, Challenge challenge) {
@@ -53,7 +65,7 @@ public class ChallengeAppService {
     }
 
     public ArrayList<Challenge> getActiveChallenges(){
-        return activeChallenges;
+
     }
 
     public ArrayList<Challenge> getFinishedChallenges(){

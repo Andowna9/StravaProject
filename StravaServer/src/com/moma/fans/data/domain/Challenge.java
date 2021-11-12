@@ -7,6 +7,7 @@ import java.util.Objects;
 /**
  * Clase que representa un reto deportivo.
  * @author JonanC
+ * @author AlexNitu
  */
 public class Challenge {
 
@@ -17,6 +18,7 @@ public class Challenge {
     private Duration timeToAchieve;
     private LocalDate startDate;
     private LocalDate endDate;
+    private State
 
     private User creator;
 
