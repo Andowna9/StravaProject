@@ -79,6 +79,10 @@ public class ProfileCreationView extends VBox {
 
         this.setAlignment(Pos.CENTER);
         this.getChildren().add(gp);
+        
+        // Events
+        btnOK.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.HOME));
+        btnBack.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.REGISTER));
 
     }
 }

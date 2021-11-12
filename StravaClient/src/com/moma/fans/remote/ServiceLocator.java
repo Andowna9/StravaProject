@@ -21,9 +21,9 @@ public class ServiceLocator {
     public void setService(String ip, String port, String serviceName) {
 
         // Administrador de seguridad requerido por RMI
-        if (System.getSecurityManager() == null) {
-            System.setSecurityManager(new SecurityManager());
-        }
+//        if (System.getSecurityManager() == null) {
+//            System.setSecurityManager(new SecurityManager());
+//        }
 
         try {
 

@@ -1,8 +1,15 @@
 package com.moma.fans.views;
 
+import java.rmi.RemoteException;
+
+import com.moma.fans.controllers.UserController;
+
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -17,8 +24,11 @@ import javafx.scene.text.TextFlow;
  */
 public class HomeView extends VBox {
 
-    public HomeView() {
-
+	private UserController controller;
+	
+    public HomeView(UserController controller) {
+    	this.controller = controller;
+    	
     	// Cerrar sesión (Parte superior)
         HBox topControls = new HBox();
         topControls.setAlignment(Pos.CENTER_RIGHT);
@@ -100,7 +110,24 @@ public class HomeView extends VBox {
         // Eventos |----------------------------------|
         btnCreateSession.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.TRAINING_SESSION_CREATION));
         btnCreateChallenge.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.CHALLENGE_CREATION));
-        hlLogout.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN));
+        hlLogout.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent arg0) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error Dialog");
+				
+				try {
+					controller.logout();
+					ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN);
+				} catch (RemoteException e) {
+					alert.setHeaderText("Error al iniciar sesión");
+					alert.setContentText(e.getMessage());
+					alert.showAndWait();
+				}
+				
+			}
+		});
 
     }
 }

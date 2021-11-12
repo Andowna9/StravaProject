@@ -56,7 +56,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     }
 
     @Override
-    public synchronized long login(String email, String password) throws RemoteException {
+    public long login(String email, String password) throws RemoteException {
 
         User user = userService.login(email, password);
 
@@ -84,7 +84,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     }
 
     @Override
-    public synchronized void logout(long token) throws RemoteException {
+    public void logout(long token) throws RemoteException {
 
         if (serverState.containsKey(token)) {
 

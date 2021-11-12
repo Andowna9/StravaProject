@@ -1,10 +1,24 @@
 package com.moma.fans.views;
 
+import java.rmi.RemoteException;
+
 import com.moma.fans.controllers.UserController;
+
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 
 /**
@@ -61,7 +75,25 @@ public class LoginView extends BorderPane {
 
         // Events
         hlRegister.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.REGISTER));
-        btnLogin.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.HOME));
+        btnLogin.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent arg0) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error Dialog");
+				
+				// Controlar errores al hacer login
+				try {
+					Boolean login = controller.login(tfEmail.getText(), passField.getText());
+					ScreenController.getInstance().setScreen(ScreenController.State.REGISTER);
+				} catch (RemoteException e) {
+					alert.setHeaderText("Error al iniciar sesión");
+					alert.setContentText(e.getMessage());
+					alert.showAndWait();
+				}
+				
+			}
+		});
 
     }
 

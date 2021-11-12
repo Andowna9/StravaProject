@@ -21,7 +21,8 @@ public class Client extends Application {
 
         // Service Locator
         ServiceLocator serviceLocator = new ServiceLocator();
-        // serviceLocator.setService(args.get(0), args.get(1), args.get(2));
+        System.out.println();
+        serviceLocator.setService(args.get(0), args.get(1), args.get(2));
 
         // Controladores
         UserController userController = new UserController(serviceLocator);
@@ -35,7 +36,7 @@ public class Client extends Application {
         ScreenController.getInstance().addScreen(ScreenController.State.PROFILE_CREATION, new ProfileCreationView(userController));
         ScreenController.getInstance().addScreen(ScreenController.State.CHALLENGE_CREATION, new CreateChallengeView(challengeController));
         ScreenController.getInstance().addScreen(ScreenController.State.TRAINING_SESSION_CREATION, new CreateTrainingSessionView(trainingSessionController));
-        ScreenController.getInstance().addScreen(ScreenController.State.HOME, new HomeView());
+        ScreenController.getInstance().addScreen(ScreenController.State.HOME, new HomeView(userController));
 
         ScreenController.getInstance().setStage(stage, 600, 400);
         ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN);
