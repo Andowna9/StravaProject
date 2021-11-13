@@ -1,4 +1,4 @@
-package com.moma.fans.data.dto;
+package com.moma.fans.data.dto.user;
 
 import java.io.Serializable;
 import java.time.LocalDate;

@@ -2,7 +2,7 @@ package com.moma.fans.controllers;
 
 import java.rmi.RemoteException;
 
-import com.moma.fans.data.dto.UserCreationDTO;
+import com.moma.fans.data.dto.user.ProfileCreationDTO;
 import com.moma.fans.remote.ServiceLocator;
 
 /**
@@ -43,13 +43,20 @@ public class UserController {
 		}
 	}
 	
-	public void register(String email, String password) throws RemoteException {
+	public void register(String email, String nickname, String password) throws RemoteException {
+		try {
+			this.token = this.serviceLocator.getService().register(email, nickname, password);
+		}
 
-		UserCreationDTO uDTO = new UserCreationDTO();
-		uDTO.setEmail(email);
-		uDTO.setPassword(password);
-		
-		this.serviceLocator.getService().register(uDTO);
+		catch (RemoteException e) {
+			this.token = -1;
+			throw e;
+		}
+	}
+
+	public void createProfile(ProfileCreationDTO userDTO) throws RemoteException {
+
+		this.serviceLocator.getService().createProfile(this.token, userDTO);
 	}
 
 	public long getToken() {

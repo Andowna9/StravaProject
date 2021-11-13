@@ -2,14 +2,18 @@ package com.moma.fans.remote;
 
 import com.moma.fans.data.domain.Challenge;
 import com.moma.fans.data.domain.User;
-import com.moma.fans.data.dto.*;
+import com.moma.fans.data.dto.challenge.ChallengeAssembler;
+import com.moma.fans.data.dto.challenge.ChallengeCreationDTO;
+import com.moma.fans.data.dto.challenge.ChallengeDTO;
+import com.moma.fans.data.dto.session.TrainingSessionAssembler;
+import com.moma.fans.data.dto.session.TrainingSessionDTO;
+import com.moma.fans.data.dto.user.ProfileCreationDTO;
+import com.moma.fans.data.dto.user.UserAssembler;
 import com.moma.fans.services.ChallengeAppService;
-import com.moma.fans.services.TrainingSessionAppService;
 import com.moma.fans.services.UserAppService;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.time.Duration;
 import java.util.*;
 
 /**
@@ -37,13 +41,15 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     }
 
     @Override
-    public long register(UserCreationDTO userDTO) throws RemoteException {
+    public long register(String email, String nickname, String password) throws RemoteException {
 
-        User user = userAssembler.toUser(userDTO);
-        boolean isValid = userService.register(user);
 
-        if (isValid) {
+        User user = userService.registerUser(email, nickname, password);
 
+        if (user != null) {
+
+            long token = Calendar.getInstance().getTimeInMillis();
+            serverState.put(token, user);
             return Calendar.getInstance().getTimeInMillis();
 
         }
@@ -53,6 +59,20 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
             throw new RemoteException("La cuenta ya existe!");
         }
 
+    }
+
+    @Override
+    public void createProfile(long token, ProfileCreationDTO userDTO) throws RemoteException {
+
+        if (serverState.containsKey(token)) {
+
+            User user = serverState.get(token);
+            userAssembler.createProfile(user, userDTO);
+        }
+        else {
+
+            throw new RemoteException("El perfil creado no corresponde a ningún usuario");
+        }
     }
 
     @Override

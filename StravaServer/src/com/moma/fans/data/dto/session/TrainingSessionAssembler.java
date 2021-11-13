@@ -1,8 +1,7 @@
-package com.moma.fans.data.dto;
+package com.moma.fans.data.dto.session;
 
 import com.moma.fans.data.domain.Sport;
 import com.moma.fans.data.domain.TrainingSession;
-import com.moma.fans.data.domain.User;
 
 import java.util.ArrayList;
 import java.util.List;

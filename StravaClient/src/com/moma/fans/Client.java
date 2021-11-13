@@ -39,11 +39,17 @@ public class Client extends Application {
         ScreenController.getInstance().addScreen(ScreenController.State.HOME, new HomeView(userController));
 
         ScreenController.getInstance().setStage(stage, 600, 400);
-        ScreenController.getInstance().setScreen(ScreenController.State.HOME);
+        ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN);
 
         stage.setResizable(false);
         stage.show();
 
+    }
+
+    @Override
+    public void stop() throws Exception {
+
+        // TODO Terminar sesión con el servoidor si se cierra la ventana
     }
 
     public static void main(String [] args) {

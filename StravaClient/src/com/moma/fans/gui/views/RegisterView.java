@@ -15,7 +15,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
 /**
  * Vista para registrar una nueva cuenta.
  * @author JonanC
@@ -25,8 +24,8 @@ public class RegisterView extends VBox implements IReset {
     private UserController controller;
 
     TextField tfEmail;
+    TextField tfNickname;
     PasswordField passField;
-    PasswordField passFieldConfirm;
 
     public RegisterView(UserController controller) {
 
@@ -41,18 +40,18 @@ public class RegisterView extends VBox implements IReset {
         tfEmail = new TextField();
         vboxEmail.getChildren().addAll(lblEmail, tfEmail);
 
+        VBox vboxNickname = new VBox();
+        vboxNickname.setSpacing(2.0d);
+        Label lblNickname = new Label("Nombre de usuario:");
+        tfNickname = new TextField();
+        vboxNickname.getChildren().addAll(lblNickname, tfNickname);
+
         VBox vboxPass = new VBox();
         vboxPass.setSpacing(2.0d);
         Label lblPassword = new Label("Contraseña:");
         passField = new PasswordField();
         vboxPass.getChildren().addAll(lblPassword, passField);
 
-        VBox vboxConfirmPass = new VBox();
-        vboxPass.setSpacing(2.0d);
-        Label lblConfirmPassword = new Label("Confirmar contraseña:");
-        passFieldConfirm = new PasswordField();
-        vboxConfirmPass.getChildren().addAll(lblConfirmPassword, passFieldConfirm);
-        
         // Creación botones
         Button btnNormalRegister;
         Button btnGoogleRegister;
@@ -65,8 +64,8 @@ public class RegisterView extends VBox implements IReset {
         eRegVbox.getChildren().addAll(
                 createCenteredBoldLabel("Registro habitual"),
                 vboxEmail,
+                vboxNickname,
                 vboxPass,
-                vboxConfirmPass,
                 createCenteredButton("Registrarse", btnNormalRegister)
         );
 
@@ -96,7 +95,7 @@ public class RegisterView extends VBox implements IReset {
 				alert.setTitle("Error Dialog");
 				
 				try {
-					controller.register(tfEmail.getText(), passField.getText());
+					controller.register(tfEmail.getText(), tfNickname.getText(), passField.getText());
 					ScreenController.getInstance().setScreen(ScreenController.State.PROFILE_CREATION);
 				} catch (RemoteException e) {
 					alert.setHeaderText("Error en el registro");
@@ -136,6 +135,6 @@ public class RegisterView extends VBox implements IReset {
 
         tfEmail.clear();
         passField.clear();
-        passFieldConfirm.clear();
+        tfNickname.clear();
     }
 }

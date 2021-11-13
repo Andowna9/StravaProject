@@ -8,7 +8,7 @@ import java.time.LocalTime;
 
 import com.moma.fans.controllers.TrainingSessionController;
 import com.moma.fans.controllers.UserController;
-import com.moma.fans.data.dto.TrainingSessionDTO;
+import com.moma.fans.data.dto.session.TrainingSessionDTO;
 import com.moma.fans.gui.ScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

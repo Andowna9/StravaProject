@@ -1,6 +1,7 @@
 package com.moma.fans.gui.views;
 
 import com.moma.fans.controllers.UserController;
+import com.moma.fans.data.dto.user.ProfileCreationDTO;
 import com.moma.fans.gui.IReset;
 import com.moma.fans.gui.ScreenController;
 import javafx.beans.value.ChangeListener;
@@ -12,6 +13,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
+import java.rmi.RemoteException;
+
 /**
  * Vista de creación de perfil de usuario.
  * @author AlexNitu
@@ -19,9 +22,8 @@ import javafx.scene.layout.VBox;
  */
 public class ProfileCreationView extends VBox implements IReset {
 
-    private UserController controller;
+    private UserController userController;
 
-    TextField tfName;
     DatePicker dpBirth;
 
     Spinner<Double> spinWeight;
@@ -30,23 +32,16 @@ public class ProfileCreationView extends VBox implements IReset {
     Slider sldMinHeartRate;
     Slider sldMaxHeartRate;
 
-    public ProfileCreationView(UserController controller) {
+    public ProfileCreationView(UserController userController) {
 
-        this.controller = controller;
+        this.userController = userController;
 
         GridPane gp = new GridPane();
         gp.setAlignment(Pos.CENTER);
         gp.setVgap(15);
 
-        // Campos obligatorios
-
-        Label lblName = new Label("Nombre de usuario:");
-        tfName = new TextField();
-
         Label lblBirthDate = new Label("Fecha de nacimiento:");
         dpBirth = new DatePicker();
-
-        // Campos opcionales
 
         Label lblWeight = new Label("Peso:");
         Label lblKg = new Label("kg");
@@ -72,13 +67,12 @@ public class ProfileCreationView extends VBox implements IReset {
         Button btnBack = new Button("Atrás");
         Button btnOK = new Button("Aceptar");
 
-        gp.add(lblName, 0, 0); gp.add(tfName, 1, 0);
-        gp.add(lblBirthDate, 0, 1); gp.add(dpBirth, 1, 1);
-        gp.add(lblWeight, 0, 2); gp.add(spinWeight, 1, 2); gp.add(lblKg, 2,2);
-        gp.add(lblHeight, 0, 3); gp.add(spinHeight, 1, 3); gp.add(lblCm, 2,3);
-        gp.add(lblMinHeartRate, 0, 4); gp.add(sldMinHeartRate, 1, 4); gp.add(lblHeartRateMin, 2, 4);
-        gp.add(lblMaxHeartRate, 0, 5); gp.add(sldMaxHeartRate, 1, 5); gp.add(lblHeartRateMax, 2, 5);
-        gp.add(btnBack, 0, 6); gp.add(btnOK, 2, 6);
+        gp.add(lblBirthDate, 0, 0); gp.add(dpBirth, 1, 0);
+        gp.add(lblWeight, 0, 1); gp.add(spinWeight, 1, 1); gp.add(lblKg, 2,1);
+        gp.add(lblHeight, 0, 2); gp.add(spinHeight, 1, 2); gp.add(lblCm, 2,2);
+        gp.add(lblMinHeartRate, 0, 3); gp.add(sldMinHeartRate, 1, 3); gp.add(lblHeartRateMin, 2, 3);
+        gp.add(lblMaxHeartRate, 0, 4); gp.add(sldMaxHeartRate, 1, 4); gp.add(lblHeartRateMax, 2, 4);
+        gp.add(btnBack, 0, 5); gp.add(btnOK, 2, 5);
 
         sldMaxHeartRate.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -102,9 +96,32 @@ public class ProfileCreationView extends VBox implements IReset {
             @Override
             public void handle(ActionEvent actionEvent) {
 
-                ScreenController.getInstance().setScreen(ScreenController.State.HOME);
-                ScreenController.getInstance().resetLayout(ScreenController.State.REGISTER);
-                resetLayout();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+
+                try {
+
+                    ProfileCreationDTO userDTO = new ProfileCreationDTO();
+                    userDTO.setBirthDate(dpBirth.getValue());
+                    userDTO.setHeight(spinHeight.getValue().floatValue());
+                    userDTO.setWeight(spinWeight.getValue().floatValue());
+                    userDTO.setMinHeartRate(sldMinHeartRate.valueProperty().getValue().shortValue());
+                    userDTO.setMaxHeartRate(sldMaxHeartRate.valueProperty().getValue().shortValue());
+
+                    userController.createProfile(userDTO);
+                    ScreenController.getInstance().setScreen(ScreenController.State.HOME);
+                    ScreenController.getInstance().resetLayout(ScreenController.State.REGISTER);
+                    resetLayout();
+
+                }
+
+                catch (RemoteException e) {
+
+                    alert.setHeaderText("Error en la creación del perfil de usuario");
+                    alert.setContentText(e.getCause().getMessage());
+                    alert.showAndWait();
+                }
+
             }
         });
         btnBack.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.REGISTER));
@@ -114,7 +131,6 @@ public class ProfileCreationView extends VBox implements IReset {
     @Override
     public void resetLayout() {
 
-        tfName.clear();
         dpBirth.setValue(null); // Elimina el texto y el valor anterior
         spinWeight.getValueFactory().setValue(45.0d);
         spinHeight.getValueFactory().setValue(160.0d);

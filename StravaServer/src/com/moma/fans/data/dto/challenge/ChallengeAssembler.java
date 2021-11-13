@@ -1,4 +1,4 @@
-package com.moma.fans.data.dto;
+package com.moma.fans.data.dto.challenge;
 
 import com.moma.fans.data.domain.Challenge;
 import com.moma.fans.data.domain.Sport;

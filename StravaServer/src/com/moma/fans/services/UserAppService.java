@@ -27,16 +27,18 @@ public class UserAppService {
 
     }
 
-    public boolean register(User user) {
+    public User registerUser(String email, String nickname, String password) {
+
+        User user = new User(nickname, email, password);
 
         // El usuario no existe, registro válido
         if (!users.containsValue(user)) {
 
             users.put(user.getEmail(), user);
-            return true;
+            return user;
         }
 
-        return false;
+        return null;
     }
 
 }

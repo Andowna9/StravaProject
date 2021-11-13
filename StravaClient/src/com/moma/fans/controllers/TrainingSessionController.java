@@ -1,9 +1,8 @@
 package com.moma.fans.controllers;
 
-import com.moma.fans.data.dto.TrainingSessionDTO;
+import com.moma.fans.data.dto.session.TrainingSessionDTO;
 import com.moma.fans.remote.ServiceLocator;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**

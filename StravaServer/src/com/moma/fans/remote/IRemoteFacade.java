@@ -1,15 +1,12 @@
 package com.moma.fans.remote;
 
-import com.moma.fans.data.dto.ChallengeCreationDTO;
-import com.moma.fans.data.dto.ChallengeDTO;
-import com.moma.fans.data.dto.TrainingSessionDTO;
-import com.moma.fans.data.dto.UserCreationDTO;
+import com.moma.fans.data.dto.challenge.ChallengeCreationDTO;
+import com.moma.fans.data.dto.challenge.ChallengeDTO;
+import com.moma.fans.data.dto.user.ProfileCreationDTO;
+import com.moma.fans.data.dto.session.TrainingSessionDTO;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.time.Duration;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -20,9 +17,18 @@ public interface IRemoteFacade extends Remote {
 
     /**
      * Crea una cuenta de usuario.
-     * @param userDTO contenedor con información de creación de usuario
+     * @param email correo electrónico
+     * @param nickname nombre de usuario
+     * @param password contraseña
      */
-    public long register(UserCreationDTO userDTO) throws RemoteException;
+    public long register(String email, String nickname, String password) throws RemoteException;
+
+    /**
+     * Recibe datos de una cuenta de usuario y los
+     * guarda en el servidor.
+     * @param userDTO contenedor con información del perfil del usuario
+     */
+    public void createProfile(long token, ProfileCreationDTO userDTO) throws RemoteException;
 
     /**
      * Crea una sesión antes de que el usuario pueda acceder

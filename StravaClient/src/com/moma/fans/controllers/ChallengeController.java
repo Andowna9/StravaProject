@@ -1,6 +1,6 @@
 package com.moma.fans.controllers;
 
-import com.moma.fans.data.dto.ChallengeCreationDTO;
+import com.moma.fans.data.dto.challenge.ChallengeCreationDTO;
 import com.moma.fans.remote.ServiceLocator;
 
 import java.rmi.RemoteException;

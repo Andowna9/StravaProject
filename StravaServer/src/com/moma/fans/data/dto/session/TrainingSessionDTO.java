@@ -1,4 +1,4 @@
-package com.moma.fans.data.dto;
+package com.moma.fans.data.dto.session;
 
 import java.io.Serializable;
 import java.time.Duration;

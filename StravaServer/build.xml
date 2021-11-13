@@ -22,7 +22,7 @@
     <target name="2.export" depends="1.build" description="Export the project into a .jar file">
         <delete dir="${dist.dir}"/>
         <mkdir dir="${dist.dir}"/>
-        <jar destfile="${dist.dir}/${export.file}" basedir="${build.dir}" includes="**/IRemoteFacade.class, **/dto/*DTO.class"/>
+        <jar destfile="${dist.dir}/${export.file}" basedir="${build.dir}" includes="**/IRemoteFacade.class, **/dto/**/*DTO.class"/>
     </target>
 
     <target name="3.server" depends="1.build" description="Runs the com.moma.fans.Server">

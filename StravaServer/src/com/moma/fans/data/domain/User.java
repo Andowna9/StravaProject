@@ -30,6 +30,12 @@ public class User {
     List<Challenge> createdChallenges = new ArrayList<>();
     List<Challenge> acceptedChallenges = new ArrayList<>();
 
+    public User(String email, String nickname, String password) {
+        this.email = email;
+        this.nickname = nickname;
+        this.password = this.encrypt(password);
+    }
+
     public User(String nickname, String email, String password, LocalDate birthDate, float weight, float height, short minHeartRate, short maxHeartRate) {
         this.nickname = nickname;
         this.email = email;

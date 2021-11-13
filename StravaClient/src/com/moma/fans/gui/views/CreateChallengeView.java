@@ -1,13 +1,12 @@
 package com.moma.fans.gui.views;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.time.Duration;
 import java.time.LocalDate;
 
 import com.moma.fans.controllers.ChallengeController;
 import com.moma.fans.controllers.UserController;
-import com.moma.fans.data.dto.ChallengeCreationDTO;
+import com.moma.fans.data.dto.challenge.ChallengeCreationDTO;
 import com.moma.fans.gui.ScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

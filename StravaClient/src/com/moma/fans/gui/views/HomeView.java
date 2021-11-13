@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 import com.moma.fans.controllers.UserController;
 
-import com.moma.fans.data.dto.TrainingSessionDTO;
+import com.moma.fans.data.dto.session.TrainingSessionDTO;
 import com.moma.fans.gui.ScreenController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
