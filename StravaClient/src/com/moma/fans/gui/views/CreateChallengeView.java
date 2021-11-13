@@ -1,20 +1,21 @@
 package com.moma.fans.gui.views;
 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.time.Duration;
 import java.time.LocalDate;
 
 import com.moma.fans.controllers.ChallengeController;
+import com.moma.fans.controllers.UserController;
+import com.moma.fans.data.dto.ChallengeCreationDTO;
 import com.moma.fans.gui.ScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -25,9 +26,24 @@ import javafx.scene.layout.VBox;
  */
 public class CreateChallengeView extends VBox {
 
-	public CreateChallengeView(ChallengeController challengeController) {
-		
-		
+    private UserController userController;
+    private ChallengeController challengeController;
+
+    TextField tfName;
+    ComboBox<String> cbxSports;
+    DatePicker dpStartDate;
+    DatePicker dpEndDate;
+
+    ToggleGroup group;
+    RadioButton rbDistance;
+    RadioButton rbTime;
+    TextField tfOptionNums;
+
+	public CreateChallengeView(UserController userController, ChallengeController challengeController) {
+
+		this.userController = userController;
+        this.challengeController = challengeController;
+
         // Vertical
         this.setSpacing(25);
 
@@ -36,21 +52,22 @@ public class CreateChallengeView extends VBox {
         Label lblTitle = new Label("Crear nuevo reto");
         lblTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
         
-        Label lblName = new Label("Nombre");       
+        Label lblName = new Label("Nombre");
         Label lblSport = new Label("Deporte");
         Label lblStartDate = new Label("Fecha inicio");
         Label lblEndDate = new Label("Fecha fin");
   	  
         //Creación de Textfields      
-        TextField tfName = new TextField();
-        tfName.setPromptText("Nombre del reto");
-        TextField tfOptionNums = new TextField();
+        tfName = new TextField();
+        tfName.setPromptText("Título del reto");
+        tfOptionNums = new TextField();
         tfOptionNums.setPromptText("kms/mins");
         
         // Creación ComboBox
         ObservableList<String> sports = FXCollections.observableArrayList();
         sports.addAll("Running", "Ciclismo");
-        ComboBox<String> cbxSports = new ComboBox<>(sports);
+        cbxSports = new ComboBox<>(sports);
+        cbxSports.getSelectionModel().selectFirst();
         cbxSports.setMinWidth(181);
          
         //Creación de Buttons 
@@ -63,21 +80,21 @@ public class CreateChallengeView extends VBox {
         btnCancel.setMinWidth(80);
         
         // Creación calendarios
-        DatePicker dpStartDate = new DatePicker();
-        DatePicker dpEndDate = new DatePicker();
+        dpStartDate = new DatePicker();
+        dpEndDate = new DatePicker();
         
         dpStartDate.setValue(LocalDate.now());
         dpEndDate.setValue(dpStartDate.getValue().plusDays(1));
         
         // Creacion radioButtons
-        final ToggleGroup group = new ToggleGroup();
+        group = new ToggleGroup();
         VBox radioVB = new VBox();
 
-        RadioButton rbDistance = new RadioButton("km (Distancia)");
+        rbDistance = new RadioButton("km (Distancia)");
         rbDistance.setToggleGroup(group);
         rbDistance.setSelected(true);
 
-        RadioButton rbTime = new RadioButton("min (Tiempo)");
+        rbTime = new RadioButton("min (Tiempo)");
         rbTime.setToggleGroup(group);
         
         radioVB.getChildren().addAll(rbDistance, rbTime);
@@ -93,7 +110,7 @@ public class CreateChallengeView extends VBox {
         gridPane.setAlignment(Pos.CENTER); 
          
         	//Añadir los nodos al grid
-        gridPane.add(lblName, 0, 0); 
+        gridPane.add(lblName, 0, 0);
         gridPane.add(tfName, 0, 1); 
         gridPane.add(lblSport, 1, 0);       
         gridPane.add(cbxSports, 1, 1); 
@@ -108,20 +125,77 @@ public class CreateChallengeView extends VBox {
         buttonsBox.setSpacing(50);
         buttonsBox.getChildren().addAll(btnCreate, btnCancel);
         
-        HBox raddioBox = new HBox();
-        raddioBox.setAlignment(Pos.CENTER);
-        raddioBox.setSpacing(50);
-        raddioBox.getChildren().addAll(tfOptionNums, radioVB);
+        HBox radioBox = new HBox();
+        radioBox.setAlignment(Pos.CENTER);
+        radioBox.setSpacing(50);
+        radioBox.getChildren().addAll(tfOptionNums, radioVB);
         
         //Añadir secciones al vertical (vista)
-        this.getChildren().addAll(lblTitle, gridPane, raddioBox, buttonsBox);
+        this.getChildren().addAll(lblTitle, gridPane, radioBox, buttonsBox);
         
         this.setAlignment(Pos.CENTER);
         
         // Eventos |----------------------------------|
-        btnCreate.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.HOME));
-        btnCancel.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.HOME));
+        btnCreate.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error Dialog");
+
+                        try {
+
+                                ChallengeCreationDTO challengeDTO = new ChallengeCreationDTO();
+
+                                challengeDTO.setTitle(tfName.getText());
+                                challengeDTO.setStartDate(dpStartDate.getValue());
+                                challengeDTO.setEndDate(dpEndDate.getValue());
+                                challengeDTO.setSport(cbxSports.getValue());
+
+                                if (group.getSelectedToggle() == rbDistance) {
+
+                                    challengeDTO.setDistanceToAchieve(Double.parseDouble(tfOptionNums.getText()));
+                                }
+
+                                else {
+
+                                    challengeDTO.setTimeToAchieve(Duration.ofMinutes(Long.parseLong(tfOptionNums.getText())));
+
+                                }
+
+
+                                challengeController.createChallenge(userController.getToken(), challengeDTO);
+                                ScreenController.getInstance().setScreen(ScreenController.State.HOME);
+                                resetLayout();
+                        }
+
+                        catch (RemoteException e) {
+
+                                alert.setHeaderText("Error al crear reto");
+                                alert.setContentText(e.getCause().getMessage());
+                                alert.showAndWait();
+                        }
+
+
+                }
+        });
+        btnCancel.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+
+                        ScreenController.getInstance().setScreen(ScreenController.State.HOME);
+                        resetLayout();
+                }
+        });
         
 	}
+
+    private void resetLayout() {
+
+            tfName.clear();
+            dpStartDate.setValue(null);
+            dpEndDate.setValue(null);
+
+    }
 	
 }

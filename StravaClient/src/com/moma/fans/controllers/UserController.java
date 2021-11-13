@@ -51,4 +51,9 @@ public class UserController {
 		
 		this.serviceLocator.getService().register(uDTO);
 	}
+
+	public long getToken() {
+
+		return token;
+	}
 }

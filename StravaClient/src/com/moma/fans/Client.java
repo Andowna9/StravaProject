@@ -34,12 +34,12 @@ public class Client extends Application {
         ScreenController.getInstance().addScreen(ScreenController.State.LOG_IN, new LoginView(userController));
         ScreenController.getInstance().addScreen(ScreenController.State.REGISTER, new RegisterView(userController));
         ScreenController.getInstance().addScreen(ScreenController.State.PROFILE_CREATION, new ProfileCreationView(userController));
-        ScreenController.getInstance().addScreen(ScreenController.State.CHALLENGE_CREATION, new CreateChallengeView(challengeController));
-        ScreenController.getInstance().addScreen(ScreenController.State.TRAINING_SESSION_CREATION, new CreateTrainingSessionView(trainingSessionController));
+        ScreenController.getInstance().addScreen(ScreenController.State.CHALLENGE_CREATION, new CreateChallengeView(userController, challengeController));
+        ScreenController.getInstance().addScreen(ScreenController.State.TRAINING_SESSION_CREATION, new CreateTrainingSessionView(userController, trainingSessionController));
         ScreenController.getInstance().addScreen(ScreenController.State.HOME, new HomeView(userController));
 
         ScreenController.getInstance().setStage(stage, 600, 400);
-        ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN);
+        ScreenController.getInstance().setScreen(ScreenController.State.HOME);
 
         stage.setResizable(false);
         stage.show();

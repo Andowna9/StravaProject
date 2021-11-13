@@ -1,6 +1,9 @@
 package com.moma.fans.controllers;
 
+import com.moma.fans.data.dto.ChallengeCreationDTO;
 import com.moma.fans.remote.ServiceLocator;
+
+import java.rmi.RemoteException;
 
 /**
  * Controlador de operaciones con retos
@@ -14,5 +17,12 @@ public class ChallengeController {
     public ChallengeController(ServiceLocator serviceLocator) {
 
         this.serviceLocator = serviceLocator;
+    }
+
+    public void createChallenge(long token, ChallengeCreationDTO challengeDTO) throws RemoteException {
+
+
+            serviceLocator.getService().createChallenge(token, challengeDTO);
+
     }
 }

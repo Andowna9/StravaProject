@@ -1,9 +1,12 @@
 package com.moma.fans.gui.views;
 
 import java.rmi.RemoteException;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 import com.moma.fans.controllers.UserController;
 
+import com.moma.fans.data.dto.TrainingSessionDTO;
 import com.moma.fans.gui.ScreenController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -67,7 +70,15 @@ public class HomeView extends VBox {
         challengesBox.setSpacing(12);
         
         // Panel de sesiones
-        TableView<String> tblSessions = new TableView<>();
+        TableView<TrainingSessionDTO> tblSessions = new TableView<>();
+
+        TableColumn<TrainingSessionDTO, String> colTitle = new TableColumn<>("Título");
+        TableColumn<TrainingSessionDTO, String> colSport = new TableColumn<>("Deporte");
+        TableColumn<TrainingSessionDTO, Float> colDistance = new TableColumn<>("Distancia");
+        TableColumn<TrainingSessionDTO, LocalDateTime> colDateTime = new TableColumn<>("Fecha/hora");
+        TableColumn<TrainingSessionDTO, Duration> colDuration = new TableColumn<>("Tiempo total");
+
+        tblSessions.getColumns().addAll(colTitle, colSport, colDistance, colDateTime, colDuration);
 
         TabPane tabPane = new TabPane();
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);

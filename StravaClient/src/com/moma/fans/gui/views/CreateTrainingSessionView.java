@@ -1,18 +1,22 @@
 package com.moma.fans.gui.views;
 
+import java.rmi.RemoteException;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import com.moma.fans.controllers.TrainingSessionController;
+import com.moma.fans.controllers.UserController;
+import com.moma.fans.data.dto.TrainingSessionDTO;
 import com.moma.fans.gui.ScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -20,13 +24,23 @@ import javafx.scene.layout.VBox;
 /**
  * Vista que permite crear una sesion de entrenamiento
  * @author Julen396
+ * @author JonanC
  */
 public class CreateTrainingSessionView extends VBox {
 
-    private TrainingSessionController controller;
-	public CreateTrainingSessionView(TrainingSessionController controller) {
+    private UserController userController;
+    private TrainingSessionController trainingSessionController;
 
-        this.controller = controller;
+    private TextField tfName;
+    private TextField tfStartime;
+    private TextField tfDuration;
+    private TextField tfDistance;
+    private ComboBox<String> cbxSports;
+    DatePicker dpStartDate;
+
+	public CreateTrainingSessionView(UserController userController, TrainingSessionController trainingSessionController) {
+        this.userController = userController;
+        this.trainingSessionController = trainingSessionController;
 
         // Vertical
         this.setSpacing(25);
@@ -35,7 +49,7 @@ public class CreateTrainingSessionView extends VBox {
         Label lblTitle = new Label("Crear nueva sesión de entrenamiento");
         lblTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
         
-        Label lblName = new Label("Titulo");       
+        Label lblName = new Label("Nombre");
         Label lblSport = new Label("Deporte");
         Label lblStartDate = new Label("Fecha inicio");
         Label lblStartime = new Label("Hora de inicio");
@@ -43,19 +57,20 @@ public class CreateTrainingSessionView extends VBox {
         Label lblDistance = new Label("Distancia (Kilometros)");        
   	  
         //Creación de Textfields      
-        TextField tfName = new TextField();
+        tfName = new TextField();
         tfName.setPromptText("Titulo de la sesion");
-        TextField tfStartime = new TextField();
+        tfStartime = new TextField();
         tfStartime.setPromptText("hh:mm");
-        TextField tfDuration = new TextField();
+        tfDuration = new TextField();
         tfDuration.setPromptText("min");
-        TextField tfDistance = new TextField();
+        tfDistance = new TextField();
         tfDistance.setPromptText("km");        
         
         // Creación ComboBox
         ObservableList<String> sports = FXCollections.observableArrayList();
         sports.addAll("Running", "Ciclismo");
-        ComboBox<String> cbxSports = new ComboBox<>(sports);
+        cbxSports = new ComboBox<>(sports);
+        cbxSports.getSelectionModel().selectFirst();
         cbxSports.setMinWidth(181);
          
         //Creación de Buttons 
@@ -68,7 +83,7 @@ public class CreateTrainingSessionView extends VBox {
         btnCancel.setMinWidth(80);
         
         // Creación calendarios
-        DatePicker dpStartDate = new DatePicker();
+        dpStartDate = new DatePicker();
         
         dpStartDate.setValue(LocalDate.now());
         
@@ -108,9 +123,56 @@ public class CreateTrainingSessionView extends VBox {
         this.setAlignment(Pos.CENTER);
         
         // Eventos |----------------------------------|
-        btnCreate.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.HOME));
-        btnCancel.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.HOME));
+        btnCreate.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+
+                try {
+
+                    TrainingSessionDTO trainingSessionDTO = new TrainingSessionDTO();
+                    trainingSessionDTO.setTitle(tfName.getText());
+                    trainingSessionDTO.setSport(cbxSports.getValue());
+                    trainingSessionDTO.setDate(LocalDateTime.of(dpStartDate.getValue(), LocalTime.parse(tfStartime.getText())));
+                    trainingSessionDTO.setDuration(Duration.ofMinutes(Long.parseLong(tfDuration.getText())));
+                    trainingSessionDTO.setDistance(Double.parseDouble(tfDistance.getText()));
+                    trainingSessionController.createTrainingSession(userController.getToken(), trainingSessionDTO);
+                    ScreenController.getInstance().setScreen(ScreenController.State.HOME);
+                    resetLayout();
+
+                }
+
+                catch (RemoteException e) {
+
+                    alert.setHeaderText("Error al crear sesión de entrenamiento");
+                    alert.setContentText(e.getCause().getMessage());
+                    alert.showAndWait();
+                }
+
+
+            }
+        });
+        btnCancel.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                ScreenController.getInstance().setScreen(ScreenController.State.HOME);
+                resetLayout();
+            }
+        });
         
 	}
+
+    private void resetLayout() {
+
+        tfName.clear();
+        tfStartime.clear();
+        tfDuration.clear();
+        tfDistance.clear();
+        dpStartDate.setValue(null);
+
+    }
 	
 }
