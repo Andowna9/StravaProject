@@ -10,11 +10,13 @@ import com.moma.fans.data.dto.session.TrainingSessionDTO;
 import com.moma.fans.data.dto.user.ProfileCreationDTO;
 import com.moma.fans.data.dto.user.UserAssembler;
 import com.moma.fans.services.ChallengeAppService;
+import com.moma.fans.services.TrainingSessionAppService;
 import com.moma.fans.services.UserAppService;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Esta clase es una Fachada Remota que implementa la funcionalidad del servidor
@@ -23,12 +25,14 @@ import java.util.*;
  */
 public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
 
+    private Logger logger = Logger.getLogger(RemoteFacade.class.getName());
+
     // Estado del servidor
     Map<Long, User> serverState = new HashMap<>();
 
     // Servicios
     UserAppService userService = new UserAppService();
-    // TrainingSessionAppService trainingSessionService = new TrainingSessionAppService();
+    TrainingSessionAppService trainingSessionService = new TrainingSessionAppService();
     ChallengeAppService challengeService = new ChallengeAppService();
 
     // DTO Assemblers
@@ -41,7 +45,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     }
 
     @Override
-    public long register(String email, String nickname, String password) throws RemoteException {
+    public synchronized long register(String email, String nickname, String password) throws RemoteException {
 
 
         User user = userService.registerUser(email, nickname, password);
@@ -50,7 +54,12 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
 
             long token = Calendar.getInstance().getTimeInMillis();
             serverState.put(token, user);
-            return Calendar.getInstance().getTimeInMillis();
+
+            logger.info("[Nuevo usuario registrado]" +
+                    "\n" + user +
+                    "\n" + "Token: " + token);
+
+            return token;
 
         }
 
@@ -76,7 +85,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     }
 
     @Override
-    public long login(String email, String password) throws RemoteException {
+    public synchronized long login(String email, String password) throws RemoteException {
 
         User user = userService.login(email, password);
 
@@ -86,6 +95,10 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
 
                 long token = Calendar.getInstance().getTimeInMillis();
                 serverState.put(token, user);
+
+                logger.info("[Inicio de sesión]" +
+                        "\n" + user +
+                        "\n" + "Token: " + token);
 
                 return token;
 
@@ -104,11 +117,15 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     }
 
     @Override
-    public void logout(long token) throws RemoteException {
+    public synchronized void logout(long token) throws RemoteException {
 
         if (serverState.containsKey(token)) {
 
-            serverState.remove(token);
+            User user = serverState.remove(token);
+
+            logger.info("[Fin de sesión]" +
+                    "\n" + user);
+
         }
 
         else {
@@ -125,8 +142,8 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
 
         if (serverState.containsKey(token)) {
 
-            User user = serverState.get(token); // TODO Mejorar con servicio
-            user.addTrainingSession(trainingSessionAssembler.toTrainingSession(trainingSessionDTO));
+            User user = serverState.get(token);
+           trainingSessionService.createTrainingSession(user, trainingSessionAssembler.toTrainingSession(trainingSessionDTO));
 
             return true;
 
@@ -179,8 +196,8 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
 
         if (serverState.containsKey(token)) {
 
-            User user = serverState.get(token); // TODO Mejorar con servicio
-            return trainingSessionAssembler.toDTO(user.getTrainingSessions());
+            User user = serverState.get(token);
+            return trainingSessionAssembler.toDTO(trainingSessionService.getTrainingSessions(user));
         }
 
         else {

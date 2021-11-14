@@ -29,6 +29,7 @@
         <java classname="com.moma.fans.Server" classpath="${classpath}" fork="true">
             <jvmarg value="-Djava.rmi.server.codebase=file:${build.dir}/"/>
             <jvmarg value="-Djava.security.policy=${policy.file}"/>
+            <jvmarg value="-Dfile.encoding=UTF-8"/>
             <arg value="${rmiregistry.IP}"/>
             <arg value="${rmiregistry.port}"/>
             <arg value="${server.name}"/>

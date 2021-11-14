@@ -39,7 +39,8 @@ public class ScreenController {
     }
 
     private Stage stage;
-    private HashMap<State, Parent> screenMap = new HashMap<>();
+
+    private HashMap<State, Screen> screenMap = new HashMap<>();
 
     private final static ScreenController instance = new ScreenController();
 
@@ -60,9 +61,9 @@ public class ScreenController {
     /**
      * Añade y registra una pantalla, asociándola a un nombre.
      * @param state estado en la navegación de pantallas
-     * @param screen contenedor padre
+     * @param screen objeto que implementa la interfaz screen
      */
-    public void addScreen(State state, Parent screen) {
+    public void addScreen(State state, Screen screen) {
 
         screenMap.put(state, screen);
     }
@@ -73,22 +74,11 @@ public class ScreenController {
      */
     public void setScreen(State state) {
 
+        Screen screen = screenMap.get(state);
         stage.setTitle(state.toString());
-        stage.getScene().setRoot(screenMap.get(state));
+        screen.initialize();
+        stage.getScene().setRoot(screen.getView());
 
-    }
-
-    /**
-     * Reinicia el estado proporcionado.
-     * @param state estado que representa una pantalla
-     */
-    public void resetLayout(State state) {
-
-        Parent screen = screenMap.get(state);
-
-        if (screen instanceof IReset) {
-            ((IReset) screen).resetLayout();
-        }
     }
 
     /**

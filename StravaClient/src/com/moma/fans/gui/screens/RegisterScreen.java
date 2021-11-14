@@ -1,15 +1,16 @@
-package com.moma.fans.gui.views;
+package com.moma.fans.gui.screens;
 
 import java.rmi.RemoteException;
 
 import com.moma.fans.controllers.UserController;
 
-import com.moma.fans.gui.IReset;
+import com.moma.fans.gui.Screen;
 import com.moma.fans.gui.ScreenController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Border;
@@ -19,7 +20,7 @@ import javafx.scene.layout.VBox;
  * Vista para registrar una nueva cuenta.
  * @author JonanC
  */
-public class RegisterView extends VBox implements IReset {
+public class RegisterScreen implements Screen {
 
     private UserController controller;
 
@@ -27,9 +28,19 @@ public class RegisterView extends VBox implements IReset {
     TextField tfNickname;
     PasswordField passField;
 
-    public RegisterView(UserController controller) {
+    Parent view;
+
+    public RegisterScreen(UserController controller) {
 
         this.controller = controller;
+
+        view = createView();
+        
+    }
+
+    private Parent createView() {
+
+        VBox root = new VBox();
 
         VBox eRegVbox = new VBox();
         eRegVbox.setSpacing(15.0d);
@@ -56,11 +67,11 @@ public class RegisterView extends VBox implements IReset {
         Button btnNormalRegister;
         Button btnGoogleRegister;
         Button btnFacebookRegister;
-        
+
         btnNormalRegister = new Button();
         btnGoogleRegister = new Button();
         btnFacebookRegister = new Button();
-        
+
         eRegVbox.getChildren().addAll(
                 createCenteredBoldLabel("Registro habitual"),
                 vboxEmail,
@@ -75,9 +86,9 @@ public class RegisterView extends VBox implements IReset {
 
         hlLogin.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN));
 
-        this.setPadding(new Insets(20, 80, 20, 80));
-        this.setSpacing(5.0d);
-        this.getChildren().addAll(
+        root.setPadding(new Insets(20, 80, 20, 80));
+        root.setSpacing(5.0d);
+        root.getChildren().addAll(
                 eRegVbox,
                 createCenteredBoldLabel("O"),
                 createCenteredButton("Registrarse con Google", btnGoogleRegister),
@@ -88,24 +99,27 @@ public class RegisterView extends VBox implements IReset {
 
         // Events
         btnNormalRegister.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent arg0) {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Error Dialog");
-				
-				try {
-					controller.register(tfEmail.getText(), tfNickname.getText(), passField.getText());
-					ScreenController.getInstance().setScreen(ScreenController.State.PROFILE_CREATION);
-				} catch (RemoteException e) {
-					alert.setHeaderText("Error en el registro");
-					alert.setContentText(e.getCause().getMessage());
-					alert.showAndWait();
-				}
-				
-			}
-		});
-        
+
+            @Override
+            public void handle(ActionEvent arg0) {
+
+                try {
+                    controller.register(tfEmail.getText(), tfNickname.getText(), passField.getText());
+                    ScreenController.getInstance().setScreen(ScreenController.State.PROFILE_CREATION);
+                } catch (RemoteException e) {
+
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Error Dialog");
+                    alert.setHeaderText("Error en el registro");
+                    alert.setContentText(e.getCause().getMessage());
+                    alert.showAndWait();
+                }
+
+            }
+        });
+
+        return root;
+
     }
 
     private HBox createCenteredBoldLabel(String text) {
@@ -130,11 +144,18 @@ public class RegisterView extends VBox implements IReset {
         return hBox;
     }
 
+
     @Override
-    public void resetLayout() {
+    public void initialize() {
 
         tfEmail.clear();
         passField.clear();
         tfNickname.clear();
+    }
+
+    @Override
+    public Parent getView() {
+
+        return view;
     }
 }

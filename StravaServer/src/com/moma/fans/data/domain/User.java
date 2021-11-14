@@ -14,12 +14,12 @@ import java.util.Objects;
  */
 public class User {
 
-    private String nickname;
     private String email;
+    private String nickname;
     private String password;
     private LocalDate birthDate;
-    private float weight;
     private float height;
+    private float weight;
     private short minHeartRate;
     private short maxHeartRate;
 
@@ -34,17 +34,6 @@ public class User {
         this.email = email;
         this.nickname = nickname;
         this.password = this.encrypt(password);
-    }
-
-    public User(String nickname, String email, String password, LocalDate birthDate, float weight, float height, short minHeartRate, short maxHeartRate) {
-        this.nickname = nickname;
-        this.email = email;
-        this.password = this.encrypt(password);
-        this.birthDate = birthDate;
-        this.weight = weight;
-        this.height = height;
-        this.minHeartRate = minHeartRate;
-        this.maxHeartRate = maxHeartRate;
     }
 
     // Métodos principales
@@ -197,6 +186,16 @@ public class User {
 
         return Objects.hashCode(email);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
 
 
 }

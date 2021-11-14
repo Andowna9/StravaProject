@@ -1,14 +1,15 @@
-package com.moma.fans.gui.views;
+package com.moma.fans.gui.screens;
 
 import com.moma.fans.controllers.UserController;
 import com.moma.fans.data.dto.user.ProfileCreationDTO;
-import com.moma.fans.gui.IReset;
+import com.moma.fans.gui.Screen;
 import com.moma.fans.gui.ScreenController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -20,7 +21,7 @@ import java.rmi.RemoteException;
  * @author AlexNitu
  * @author JonanC
  */
-public class ProfileCreationView extends VBox implements IReset {
+public class ProfileCreationScreen implements Screen {
 
     private UserController userController;
 
@@ -32,9 +33,18 @@ public class ProfileCreationView extends VBox implements IReset {
     Slider sldMinHeartRate;
     Slider sldMaxHeartRate;
 
-    public ProfileCreationView(UserController userController) {
+    Parent view;
+
+    public ProfileCreationScreen(UserController userController) {
 
         this.userController = userController;
+
+        view = createView();
+    }
+
+    private Parent createView() {
+
+        VBox root = new VBox();
 
         GridPane gp = new GridPane();
         gp.setAlignment(Pos.CENTER);
@@ -88,16 +98,13 @@ public class ProfileCreationView extends VBox implements IReset {
             }
         });
 
-        this.setAlignment(Pos.CENTER);
-        this.getChildren().add(gp);
-        
+        root.setAlignment(Pos.CENTER);
+        root.getChildren().add(gp);
+
         // Events
         btnOK.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Dialog");
 
                 try {
 
@@ -110,13 +117,13 @@ public class ProfileCreationView extends VBox implements IReset {
 
                     userController.createProfile(userDTO);
                     ScreenController.getInstance().setScreen(ScreenController.State.HOME);
-                    ScreenController.getInstance().resetLayout(ScreenController.State.REGISTER);
-                    resetLayout();
 
                 }
 
                 catch (RemoteException e) {
 
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Dialog");
                     alert.setHeaderText("Error en la creación del perfil de usuario");
                     alert.setContentText(e.getCause().getMessage());
                     alert.showAndWait();
@@ -126,16 +133,21 @@ public class ProfileCreationView extends VBox implements IReset {
         });
         btnBack.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.REGISTER));
 
+        return root;
     }
 
     @Override
-    public void resetLayout() {
+    public void initialize() {
 
         dpBirth.setValue(null); // Elimina el texto y el valor anterior
         spinWeight.getValueFactory().setValue(45.0d);
         spinHeight.getValueFactory().setValue(160.0d);
         sldMinHeartRate.setValue(80);
         sldMaxHeartRate.setValue(80);
+    }
 
+    @Override
+    public Parent getView() {
+        return view;
     }
 }

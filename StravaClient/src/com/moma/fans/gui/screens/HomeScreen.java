@@ -1,17 +1,22 @@
-package com.moma.fans.gui.views;
+package com.moma.fans.gui.screens;
 
 import java.rmi.RemoteException;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import com.moma.fans.controllers.ChallengeController;
+import com.moma.fans.controllers.TrainingSessionController;
 import com.moma.fans.controllers.UserController;
 
 import com.moma.fans.data.dto.session.TrainingSessionDTO;
+import com.moma.fans.gui.Screen;
 import com.moma.fans.gui.ScreenController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Border;
@@ -26,14 +31,31 @@ import javafx.scene.text.TextFlow;
  * @author JonanC
  * @author UnaiCL
  */
-public class HomeView extends VBox {
+public class HomeScreen implements Screen {
 
-	private UserController controller;
+	private UserController userController;
+    private TrainingSessionController trainingSessionController;
+    private ChallengeController challengeController;
+
+    TableView<TrainingSessionDTO> tblSessions;
+
+    Parent view;
 	
-    public HomeView(UserController controller) {
-    	this.controller = controller;
+    public HomeScreen(UserController userController, TrainingSessionController trainingSessionController, ChallengeController challengeController) {
+
+        this.userController = userController;
+        this.trainingSessionController = trainingSessionController;
+        this.challengeController = challengeController;
     	
-    	// Cerrar sesión (Parte superior)
+    	view = createView();
+
+    }
+
+    private Parent createView() {
+
+        VBox root = new VBox();
+
+        // Cerrar sesión (Parte superior)
         HBox topControls = new HBox();
         topControls.setAlignment(Pos.CENTER_RIGHT);
         Hyperlink hlLogout = new Hyperlink("Cerrar sesión");
@@ -54,23 +76,23 @@ public class HomeView extends VBox {
          * |--------------------------------------------|
          *  Creación del splitpane
          */
-        
+
         SplitPane splitPane = new SplitPane();
 
         // Creación y configuración de las cajas
         VBox sessionsBox = new VBox();
         VBox challengesBox = new VBox();
-           
+
         sessionsBox.setAlignment(Pos.CENTER);
         sessionsBox.setPadding(new Insets(0, 0, 12, 0));
         sessionsBox.setSpacing(12);
-        
+
         challengesBox.setAlignment(Pos.CENTER);
         challengesBox.setPadding(new Insets(0, 0, 12, 0));
         challengesBox.setSpacing(12);
-        
+
         // Panel de sesiones
-        TableView<TrainingSessionDTO> tblSessions = new TableView<>();
+        tblSessions = new TableView<>();
 
         TableColumn<TrainingSessionDTO, String> colTitle = new TableColumn<>("Título");
         TableColumn<TrainingSessionDTO, String> colSport = new TableColumn<>("Deporte");
@@ -100,22 +122,22 @@ public class HomeView extends VBox {
         // Botones
         Button btnCreateSession = new Button("Crear sesión de entrenamiento");
         Button btnCreateChallenge = new Button("Crear reto");
-        
+
         // Añadir elementos a las VBox
         sessionsBox.getChildren().addAll(tblSessions, btnCreateSession);
         challengesBox.getChildren().addAll(tabPane, btnCreateChallenge);
-        
+
         /*
          * |--------------------------------------------|
          *  FIN Creación del splitpane
          */
-        
+
         // Añadir las VBox a los paneles
         splitPane.getItems().addAll(sessionsBox, challengesBox);
-        
-        
-        this.getChildren().addAll(topControls, tFlow, splitPane);
-        
+
+
+        root.getChildren().addAll(topControls, tFlow, splitPane);
+
         // Eventos |----------------------------------|
         btnCreateSession.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.TRAINING_SESSION_CREATION));
         btnCreateChallenge.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.CHALLENGE_CREATION));
@@ -123,15 +145,14 @@ public class HomeView extends VBox {
             @Override
             public void handle(ActionEvent actionEvent) {
 
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Error Dialog");
-
                 ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN);
 
-               try {
-                    controller.logout();
+                try {
+                    userController.logout();
                     ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN);
                 } catch (RemoteException e) {
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Error Dialog");
                     alert.setHeaderText("Error al iniciar sesión");
                     alert.setContentText(e.getCause().getMessage());
                     alert.showAndWait();
@@ -139,6 +160,32 @@ public class HomeView extends VBox {
             }
         });
 
+        return root;
     }
 
+    private void updateSessions() {
+
+        tblSessions.getItems().clear();
+        List<TrainingSessionDTO> trainingSessions = trainingSessionController.getTrainingSessions(userController.getToken());
+        tblSessions.getItems().addAll(trainingSessions);
+
+    }
+
+    private void updateChallenges() {
+
+        // TODO
+
+    }
+
+    @Override
+    public void initialize() {
+
+        updateSessions();
+        updateChallenges();
+    }
+
+    @Override
+    public Parent getView() {
+        return view;
+    }
 }

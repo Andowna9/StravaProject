@@ -3,7 +3,7 @@ package com.moma.fans;
 import com.moma.fans.controllers.UserController;
 import com.moma.fans.controllers.ChallengeController;
 import com.moma.fans.controllers.TrainingSessionController;
-import com.moma.fans.gui.views.*;
+import com.moma.fans.gui.screens.*;
 import com.moma.fans.remote.ServiceLocator;
 import com.moma.fans.gui.*;
 import javafx.application.Application;
@@ -31,12 +31,12 @@ public class Client extends Application {
 
 
         // Añadimos todas las pantallas con sus nombres
-        ScreenController.getInstance().addScreen(ScreenController.State.LOG_IN, new LoginView(userController));
-        ScreenController.getInstance().addScreen(ScreenController.State.REGISTER, new RegisterView(userController));
-        ScreenController.getInstance().addScreen(ScreenController.State.PROFILE_CREATION, new ProfileCreationView(userController));
-        ScreenController.getInstance().addScreen(ScreenController.State.CHALLENGE_CREATION, new CreateChallengeView(userController, challengeController));
-        ScreenController.getInstance().addScreen(ScreenController.State.TRAINING_SESSION_CREATION, new CreateTrainingSessionView(userController, trainingSessionController));
-        ScreenController.getInstance().addScreen(ScreenController.State.HOME, new HomeView(userController));
+        ScreenController.getInstance().addScreen(ScreenController.State.LOG_IN, new LoginScreen(userController));
+        ScreenController.getInstance().addScreen(ScreenController.State.REGISTER, new RegisterScreen(userController));
+        ScreenController.getInstance().addScreen(ScreenController.State.PROFILE_CREATION, new ProfileCreationScreen(userController));
+        ScreenController.getInstance().addScreen(ScreenController.State.CHALLENGE_CREATION, new CreateChallengeScreen(userController, challengeController));
+        ScreenController.getInstance().addScreen(ScreenController.State.TRAINING_SESSION_CREATION, new CreateTrainingSessionScreen(userController, trainingSessionController));
+        ScreenController.getInstance().addScreen(ScreenController.State.HOME, new HomeScreen(userController, trainingSessionController, challengeController));
 
         ScreenController.getInstance().setStage(stage, 600, 400);
         ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN);
