@@ -4,6 +4,7 @@ import com.moma.fans.data.dto.challenge.ChallengeCreationDTO;
 import com.moma.fans.data.dto.challenge.ChallengeDTO;
 import com.moma.fans.data.dto.user.ProfileCreationDTO;
 import com.moma.fans.data.dto.session.TrainingSessionDTO;
+import com.moma.fans.data.dto.user.UserDTO;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -48,6 +49,13 @@ public interface IRemoteFacade extends Remote {
     public void logout(long token) throws RemoteException;
 
     /**
+     * Devuelve toda la información del perfil de usuario.
+     * @param token identificación del usuario
+     * @return contenedor con información de usuario
+     */
+    public UserDTO getUserData(long token) throws RemoteException;
+
+    /**
      * Registra la sesión de entrenamiento de un usuario dado.
      * @param token identificación del usuario
      * @param trainingSessionDTO conteneder de información de sesión de entrenamiento
@@ -76,6 +84,13 @@ public interface IRemoteFacade extends Remote {
      * @return lista de sesiones de entrenamiento en formato DTO
      */
     public List<TrainingSessionDTO> getTrainingSessions(long token) throws RemoteException;
+
+    /**
+     *
+     * @param token identificación del usuario
+     * @return lista de retos creados
+     */
+    public List<ChallengeDTO> getCreatedChallenges(long token) throws RemoteException;
 
     /**
      * @param token identificación del usuario

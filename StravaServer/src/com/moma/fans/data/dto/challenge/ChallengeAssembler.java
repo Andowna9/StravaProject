@@ -46,6 +46,6 @@ public class ChallengeAssembler {
 
         return new Challenge(challengeDTO.getTitle(), challengeDTO.getStartDate(),
                 challengeDTO.getEndDate(),challengeDTO.getDistanceToAchieve(), challengeDTO.getTimeToAchieve(),
-                Sport.valueOf(challengeDTO.getSport()));
+                Sport.valueOfSport(challengeDTO.getSport()));
     }
 }

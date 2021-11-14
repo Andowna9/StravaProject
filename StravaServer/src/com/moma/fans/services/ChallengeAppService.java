@@ -46,6 +46,11 @@ public class ChallengeAppService {
         return availableChallenges;
     }
 
+    public List<Challenge> getCreatedChallenges(User user) {
+
+        return user.getCreatedChallenges();
+    }
+
 
     public void createChallenge(User creator, Challenge challenge) {
 

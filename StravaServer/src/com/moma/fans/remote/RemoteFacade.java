@@ -9,6 +9,7 @@ import com.moma.fans.data.dto.session.TrainingSessionAssembler;
 import com.moma.fans.data.dto.session.TrainingSessionDTO;
 import com.moma.fans.data.dto.user.ProfileCreationDTO;
 import com.moma.fans.data.dto.user.UserAssembler;
+import com.moma.fans.data.dto.user.UserDTO;
 import com.moma.fans.services.ChallengeAppService;
 import com.moma.fans.services.TrainingSessionAppService;
 import com.moma.fans.services.UserAppService;
@@ -138,6 +139,13 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     }
 
     @Override
+    public UserDTO getUserData(long token) {
+
+       User user = serverState.get(token);
+       return userAssembler.toDTO(user);
+    }
+
+    @Override
     public boolean createTrainingSession(long token, TrainingSessionDTO trainingSessionDTO) throws RemoteException {
 
         if (serverState.containsKey(token)) {
@@ -205,6 +213,13 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
             throw new RemoteException("Hay que iniciar sesión para consultar las sesiones de entrenamiento");
         }
 
+    }
+
+    @Override
+    public List<ChallengeDTO> getCreatedChallenges(long token) throws RemoteException {
+
+        User user = serverState.get(token);
+        return challengeAssembler.toDTO(challengeService.getCreatedChallenges(user));
     }
 
     @Override

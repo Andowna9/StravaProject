@@ -44,7 +44,7 @@ public class TrainingSessionAssembler {
     
     public TrainingSession toTrainingSession(TrainingSessionDTO trainingSession) {
 
-        return new TrainingSession(trainingSession.getTitle(),Sport.valueOf(trainingSession.getSport()) ,trainingSession.getDistance() , trainingSession.getDateTime(), trainingSession.getDuration());
+        return new TrainingSession(trainingSession.getTitle(),Sport.valueOfSport(trainingSession.getSport()) ,trainingSession.getDistance() , trainingSession.getDateTime(), trainingSession.getDuration());
 
     }
 }

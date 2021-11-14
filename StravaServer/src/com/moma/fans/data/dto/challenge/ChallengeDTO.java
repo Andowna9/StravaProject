@@ -88,4 +88,23 @@ public class ChallengeDTO implements Serializable {
     public void setProgress(double progress) {
         this.progress = progress;
     }
+
+    @Override
+    public String toString() {
+
+        String res = title + " " + sport + " "
+                    + " " + startDate +  "-" + endDate + " ";
+
+        if (distanceToAchieve > 0) {
+
+            res += distanceToAchieve;
+        }
+
+        else {
+
+            res += timeToAchieve;
+        }
+
+        return res;
+    }
 }

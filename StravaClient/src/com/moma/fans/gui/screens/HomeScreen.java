@@ -9,16 +9,21 @@ import com.moma.fans.controllers.ChallengeController;
 import com.moma.fans.controllers.TrainingSessionController;
 import com.moma.fans.controllers.UserController;
 
+import com.moma.fans.data.dto.challenge.ChallengeDTO;
 import com.moma.fans.data.dto.session.TrainingSessionDTO;
 import com.moma.fans.gui.Screen;
 import com.moma.fans.gui.ScreenController;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -38,6 +43,10 @@ public class HomeScreen implements Screen {
     private ChallengeController challengeController;
 
     TableView<TrainingSessionDTO> tblSessions;
+    Text tUser;
+
+    ListView<ChallengeDTO> createdChallenges;
+    ListView<ChallengeDTO> availableChallenges;
 
     Parent view;
 	
@@ -66,9 +75,9 @@ public class HomeScreen implements Screen {
         // Texto superior, dedicado a cada usuario
         TextFlow tFlow = new TextFlow();
         Text t1 = new Text("Panel de ");
-        Text t2 = new Text("@Usuario");
-        t2.setStyle("-fx-font-weight: bold");
-        tFlow.getChildren().addAll(t1, t2);
+        tUser = new Text();
+        tUser.setStyle("-fx-font-weight: bold");
+        tFlow.getChildren().addAll(t1, tUser);
         tFlow.setTextAlignment(TextAlignment.CENTER);
         tFlow.setPadding(new Insets(0, 0, 15, 0));
 
@@ -100,24 +109,33 @@ public class HomeScreen implements Screen {
         TableColumn<TrainingSessionDTO, LocalDateTime> colDateTime = new TableColumn<>("Fecha/hora");
         TableColumn<TrainingSessionDTO, Duration> colDuration = new TableColumn<>("Tiempo total");
 
+        colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        colSport.setCellValueFactory(new PropertyValueFactory<>("sport"));
+        colDistance.setCellValueFactory(new PropertyValueFactory<>("distance"));
+        colDateTime.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
+        colDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
+
         tblSessions.getColumns().addAll(colTitle, colSport, colDistance, colDateTime, colDuration);
 
         TabPane tabPane = new TabPane();
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        Tab createdChallenges = new Tab("Mis retos");
-        Tab acceptedChallenges = new Tab("Retos aceptados");
-        Tab availableChallenges = new Tab("Retos disponibles");
+        Tab createdChallengesTab = new Tab("Mis retos");
+        Tab acceptedChallengesTab = new Tab("Retos aceptados");
+        Tab availableChallengesTab = new Tab("Retos disponibles");
 
-        // Panel de challenges
-        ListView<String> challengeList = new ListView<>();
-        challengeList.getItems().addAll("Reto 1", "Reto 2", "Reto 3");
+        createdChallenges = new ListView<>();
+        createdChallengesTab.setContent(createdChallenges);
 
-        createdChallenges.setContent(challengeList);
+        ListView<String> acceptedChallenges = new ListView<>();
+        acceptedChallengesTab.setContent(acceptedChallenges);
 
-        tabPane.getTabs().add(createdChallenges);
-        tabPane.getTabs().add(acceptedChallenges);
-        tabPane.getTabs().add(availableChallenges);
+        availableChallenges = new ListView<>();
+        availableChallengesTab.setContent(availableChallenges);
+
+        tabPane.getTabs().add(createdChallengesTab);
+        //tabPane.getTabs().add(acceptedChallengesTab); TODO
+        tabPane.getTabs().add(availableChallengesTab);
 
         // Botones
         Button btnCreateSession = new Button("Crear sesión de entrenamiento");
@@ -173,13 +191,29 @@ public class HomeScreen implements Screen {
 
     private void updateChallenges() {
 
-        // TODO
+        createdChallenges.getItems().clear();
+        availableChallenges.getItems().clear();
+
+        // TODO Utilizar un rendeder más apropiado
+        // https://www.baeldung.com/javafx-listview-display-custom-items
+        // https://www.turais.de/how-to-custom-listview-cell-in-javafx/
+
+        for (ChallengeDTO ch : challengeController.getCreatedChallenges(userController.getToken())) {
+
+            createdChallenges.getItems().add(ch);
+        }
+
+        for (ChallengeDTO ch : challengeController.getAvailableChallenges(userController.getToken())) {
+
+            availableChallenges.getItems().add(ch);
+        }
 
     }
 
     @Override
     public void initialize() {
 
+        tUser.setText("@" + userController.getUserData().getNickname());
         updateSessions();
         updateChallenges();
     }

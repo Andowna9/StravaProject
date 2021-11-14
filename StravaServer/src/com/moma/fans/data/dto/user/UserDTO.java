@@ -13,8 +13,8 @@ public class UserDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String nickname;
     private String email;
+    private String nickname;
     private LocalDate birthDate;
     private float weight;
     private float height;

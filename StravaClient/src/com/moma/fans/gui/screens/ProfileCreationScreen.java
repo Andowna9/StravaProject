@@ -74,7 +74,7 @@ public class ProfileCreationScreen implements Screen {
         sldMaxHeartRate = new Slider(50, 220, 80);
         Label lblHeartRateMax = new Label("80");
 
-        Button btnBack = new Button("Atrás");
+       // Button btnBack = new Button("Atrás");
         Button btnOK = new Button("Aceptar");
 
         gp.add(lblBirthDate, 0, 0); gp.add(dpBirth, 1, 0);
@@ -82,7 +82,7 @@ public class ProfileCreationScreen implements Screen {
         gp.add(lblHeight, 0, 2); gp.add(spinHeight, 1, 2); gp.add(lblCm, 2,2);
         gp.add(lblMinHeartRate, 0, 3); gp.add(sldMinHeartRate, 1, 3); gp.add(lblHeartRateMin, 2, 3);
         gp.add(lblMaxHeartRate, 0, 4); gp.add(sldMaxHeartRate, 1, 4); gp.add(lblHeartRateMax, 2, 4);
-        gp.add(btnBack, 0, 5); gp.add(btnOK, 2, 5);
+        /* gp.add(btnBack, 0, 5); */ gp.add(btnOK, 2, 5);
 
         sldMaxHeartRate.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -131,7 +131,8 @@ public class ProfileCreationScreen implements Screen {
 
             }
         });
-        btnBack.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.REGISTER));
+
+        //btnBack.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.REGISTER));
 
         return root;
     }

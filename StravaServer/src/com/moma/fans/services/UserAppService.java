@@ -29,7 +29,7 @@ public class UserAppService {
 
     public User registerUser(String email, String nickname, String password) {
 
-        User user = new User(nickname, email, password);
+        User user = new User(email, nickname, password);
 
         // El usuario no existe, registro válido
         if (!users.containsValue(user)) {

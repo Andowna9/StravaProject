@@ -3,6 +3,7 @@ package com.moma.fans.controllers;
 import java.rmi.RemoteException;
 
 import com.moma.fans.data.dto.user.ProfileCreationDTO;
+import com.moma.fans.data.dto.user.UserDTO;
 import com.moma.fans.remote.ServiceLocator;
 
 /**
@@ -17,6 +18,7 @@ public class UserController {
 
 	// Este atributo guarda el token en caso de éxito
 	private long token = -1;
+	private UserDTO userData = null;
     
     public UserController(ServiceLocator serviceLocator) {
 
@@ -26,6 +28,7 @@ public class UserController {
 	public boolean login(String email, String password) throws RemoteException {
 		try {
 			this.token = this.serviceLocator.getService().login(email, password);
+			userData = this.serviceLocator.getService().getUserData(token);
 			return true;
 		} catch (RemoteException e) {
 			this.token = -1;
@@ -37,6 +40,7 @@ public class UserController {
 	public void logout() throws RemoteException {
 		try {
 			this.serviceLocator.getService().logout(this.token);
+			userData = null;
 			this.token = -1;
 		} catch (RemoteException e) {
 			throw new RemoteException("Las sesión proporcionada no existe!");
@@ -57,6 +61,13 @@ public class UserController {
 	public void createProfile(ProfileCreationDTO userDTO) throws RemoteException {
 
 		this.serviceLocator.getService().createProfile(this.token, userDTO);
+		this.userData = serviceLocator.getService().getUserData(token);
+	}
+
+	public UserDTO getUserData() {
+
+		if (userData == null) return new UserDTO();
+		return userData;
 	}
 
 	public long getToken() {

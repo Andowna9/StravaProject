@@ -30,6 +30,7 @@
     <target name="2.client" depends="1.build" description="Runs the Client">
         <java classname="com.moma.fans.Client" classpathref="full.classpath" fork="true">
             <jvmarg value="-Djava.security.policy=${policy.file}"/>
+            <jvmarg value="-Dfile.encoding=UTF-8"/>
             <jvmarg value="--module-path=${javafx.sdk.path}"/>
             <jvmarg value="--add-modules=javafx.controls,javafx.fxml"/>
             <arg value="${rmiregistry.IP}"/>
