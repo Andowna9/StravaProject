@@ -3,16 +3,23 @@ package com.moma.fans.gui.screens;
 import java.rmi.RemoteException;
 
 import com.moma.fans.controllers.UserController;
-
 import com.moma.fans.gui.Screen;
 import com.moma.fans.gui.ScreenController;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -27,6 +34,10 @@ public class RegisterScreen implements Screen {
     TextField tfEmail;
     TextField tfNickname;
     PasswordField passField;
+    
+    ToggleGroup group;
+    RadioButton rbFacebook;
+    RadioButton rbGoogle;
 
     Parent view;
 
@@ -65,19 +76,14 @@ public class RegisterScreen implements Screen {
 
         // Creación botones
         Button btnNormalRegister;
-        Button btnGoogleRegister;
-        Button btnFacebookRegister;
 
         btnNormalRegister = new Button();
-        btnGoogleRegister = new Button();
-        btnFacebookRegister = new Button();
 
         eRegVbox.getChildren().addAll(
                 createCenteredBoldLabel("Registro habitual"),
                 vboxEmail,
                 vboxNickname,
-                vboxPass,
-                createCenteredButton("Registrarse", btnNormalRegister)
+                vboxPass
         );
 
         Hyperlink hlLogin = new Hyperlink("Volver a inicio de sesión");
@@ -86,14 +92,27 @@ public class RegisterScreen implements Screen {
 
         hlLogin.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN));
 
+        // Creacion radioButtons
+        group = new ToggleGroup();
+        VBox radioVB = new VBox();
+
+        radioVB.setAlignment(Pos.CENTER);
+        
+        rbFacebook = new RadioButton("Facebook");
+        rbFacebook.setToggleGroup(group);
+
+        rbGoogle = new RadioButton("Google   ");
+        rbGoogle.setToggleGroup(group);
+        rbGoogle.setSelected(true);
+
+        radioVB.getChildren().addAll(rbFacebook, rbGoogle);
+        
         root.setPadding(new Insets(20, 80, 20, 80));
         root.setSpacing(5.0d);
         root.getChildren().addAll(
                 eRegVbox,
-                createCenteredBoldLabel("O"),
-                createCenteredButton("Registrarse con Google", btnGoogleRegister),
-                createCenteredBoldLabel("O"),
-                createCenteredButton("Registrarse con Facebook", btnFacebookRegister),
+                radioVB,
+                createCenteredButton("Registrarse", btnNormalRegister),
                 hlLogin
         );
 
