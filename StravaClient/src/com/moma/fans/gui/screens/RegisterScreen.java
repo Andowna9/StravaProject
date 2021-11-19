@@ -38,6 +38,7 @@ public class RegisterScreen implements Screen {
     ToggleGroup group;
     RadioButton rbFacebook;
     RadioButton rbGoogle;
+    RadioButton rbNormalRegister;
 
     Parent view;
 
@@ -97,18 +98,23 @@ public class RegisterScreen implements Screen {
         VBox radioVB = new VBox();
 
         radioVB.setAlignment(Pos.CENTER);
+        radioVB.setSpacing(5);
         
-        rbFacebook = new RadioButton("Facebook");
+        rbNormalRegister = new RadioButton("Normal    ");
+        rbNormalRegister.setToggleGroup(group);
+        rbNormalRegister.setSelected(true);
+        
+        rbFacebook = new RadioButton("Facebook ");
         rbFacebook.setToggleGroup(group);
 
-        rbGoogle = new RadioButton("Google   ");
+        rbGoogle = new RadioButton("Google    ");
         rbGoogle.setToggleGroup(group);
-        rbGoogle.setSelected(true);
+        
 
-        radioVB.getChildren().addAll(rbFacebook, rbGoogle);
+        radioVB.getChildren().addAll(rbNormalRegister, rbGoogle, rbFacebook);
         
         root.setPadding(new Insets(20, 80, 20, 80));
-        root.setSpacing(5.0d);
+        root.setSpacing(20.0d);
         root.getChildren().addAll(
                 eRegVbox,
                 radioVB,

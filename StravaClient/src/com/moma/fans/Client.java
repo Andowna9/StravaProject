@@ -7,6 +7,7 @@ import com.moma.fans.gui.screens.*;
 import com.moma.fans.remote.ServiceLocator;
 import com.moma.fans.gui.*;
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -41,6 +42,9 @@ public class Client extends Application {
         ScreenController.getInstance().setStage(stage, 600, 400);
         ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN);
 
+        // Cargar icono
+        stage.getIcons().add(new Image("file:res/icons/strava-icon.png"));
+        
         stage.setResizable(false);
         stage.show();
 
