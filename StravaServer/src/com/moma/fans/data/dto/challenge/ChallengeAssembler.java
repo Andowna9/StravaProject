@@ -10,14 +10,14 @@ import java.util.List;
  * Clase de utilidad que forma parte del patrón DTO.
  * Se encarga de la conversión de objetos
  * {@link com.moma.fans.data.domain.Challenge}
- * a objetos {@link ChallengeDTO}.
+ * a objetos {@link AcceptedChallengeDTO}.
  * @author JonanC
  */
 public class ChallengeAssembler {
 
     public ChallengeDTO toDTO(Challenge challenge) {
 
-        ChallengeDTO challengeDTO = new ChallengeDTO();
+        ChallengeDTO challengeDTO = new AcceptedChallengeDTO();
 
         challengeDTO.setTitle(challenge.getTitle());
         challengeDTO.setSport(challenge.getSport().toString());
@@ -25,7 +25,6 @@ public class ChallengeAssembler {
         challengeDTO.setEndDate(challenge.getEndDate());
         challengeDTO.setTimeToAchieve(challenge.getTimeToAchieve());
         challengeDTO.setDistanceToAchieve(challenge.getDistanceToAchieve());
-        // challengeDTO.setProgress(); TODO
 
         return challengeDTO;
     }
@@ -42,7 +41,7 @@ public class ChallengeAssembler {
         return challengesDTO;
     }
 
-    public Challenge toChallenge(ChallengeCreationDTO challengeDTO) {
+    public Challenge toChallenge(ChallengeDTO challengeDTO) {
 
         return new Challenge(challengeDTO.getTitle(), challengeDTO.getStartDate(),
                 challengeDTO.getEndDate(),challengeDTO.getDistanceToAchieve(), challengeDTO.getTimeToAchieve(),
