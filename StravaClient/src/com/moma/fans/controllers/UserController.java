@@ -47,9 +47,9 @@ public class UserController {
 		}
 	}
 	
-	public void register(String registerType, String email, String nickname, String password) throws RemoteException {
+	public void register(String email, String nickname, String password, String registerType) throws RemoteException {
 		try {
-			this.token = this.serviceLocator.getService().register(registerType, email, nickname, password);
+			this.token = this.serviceLocator.getService().register(email, nickname, password, registerType);
 		}
 
 		catch (RemoteException e) {

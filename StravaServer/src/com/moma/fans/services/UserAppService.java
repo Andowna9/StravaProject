@@ -31,13 +31,28 @@ public class UserAppService {
 
     public User registerUser(String email, String nickname, String password, RegisterType registerType) {
 
-        User user = new LocalUser(email, nickname, password);
+        if (registerType == RegisterType.LOCAL) {
 
-        // El usuario no existe, registro válido
-        if (!users.containsValue(user)) {
+            User user = new LocalUser(email, nickname, password);
 
-            users.put(user.getEmail(), user);
-            return user;
+            // El usuario no existe, registro válido
+            if (!users.containsValue(user)) {
+
+                users.put(user.getEmail(), user);
+                return user;
+            }
+        }
+
+        // TODO Conectar con servicio de Google
+
+        else if (registerType == RegisterType.GOOGLE) {
+
+        }
+
+        // TODO Conectar con servicio de Facebook
+
+        else if (registerType == RegisterType.FACEBOOK) {
+
         }
 
         return null;
