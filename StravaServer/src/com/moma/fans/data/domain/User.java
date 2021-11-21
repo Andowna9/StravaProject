@@ -1,14 +1,13 @@
 package com.moma.fans.data.domain;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * Clase que representa un usuario.
+ * Clase que representa un usuario génerico sin contraseña
+ * (usuario de Google o Facebook).
  * @author JonanC
  * @author AlexNitu
  */
@@ -16,7 +15,7 @@ public class User {
 
     private String email;
     private String nickname;
-    private String password;
+    private RegisterType registerType;
     private LocalDate birthDate;
     private float height;
     private float weight;
@@ -30,10 +29,9 @@ public class User {
     List<Challenge> createdChallenges = new ArrayList<>();
     List<Challenge> acceptedChallenges = new ArrayList<>();
 
-    public User(String email, String nickname, String password) {
+    public User(String email, String nickname) {
         this.email = email;
         this.nickname = nickname;
-        this.password = this.encrypt(password);
     }
 
     // Métodos principales
@@ -54,45 +52,7 @@ public class User {
         createdChallenges.add(challenge);
     }
 
-    /**
-     * Permite validar el acceso a una cuenta de usuario.
-     * @param password contraseña introducida por el usuario
-     * @return true si las contraseñas coinciden, false en caso contrario
-     */
-    public boolean isPasswordValid(String password) {
 
-        return this.encrypt(password).equals(this.password);
-    }
-
-    /**
-     * Encripta una contraseña.
-     * @param password contraseña en texto plano
-     * @return contraseña encriptada
-     */
-    public String encrypt(String password) {
-
-        String generatedPassword = null;
-
-        // Lógica de encriptación
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
-            byte [] bytes = md.digest(password.getBytes());
-
-            StringBuilder sb = new StringBuilder();
-
-            // Formato hexadecimal
-            for(int i = 0; i < bytes.length; i++) {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100,16).substring(1));
-            }
-            generatedPassword = sb.toString();
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        return generatedPassword;
-
-    }
 
     // Getters y setters
 
@@ -110,10 +70,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public LocalDate getBirthDate() {
@@ -192,10 +148,7 @@ public class User {
         return "User{" +
                 "email='" + email + '\'' +
                 ", nickname='" + nickname + '\'' +
-                ", password='" + password + '\'' +
                 '}';
     }
-
-
 
 }

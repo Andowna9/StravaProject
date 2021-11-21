@@ -1,9 +1,9 @@
 package com.moma.fans.remote;
 
 import com.moma.fans.data.domain.Challenge;
+import com.moma.fans.data.domain.RegisterType;
 import com.moma.fans.data.domain.User;
 import com.moma.fans.data.dto.challenge.ChallengeAssembler;
-import com.moma.fans.data.dto.challenge.ChallengeCreationDTO;
 import com.moma.fans.data.dto.challenge.ChallengeDTO;
 import com.moma.fans.data.dto.session.TrainingSessionAssembler;
 import com.moma.fans.data.dto.session.TrainingSessionDTO;
@@ -46,10 +46,10 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     }
 
     @Override
-    public synchronized long register(String email, String nickname, String password) throws RemoteException {
+    public synchronized long register(String email, String nickname, String password, String registerType) throws RemoteException {
 
-
-        User user = userService.registerUser(email, nickname, password);
+        RegisterType rt = RegisterType.valueOfRegisterType(registerType);
+        User user = userService.registerUser(email, nickname, password, rt);
 
         if (user != null) {
 
@@ -164,7 +164,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     }
 
     @Override
-    public boolean createChallenge(long token, ChallengeCreationDTO challengeDTO) throws RemoteException {
+    public boolean createChallenge(long token, ChallengeDTO challengeDTO) throws RemoteException {
 
         if (serverState.containsKey(token)) {
 

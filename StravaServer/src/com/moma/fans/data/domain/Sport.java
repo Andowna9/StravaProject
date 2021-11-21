@@ -1,7 +1,11 @@
 package com.moma.fans.data.domain;
 
-import javax.lang.model.element.Element;
 
+/**
+ * Enumeración para deportes
+ * disponibles.
+ * @author JonanC
+ */
 public enum Sport {
 
     RUNNING("Running"), CYCLING("Ciclismo");

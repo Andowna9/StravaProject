@@ -1,5 +1,7 @@
 package com.moma.fans.services;
 
+import com.moma.fans.data.domain.LocalUser;
+import com.moma.fans.data.domain.RegisterType;
 import com.moma.fans.data.domain.User;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +18,7 @@ public class UserAppService {
 
     public User login(String email, String password) {
 
-        User user = users.get(email);
+        LocalUser user = (LocalUser) users.get(email);
 
         if (user != null && user.isPasswordValid(password)) {
 
@@ -27,9 +29,9 @@ public class UserAppService {
 
     }
 
-    public User registerUser(String email, String nickname, String password) {
+    public User registerUser(String email, String nickname, String password, RegisterType registerType) {
 
-        User user = new User(email, nickname, password);
+        User user = new LocalUser(email, nickname, password);
 
         // El usuario no existe, registro válido
         if (!users.containsValue(user)) {
