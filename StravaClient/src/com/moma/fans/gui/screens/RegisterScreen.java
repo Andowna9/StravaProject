@@ -45,7 +45,6 @@ public class RegisterScreen implements Screen {
     public RegisterScreen(UserController controller) {
 
         this.controller = controller;
-
         view = createView();
         
     }
@@ -81,7 +80,7 @@ public class RegisterScreen implements Screen {
         btnNormalRegister = new Button();
 
         eRegVbox.getChildren().addAll(
-                createCenteredBoldLabel("Registro habitual"),
+                createCenteredBoldLabel("Introducir datos de registro:"),
                 vboxEmail,
                 vboxNickname,
                 vboxPass
@@ -95,29 +94,32 @@ public class RegisterScreen implements Screen {
 
         // Creacion radioButtons
         group = new ToggleGroup();
+        HBox radioHB = new HBox();
+
         VBox radioVB = new VBox();
 
-        radioVB.setAlignment(Pos.CENTER);
         radioVB.setSpacing(5);
         
-        rbNormalRegister = new RadioButton("Normal    ");
+        rbNormalRegister = new RadioButton("Local");
         rbNormalRegister.setToggleGroup(group);
         rbNormalRegister.setSelected(true);
-        
-        rbFacebook = new RadioButton("Facebook ");
-        rbFacebook.setToggleGroup(group);
 
-        rbGoogle = new RadioButton("Google    ");
+        rbGoogle = new RadioButton("Google");
         rbGoogle.setToggleGroup(group);
         
+        rbFacebook = new RadioButton("Facebook");
+        rbFacebook.setToggleGroup(group);
 
         radioVB.getChildren().addAll(rbNormalRegister, rbGoogle, rbFacebook);
+
+        radioHB.setAlignment(Pos.CENTER);
+        radioHB.getChildren().add(radioVB);
         
         root.setPadding(new Insets(20, 80, 20, 80));
         root.setSpacing(20.0d);
         root.getChildren().addAll(
                 eRegVbox,
-                radioVB,
+                radioHB,
                 createCenteredButton("Registrarse", btnNormalRegister),
                 hlLogin
         );
@@ -129,7 +131,8 @@ public class RegisterScreen implements Screen {
             public void handle(ActionEvent arg0) {
 
                 try {
-                    controller.register(tfEmail.getText(), tfNickname.getText(), passField.getText());
+                    String registerType = ((RadioButton) group.getSelectedToggle()).getText();
+                    controller.register(tfEmail.getText(), tfNickname.getText(), passField.getText(), registerType);
                     ScreenController.getInstance().setScreen(ScreenController.State.PROFILE_CREATION);
                 } catch (RemoteException e) {
 
@@ -176,6 +179,7 @@ public class RegisterScreen implements Screen {
         tfEmail.clear();
         passField.clear();
         tfNickname.clear();
+        rbNormalRegister.setSelected(true);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.moma.fans.remote;
 
-import com.moma.fans.data.dto.challenge.ChallengeCreationDTO;
 import com.moma.fans.data.dto.challenge.ChallengeDTO;
+import com.moma.fans.data.dto.challenge.AcceptedChallengeDTO;
 import com.moma.fans.data.dto.user.ProfileCreationDTO;
 import com.moma.fans.data.dto.session.TrainingSessionDTO;
 import com.moma.fans.data.dto.user.UserDTO;
@@ -22,7 +22,7 @@ public interface IRemoteFacade extends Remote {
      * @param nickname nombre de usuario
      * @param password contraseña
      */
-    public long register(String email, String nickname, String password) throws RemoteException;
+    public long register(String email, String nickname, String password, String registerType) throws RemoteException;
 
     /**
      * Recibe datos de una cuenta de usuario y los
@@ -69,7 +69,7 @@ public interface IRemoteFacade extends Remote {
      * @param  challengeDTO contenedor de información de reto
      * @return true si se crea el reto correctamente, false en caso contrario
      */
-    public boolean createChallenge(long token, ChallengeCreationDTO challengeDTO) throws RemoteException;
+    public boolean createChallenge(long token, ChallengeDTO challengeDTO) throws RemoteException;
 
     /**
      * Añade un reto a la lista de aceptados de un usuario.

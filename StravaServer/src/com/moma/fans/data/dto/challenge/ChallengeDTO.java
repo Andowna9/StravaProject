@@ -4,34 +4,16 @@ import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDate;
 
-/**
- * Clase que representa el objeto de transferencia para
- * {@link com.moma.fans.data.domain.Challenge}.
- * Implementa el patrón de diseño DTO.
- * @author JonanC
- */
 public class ChallengeDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private int id;
     private String title;
     private String sport;
     private double distanceToAchieve;
     private Duration timeToAchieve;
     private LocalDate startDate;
     private LocalDate endDate;
-    private double progress;
-
-    // Implicit default constructor
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -81,28 +63,22 @@ public class ChallengeDTO implements Serializable {
         this.endDate = endDate;
     }
 
-    public double getProgress() {
-        return progress;
-    }
-
-    public void setProgress(double progress) {
-        this.progress = progress;
-    }
-
     @Override
     public String toString() {
 
-        String res = title + " " + sport + " "
-                    + " " + startDate +  "-" + endDate + " ";
+        String res = title + " " + sport.toUpperCase() + " "
+                + " " + startDate +  "/" + endDate + " ";
+
+        res += "Objetivo: ";
 
         if (distanceToAchieve > 0) {
 
-            res += distanceToAchieve;
+            res += distanceToAchieve + " km";
         }
 
         else {
 
-            res += timeToAchieve;
+            res += timeToAchieve + " min";
         }
 
         return res;

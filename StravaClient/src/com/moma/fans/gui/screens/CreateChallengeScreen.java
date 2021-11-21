@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 import com.moma.fans.controllers.ChallengeController;
 import com.moma.fans.controllers.UserController;
-import com.moma.fans.data.dto.challenge.ChallengeCreationDTO;
+import com.moma.fans.data.dto.challenge.ChallengeDTO;
 import com.moma.fans.gui.Screen;
 import com.moma.fans.gui.ScreenController;
 import javafx.collections.FXCollections;
@@ -152,7 +152,7 @@ public class CreateChallengeScreen implements Screen {
 
                 try {
 
-                    ChallengeCreationDTO challengeDTO = new ChallengeCreationDTO();
+                    ChallengeDTO challengeDTO = new ChallengeDTO();
 
                     challengeDTO.setTitle(tfName.getText());
                     challengeDTO.setStartDate(dpStartDate.getValue());

@@ -3,6 +3,7 @@ package com.moma.fans.gui.screens;
 import java.rmi.RemoteException;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.moma.fans.controllers.ChallengeController;
@@ -13,10 +14,7 @@ import com.moma.fans.data.dto.challenge.ChallengeDTO;
 import com.moma.fans.data.dto.session.TrainingSessionDTO;
 import com.moma.fans.gui.Screen;
 import com.moma.fans.gui.ScreenController;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -102,6 +100,7 @@ public class HomeScreen implements Screen {
 
         // Panel de sesiones
         tblSessions = new TableView<>();
+        tblSessions.setPlaceholder(new Label("No hay sesiones de entrenamiento registradas"));
 
         TableColumn<TrainingSessionDTO, String> colTitle = new TableColumn<>("Título");
         TableColumn<TrainingSessionDTO, String> colSport = new TableColumn<>("Deporte");
@@ -112,10 +111,69 @@ public class HomeScreen implements Screen {
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colSport.setCellValueFactory(new PropertyValueFactory<>("sport"));
         colDistance.setCellValueFactory(new PropertyValueFactory<>("distance"));
+
         colDateTime.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
+        colDateTime.setCellFactory((tableColumn) -> {
+
+            TableCell<TrainingSessionDTO, LocalDateTime> tableCell = new TableCell<>() {
+
+                @Override
+                protected void updateItem(LocalDateTime item, boolean empty) {
+
+                    super.updateItem(item, empty);
+
+                    if (item == null || empty) {
+
+                        this.setText(null);
+                    }
+
+                    else {
+
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+                        this.setText(item.format(formatter));
+
+                    }
+
+                }
+
+            };
+
+            return tableCell;
+
+        });
+        colDateTime.setPrefWidth(125);
+
         colDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
+        colDuration.setCellFactory((tableColumn)-> {
+            TableCell<TrainingSessionDTO, Duration> tableCell = new TableCell<>() {
+
+                @Override
+                protected void updateItem(Duration item, boolean empty) {
+
+                    super.updateItem(item, empty);
+
+                    if (item == null || empty) {
+
+                        this.setText(null);
+                    }
+
+                    else {
+
+                        long HH = item.toHours();
+                        long mm = item.toMinutesPart();
+                        this.setText(String.format("%02d h %02d min", HH, mm));
+
+                    }
+
+                }
+
+            };
+
+            return tableCell;
+        });
 
         tblSessions.getColumns().addAll(colTitle, colSport, colDistance, colDateTime, colDuration);
+        tblSessions.getColumns().stream().forEach(tableColumn -> tableColumn.setStyle("-fx-alignment: CENTER"));
 
         TabPane tabPane = new TabPane();
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);

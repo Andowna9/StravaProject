@@ -14,6 +14,8 @@ import java.util.List;
 
 public class Client extends Application {
 
+    private UserController userController;
+
     @Override
     public void start(Stage stage) throws Exception {
 
@@ -26,7 +28,7 @@ public class Client extends Application {
         serviceLocator.setService(args.get(0), args.get(1), args.get(2));
 
         // Controladores
-        UserController userController = new UserController(serviceLocator);
+        userController = new UserController(serviceLocator);
         ChallengeController challengeController = new ChallengeController(serviceLocator);
         TrainingSessionController trainingSessionController = new TrainingSessionController(serviceLocator);
 
@@ -53,7 +55,15 @@ public class Client extends Application {
     @Override
     public void stop() throws Exception {
 
-        // TODO Terminar sesión con el servoidor si se cierra la ventana
+        // Solución temporal
+        // TODO Mejorar este sistema con un timeout
+
+        if (userController.getToken() != -1) {
+
+            userController.logout();
+        }
+
+
     }
 
     public static void main(String [] args) {
