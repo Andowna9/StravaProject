@@ -8,7 +8,6 @@
     <property name="classpath" location="bin"/>
     <property name="export.file" value="server-api.jar"/>
     <property name="policy.file" location="security/java.policy"/>
-    <property name="rmiregistry.IP" value="localhost"/>
     <property name="rmiregistry.port" value="1099"/>
     <property name="server.name" value="StravaServer"/>
 
@@ -30,7 +29,6 @@
             <jvmarg value="-Djava.rmi.server.codebase=file:${build.dir}/"/>
             <jvmarg value="-Djava.security.policy=${policy.file}"/>
             <jvmarg value="-Dfile.encoding=UTF-8"/>
-            <arg value="${rmiregistry.IP}"/>
             <arg value="${rmiregistry.port}"/>
             <arg value="${server.name}"/>
         </java>

@@ -3,7 +3,8 @@ package com.moma.fans;
 import com.moma.fans.remote.IRemoteFacade;
 import com.moma.fans.remote.RemoteFacade;
 
-import java.rmi.Naming;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 public class Server {
 
@@ -18,9 +19,18 @@ public class Server {
 
         try {
 
-            String name = "//" + args[0] + ":" + args[1] + "/" + args[2];
+            int port = Integer.parseInt(args[0]);
+            String name = args[1];
+
+            // Creación del registro RMI en puerte por defecto
+            // Para detenerlo explicitamente: UnicastRemoteObject.unexportObject(registry, t
+
+            Registry registry = LocateRegistry.createRegistry(port);
+
+            // Ligar instancia de fachada remota al registro creado
+
             IRemoteFacade remoteFacade = new RemoteFacade();
-            Naming.rebind(name, remoteFacade);
+            registry.bind(name, remoteFacade);
             System.out.println("* Servidor " + name + " activo!");
 
         } catch (Exception e) {

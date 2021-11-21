@@ -1,6 +1,7 @@
 package com.moma.fans.remote;
 
-import java.rmi.Naming;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 /**
  * Clase para establecer la comunicación con el servidor,
@@ -20,15 +21,11 @@ public class ServiceLocator {
      */
     public void setService(String ip, String port, String serviceName) {
 
-        // Administrador de seguridad requerido por RMI
-//        if (System.getSecurityManager() == null) {
-//            System.setSecurityManager(new SecurityManager());
-//        }
 
         try {
 
-            String URL = "//" + ip + ":" + port + "/" + serviceName;
-            this.service = (IRemoteFacade) Naming.lookup(URL);
+            Registry registry = LocateRegistry.getRegistry(ip, Integer.parseInt(port));
+            this.service = (IRemoteFacade) registry.lookup(serviceName);
 
         } catch (Exception e) {
 
