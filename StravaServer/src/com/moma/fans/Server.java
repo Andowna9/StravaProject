@@ -23,7 +23,7 @@ public class Server {
             String name = args[1];
 
             // Creación del registro RMI en puerte por defecto
-            // Para detenerlo explicitamente: UnicastRemoteObject.unexportObject(registry, t
+            // Para detenerlo explícitamente: UnicastRemoteObject.unexportObject(registry, true);
 
             Registry registry = LocateRegistry.createRegistry(port);
 
