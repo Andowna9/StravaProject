@@ -16,7 +16,7 @@ public class GoogleService extends UnicastRemoteObject implements IGoogleService
 	
 	private static final long serialVersionUID = 1L;
 
-	private GoogleService() throws RemoteException {
+	public GoogleService() throws RemoteException {
 		super();
 		users.put("roberto@gmail.com", "diseñosoftware");
 		users.put("josuKa@gmail.com", "cyc");

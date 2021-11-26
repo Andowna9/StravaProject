@@ -8,6 +8,7 @@
     <property name="classpath" location="bin"/>
     <property name="export.file" value="server-api.jar"/>
     <property name="policy.file" location="security/java.policy"/>
+	<property name="rmiregistry.IP" value="127.0.0.1"/>
     <property name="rmiregistry.port" value="1099"/>
     <property name="service.name" value="GoogleService"/>
 
@@ -29,6 +30,7 @@
             <jvmarg value="-Djava.rmi.server.codebase=file:${build.dir}/"/>
             <jvmarg value="-Djava.security.policy=${policy.file}"/>
             <jvmarg value="-Dfile.encoding=UTF-8"/>
+        	<arg value="${rmiregistry.IP}"/> 
             <arg value="${rmiregistry.port}"/>
             <arg value="${service.name}"/>
         </java>
