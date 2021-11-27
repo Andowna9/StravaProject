@@ -6,7 +6,7 @@
     <property name="build.dir" location="bin"/>
     <property name="dist.dir" location="dist"/>
     <property name="classpath" location="bin"/>
-    <property name="export.file" value="server-api.jar"/>
+    <property name="export.file" value="google-server-api.jar"/>
     <property name="policy.file" location="security/java.policy"/>
     <property name="rmiregistry.IP" value="127.0.0.1"/>
     <property name="rmiregistry.port" value="1099"/>
