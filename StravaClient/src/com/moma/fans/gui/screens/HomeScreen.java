@@ -9,18 +9,31 @@ import java.util.List;
 import com.moma.fans.controllers.ChallengeController;
 import com.moma.fans.controllers.TrainingSessionController;
 import com.moma.fans.controllers.UserController;
-
 import com.moma.fans.data.dto.challenge.ChallengeDTO;
 import com.moma.fans.data.dto.session.TrainingSessionDTO;
 import com.moma.fans.gui.Screen;
 import com.moma.fans.gui.ScreenController;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
@@ -28,6 +41,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
+import javafx.util.Callback;
 
 /**
  * Vista con panel principal de opciones.
@@ -45,6 +59,8 @@ public class HomeScreen implements Screen {
 
     ListView<ChallengeDTO> createdChallenges;
     ListView<ChallengeDTO> availableChallenges;
+    private ObservableList<ChallengeDTO> challengeObservableList;
+    private ObservableList<ChallengeDTO> availableObservableList;
 
     Parent view;
 	
@@ -182,6 +198,7 @@ public class HomeScreen implements Screen {
         Tab acceptedChallengesTab = new Tab("Retos aceptados");
         Tab availableChallengesTab = new Tab("Retos disponibles");
 
+        challengeObservableList = FXCollections.observableArrayList();
         createdChallenges = new ListView<>();
         createdChallengesTab.setContent(createdChallenges);
 
@@ -191,6 +208,42 @@ public class HomeScreen implements Screen {
         availableChallenges = new ListView<>();
         availableChallengesTab.setContent(availableChallenges);
 
+        createdChallenges.setCellFactory(new Callback<ListView<ChallengeDTO>, ListCell<ChallengeDTO>>() {
+            @Override
+            public ListCell<ChallengeDTO> call(ListView<ChallengeDTO> param) {
+                 ListCell<ChallengeDTO> cell = new ListCell<ChallengeDTO>() {
+                     @Override
+                    protected void updateItem(ChallengeDTO item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if(item != null) {
+                            setText(item.getTitle() + " --> Sesión de " + item.getSport() + " el día " + item.getStartDate().getDayOfMonth() + " de " + item.getStartDate().getMonth());
+                        } else {
+                            setText(null);
+                        }
+                    }
+                 };
+                return cell;
+            }
+        });
+        
+        availableChallenges.setCellFactory(new Callback<ListView<ChallengeDTO>, ListCell<ChallengeDTO>>() {
+            @Override
+            public ListCell<ChallengeDTO> call(ListView<ChallengeDTO> param) {
+                 ListCell<ChallengeDTO> cell = new ListCell<ChallengeDTO>() {
+                     @Override
+                    protected void updateItem(ChallengeDTO item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if(item != null) {
+                            setText(item.getTitle() + "--> Sesión de " + item.getSport() + " el día " + item.getStartDate().getDayOfMonth() + " de " + item.getStartDate().getMonth());
+                        } else {
+                            setText(null);
+                        }
+                    }
+                 };
+                return cell;
+            }
+        });
+        
         tabPane.getTabs().add(createdChallengesTab);
         //tabPane.getTabs().add(acceptedChallengesTab); TODO
         tabPane.getTabs().add(availableChallengesTab);
@@ -252,20 +305,22 @@ public class HomeScreen implements Screen {
         createdChallenges.getItems().clear();
         availableChallenges.getItems().clear();
 
-        // TODO Utilizar un rendeder más apropiado
+        // TODO Utilizar un renderer más apropiado
         // https://www.baeldung.com/javafx-listview-display-custom-items
         // https://www.turais.de/how-to-custom-listview-cell-in-javafx/
 
         for (ChallengeDTO ch : challengeController.getCreatedChallenges(userController.getToken())) {
 
-            createdChallenges.getItems().add(ch);
+            challengeObservableList.add(ch);
         }
+        createdChallenges.setItems(challengeObservableList);
 
         for (ChallengeDTO ch : challengeController.getAvailableChallenges(userController.getToken())) {
 
-            availableChallenges.getItems().add(ch);
+        	availableObservableList.add(ch);
         }
-
+        availableChallenges.setItems(availableObservableList);
+        
     }
 
     @Override
