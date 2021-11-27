@@ -1,21 +1,20 @@
-package com.moma.fans.service;
+package com.moma.fans;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.HashMap;
 import java.util.Map;
 /**
- * 
+ *
  * @author UnaiCL
+ * @author AlexNitu
  *
  */
-public class Service {
+public class Server {
 
 	private static Map<String, String> users = new HashMap<>();
 
 	private static int numClients = 0;
-
-
 
 	public static void main(String [] args) {
     	users.put("alex@gmail.com", "alex");
@@ -31,8 +30,8 @@ public class Service {
 
 		int serverPort = Integer.parseInt(args[0]);
 
-		try (
-				ServerSocket tcpServerSocket = new ServerSocket(serverPort);) {
+		try (ServerSocket tcpServerSocket = new ServerSocket(serverPort))
+		{
 			System.out.println(" - TranslationServer: Waiting for connections '" + tcpServerSocket.getInetAddress().getHostAddress() + ":" + tcpServerSocket.getLocalPort() + "' ...");
 
 			while (true) {

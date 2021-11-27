@@ -1,4 +1,4 @@
-package com.moma.fans.service;
+package com.moma.fans;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

@@ -11,7 +11,7 @@ import java.util.Map;
  * @author Julen396
  *
  */
-public class GoogleService extends UnicastRemoteObject implements IGoogleService{
+public class GoogleService extends UnicastRemoteObject implements IGoogleService {
 
 	Map<String, String> users = new HashMap<>();
 	
