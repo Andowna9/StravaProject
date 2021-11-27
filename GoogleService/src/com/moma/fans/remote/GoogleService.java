@@ -8,6 +8,7 @@ import java.util.Map;
 /**
  * 
  * @author UnaiCL
+ * @author Julen396
  *
  */
 public class GoogleService extends UnicastRemoteObject implements IGoogleService{
@@ -25,15 +26,10 @@ public class GoogleService extends UnicastRemoteObject implements IGoogleService
 		users.put("mikel@gmail.com", "sistemasoperativos");
 		users.put("bujan@gmail.com", "ingenieriaweb");
 	}
-	
-	@Override
-	public boolean checkUser(String email) throws RemoteException {
-		return users.containsKey(email);
-	}
 
 	@Override
-	public boolean checkPassword(String email, String password) throws RemoteException {
-		return users.get(email).equals(password);
+	public boolean authenticate(String email, String password) throws RemoteException {
+		return (users.get(email).equals(password))&& (users.containsKey(email));
 	}
 
 }

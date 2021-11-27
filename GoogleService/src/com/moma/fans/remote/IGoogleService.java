@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 /**
  * 
  * @author UnaiCL
+ * @author 	Julen396
  * 
  */
 public interface IGoogleService {
@@ -15,6 +16,5 @@ public interface IGoogleService {
 	 * @return True --> Existe, False --> No existe
 	 * @throws RemoteException
 	 */
-	public boolean checkUser(String email) throws RemoteException;
-	public boolean checkPassword(String email, String password) throws RemoteException;
+	public boolean authenticate(String email, String password) throws RemoteException;
 }
