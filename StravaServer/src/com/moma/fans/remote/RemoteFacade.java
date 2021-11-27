@@ -58,6 +58,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
 
             logger.info("[Nuevo usuario registrado]" +
                     "\n" + user +
+                    "\n" + "Tipo de registro: " + registerType +
                     "\n" + "Token: " + token);
 
             return token;

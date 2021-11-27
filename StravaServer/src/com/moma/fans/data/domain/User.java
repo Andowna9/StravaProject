@@ -29,7 +29,9 @@ public class User {
     List<Challenge> createdChallenges = new ArrayList<>();
     List<Challenge> acceptedChallenges = new ArrayList<>();
 
-    public User(String email, String nickname) {
+    public User(RegisterType registerType, String email, String nickname) {
+
+        this.registerType = registerType;
         this.email = email;
         this.nickname = nickname;
     }
@@ -55,6 +57,10 @@ public class User {
 
 
     // Getters y setters
+
+    public RegisterType getRegisterType() {
+        return registerType;
+    }
 
     public String getNickname() {
         return nickname;

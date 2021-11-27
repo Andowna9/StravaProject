@@ -1,5 +1,6 @@
 package com.moma.fans.remote;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 /**
  * 
@@ -7,7 +8,7 @@ import java.rmi.RemoteException;
  * @author 	Julen396
  * 
  */
-public interface IGoogleService {
+public interface IGoogleService extends Remote {
 
 	/** 
 	 * 

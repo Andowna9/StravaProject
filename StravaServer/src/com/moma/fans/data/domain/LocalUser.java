@@ -15,7 +15,7 @@ public class LocalUser extends User {
     private String password;
 
     public LocalUser(String email, String nickname, String password) {
-        super(email, nickname);
+        super(RegisterType.LOCAL, email, nickname);
         this.password = encrypt(password);
     }
 

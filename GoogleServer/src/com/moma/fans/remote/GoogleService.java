@@ -35,6 +35,7 @@ public class GoogleService extends UnicastRemoteObject implements IGoogleService
 	@Override
 	public boolean authenticate(String email, String password) throws RemoteException {
 
+		System.out.println("# Google Service - Comprobando validez de usuario: " + email + "/" + password);
 		return (users.containsKey(email) && users.get(email).equals(password));
 	}
 
