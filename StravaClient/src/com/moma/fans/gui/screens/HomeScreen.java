@@ -14,8 +14,6 @@ import com.moma.fans.data.dto.session.TrainingSessionDTO;
 import com.moma.fans.gui.Screen;
 import com.moma.fans.gui.ScreenController;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -59,8 +57,6 @@ public class HomeScreen implements Screen {
 
     ListView<ChallengeDTO> createdChallenges;
     ListView<ChallengeDTO> availableChallenges;
-    private ObservableList<ChallengeDTO> challengeObservableList;
-    private ObservableList<ChallengeDTO> availableObservableList;
 
     Parent view;
 	
@@ -198,7 +194,6 @@ public class HomeScreen implements Screen {
         Tab acceptedChallengesTab = new Tab("Retos aceptados");
         Tab availableChallengesTab = new Tab("Retos disponibles");
 
-        challengeObservableList = FXCollections.observableArrayList();
         createdChallenges = new ListView<>();
         createdChallengesTab.setContent(createdChallenges);
 
@@ -216,7 +211,8 @@ public class HomeScreen implements Screen {
                     protected void updateItem(ChallengeDTO item, boolean empty) {
                         super.updateItem(item, empty);
                         if(item != null) {
-                            setText(item.getTitle() + " --> Sesión de " + item.getSport() + " el día " + item.getStartDate().getDayOfMonth() + " de " + item.getStartDate().getMonth());
+                            setText(item.getTitle() + " " + item.getStartDate()
+                                    + " " + item.getEndDate() + " " + item.getSport().toUpperCase());
                         } else {
                             setText(null);
                         }
@@ -234,7 +230,8 @@ public class HomeScreen implements Screen {
                     protected void updateItem(ChallengeDTO item, boolean empty) {
                         super.updateItem(item, empty);
                         if(item != null) {
-                            setText(item.getTitle() + "--> Sesión de " + item.getSport() + " el día " + item.getStartDate().getDayOfMonth() + " de " + item.getStartDate().getMonth());
+                            setText(item.getTitle() + " " + item.getStartDate()
+                                    + " " + item.getEndDate() + " " + item.getSport().toUpperCase());
                         } else {
                             setText(null);
                         }
@@ -311,15 +308,13 @@ public class HomeScreen implements Screen {
 
         for (ChallengeDTO ch : challengeController.getCreatedChallenges(userController.getToken())) {
 
-            challengeObservableList.add(ch);
+            createdChallenges.getItems().add(ch);
         }
-        createdChallenges.setItems(challengeObservableList);
 
         for (ChallengeDTO ch : challengeController.getAvailableChallenges(userController.getToken())) {
 
-        	availableObservableList.add(ch);
+        	availableChallenges.getItems().add(ch);
         }
-        availableChallenges.setItems(availableObservableList);
         
     }
 
