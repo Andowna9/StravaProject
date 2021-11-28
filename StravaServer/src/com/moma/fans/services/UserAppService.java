@@ -19,6 +19,16 @@ public class UserAppService {
     // Mapa de usuarios con email como clave
     private Map<String, User> users = new HashMap<>();
 
+    // Eager initialization
+    private static final UserAppService INSTANCE = new UserAppService();
+
+    private UserAppService() { }
+
+    public static UserAppService getInstance() {
+
+        return INSTANCE;
+    }
+
     /**
      * @param email correo electrónico
      * @param password contraseña

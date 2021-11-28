@@ -11,10 +11,22 @@ import java.util.List;
  * Se encarga de la conversión de objetos
  * {@link com.moma.fans.data.domain.TrainingSession}
  * a objetos {@link TrainingSessionDTO}.
+ * Implementa el patrón de diseño Singleton.
  * @author JonanC
  * @author Julen
  */
 public class TrainingSessionAssembler {
+
+    private TrainingSessionAssembler() { }
+
+    // Singleton on demand
+    private static class InstanceHolder {
+        private static final TrainingSessionAssembler INSTANCE = new TrainingSessionAssembler();
+    }
+
+    public static TrainingSessionAssembler getInstance() {
+        return InstanceHolder.INSTANCE;
+    }
 
     public TrainingSessionDTO toDTO(TrainingSession trainingSession) {
 

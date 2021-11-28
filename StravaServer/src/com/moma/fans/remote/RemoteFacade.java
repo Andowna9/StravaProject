@@ -31,16 +31,6 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     // Estado del servidor
     Map<Long, User> serverState = new HashMap<>();
 
-    // Servicios
-    UserAppService userService = new UserAppService();
-    TrainingSessionAppService trainingSessionService = new TrainingSessionAppService();
-    ChallengeAppService challengeService = new ChallengeAppService();
-
-    // DTO Assemblers
-    UserAssembler userAssembler = new UserAssembler();
-    TrainingSessionAssembler trainingSessionAssembler = new TrainingSessionAssembler();
-    ChallengeAssembler challengeAssembler = new ChallengeAssembler();
-
     public RemoteFacade() throws RemoteException {
         super();
     }
@@ -49,7 +39,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     public synchronized long register(String email, String nickname, String password, String registerType) throws RemoteException {
 
         RegisterType rt = RegisterType.valueOfRegisterType(registerType);
-        User user = userService.registerUser(email, nickname, password, rt);
+        User user = UserAppService.getInstance().registerUser(email, nickname, password, rt);
 
         if (user != null) {
 
@@ -78,7 +68,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
         if (serverState.containsKey(token)) {
 
             User user = serverState.get(token);
-            userAssembler.createProfile(user, userDTO);
+            UserAssembler.getInstance().createProfile(user, userDTO);
         }
         else {
 
@@ -89,7 +79,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     @Override
     public synchronized long login(String email, String password) throws RemoteException {
 
-        User user = userService.login(email, password);
+        User user = UserAppService.getInstance().login(email, password);
 
         if (user != null) {
 
@@ -143,7 +133,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     public UserDTO getUserData(long token) {
 
        User user = serverState.get(token);
-       return userAssembler.toDTO(user);
+       return UserAssembler.getInstance().toDTO(user);
     }
 
     @Override
@@ -152,7 +142,8 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
         if (serverState.containsKey(token)) {
 
             User user = serverState.get(token);
-           trainingSessionService.createTrainingSession(user, trainingSessionAssembler.toTrainingSession(trainingSessionDTO));
+            TrainingSessionAppService.getInstance().createTrainingSession(user,
+                   TrainingSessionAssembler.getInstance().toTrainingSession(trainingSessionDTO));
 
             return true;
 
@@ -170,9 +161,9 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
         if (serverState.containsKey(token)) {
 
             User user = serverState.get(token);
-            Challenge challenge = challengeAssembler.toChallenge(challengeDTO);
+            Challenge challenge = ChallengeAssembler.getInstance().toChallenge(challengeDTO);
 
-            challengeService.createChallenge(user, challenge);
+            ChallengeAppService.getInstance().createChallenge(user, challenge);
 
             return true;
         }
@@ -189,7 +180,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
         if (serverState.containsKey(token)) {
 
             User user = serverState.get(token);
-            challengeService.acceptChallenge(user, challengeID);
+            ChallengeAppService.getInstance().acceptChallenge(user, challengeID);
 
             return true;
         }
@@ -206,7 +197,8 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
         if (serverState.containsKey(token)) {
 
             User user = serverState.get(token);
-            return trainingSessionAssembler.toDTO(trainingSessionService.getTrainingSessions(user));
+            return TrainingSessionAssembler.getInstance().toDTO(
+                    TrainingSessionAppService.getInstance().getTrainingSessions(user));
         }
 
         else {
@@ -220,7 +212,8 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     public List<ChallengeDTO> getCreatedChallenges(long token) throws RemoteException {
 
         User user = serverState.get(token);
-        return challengeAssembler.toDTO(challengeService.getCreatedChallenges(user));
+        return ChallengeAssembler.getInstance().toDTO(
+                ChallengeAppService.getInstance().getCreatedChallenges(user));
     }
 
     @Override
@@ -229,7 +222,8 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
         if (serverState.containsKey(token)) {
 
             User user = serverState.get(token);
-            return challengeAssembler.toDTO(challengeService.getAvailableChallenges(user));
+            return ChallengeAssembler.getInstance().toDTO(
+                    ChallengeAppService.getInstance().getAvailableChallenges(user));
         }
 
         else {

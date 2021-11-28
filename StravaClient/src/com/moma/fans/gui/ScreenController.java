@@ -1,6 +1,5 @@
 package com.moma.fans.gui;
 
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -42,9 +41,18 @@ public class ScreenController {
 
     private HashMap<State, Screen> screenMap = new HashMap<>();
 
-    private final static ScreenController instance = new ScreenController();
+    // Eager initialization
+    private static final ScreenController INSTANCE = new ScreenController();
 
     private ScreenController() {}
+
+    /**
+     * @return única instancia de la clase
+     */
+    public static ScreenController getInstance() {
+
+        return INSTANCE;
+    }
 
     /**
      * Establece lo relativo a la ventana gráfica creada por el S.O. y su tamaño.
@@ -81,11 +89,4 @@ public class ScreenController {
 
     }
 
-    /**
-     * @return única instancia de la clase
-     */
-    public static ScreenController getInstance() {
-
-        return instance;
-    }
 }

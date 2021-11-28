@@ -11,6 +11,16 @@ import com.moma.fans.data.domain.User;
  * @author Julen
  */
 public class TrainingSessionAppService {
+
+	private static final TrainingSessionAppService INSTANCE = new TrainingSessionAppService();
+
+	private TrainingSessionAppService() { }
+
+	// Eager initialization
+	public static TrainingSessionAppService getInstance() {
+
+		return INSTANCE;
+	}
 	
 	public void createTrainingSession(User user, TrainingSession tr) {
 

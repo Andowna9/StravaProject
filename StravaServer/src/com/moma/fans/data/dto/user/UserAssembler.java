@@ -8,11 +8,24 @@ import com.moma.fans.data.dto.user.UserDTO;
  * Clase de utilidad que forma parte del patrón DTO.
  * Se encarga de la conversión de objetos
  * usuario.
+ * Implementa el patrón de diseño Singleton.
  * @see ProfileCreationDTO
  * @see UserDTO
  * @author JonanC
  */
 public class UserAssembler {
+
+    private UserAssembler() { }
+
+    // Singleton on demand
+    private static class InstanceHolder {
+        private static final UserAssembler INSTANCE = new UserAssembler();
+    }
+
+    public static UserAssembler getInstance() {
+
+       return InstanceHolder.INSTANCE;
+    }
 
     public UserDTO toDTO(User user) {
 

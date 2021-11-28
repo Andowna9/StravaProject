@@ -184,7 +184,17 @@ public class HomeScreen implements Screen {
             return tableCell;
         });
 
-        tblSessions.getColumns().addAll(colTitle, colSport, colDistance, colDateTime, colDuration);
+        // Warning: Unchecked generic array creation for varargs
+        // tblSessions.getColumns().addAll(colTitle, colSport, colDistance, colDateTime, colDuration);
+
+        // Alternativa
+
+        tblSessions.getColumns().add(colTitle);
+        tblSessions.getColumns().add(colSport);
+        tblSessions.getColumns().add(colDistance);
+        tblSessions.getColumns().add(colDateTime);
+        tblSessions.getColumns().add(colDuration);
+
         tblSessions.getColumns().stream().forEach(tableColumn -> tableColumn.setStyle("-fx-alignment: CENTER"));
 
         TabPane tabPane = new TabPane();

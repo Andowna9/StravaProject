@@ -2,6 +2,7 @@ package com.moma.fans.services;
 
 import com.moma.fans.data.domain.Challenge;
 import com.moma.fans.data.domain.User;
+import com.moma.fans.data.dto.challenge.ChallengeAssembler;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -14,9 +15,19 @@ import java.util.*;
  */
 public class ChallengeAppService {
 
+    Map<Integer, Challenge> allChallenges = new HashMap<>();
     private static int count = 0;
 
-    Map<Integer, Challenge> allChallenges = new HashMap<>();
+    // Eager initialization
+    private static final ChallengeAppService INSTANCE = new ChallengeAppService();
+
+    private ChallengeAppService() { }
+
+    public static ChallengeAppService getInstance() {
+
+        return INSTANCE;
+
+    }
 
     /**
      * Obtiene la lista de retos disponibles

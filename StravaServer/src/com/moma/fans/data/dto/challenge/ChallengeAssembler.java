@@ -11,9 +11,21 @@ import java.util.List;
  * Se encarga de la conversión de objetos
  * {@link com.moma.fans.data.domain.Challenge}
  * a objetos {@link AcceptedChallengeDTO}.
+ * Implementa el patrón de diseño Singleton.
  * @author JonanC
  */
 public class ChallengeAssembler {
+
+    private ChallengeAssembler() { }
+
+    // Singleton on demand
+    private static class InstanceHolder {
+        private static final ChallengeAssembler INSTANCE = new ChallengeAssembler();
+    }
+
+    public static ChallengeAssembler getInstance() {
+       return InstanceHolder.INSTANCE;
+    }
 
     public ChallengeDTO toDTO(Challenge challenge) {
 
