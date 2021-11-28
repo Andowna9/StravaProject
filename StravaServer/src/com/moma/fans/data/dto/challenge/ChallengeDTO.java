@@ -15,6 +15,19 @@ public class ChallengeDTO implements Serializable {
     private LocalDate startDate;
     private LocalDate endDate;
 
+    // Default constructor
+
+    public ChallengeDTO() {
+
+        title = "";
+        sport = "Running";
+        distanceToAchieve = 0;
+        timeToAchieve = Duration.ZERO;
+        startDate = LocalDate.EPOCH;
+        endDate = LocalDate.EPOCH;
+
+    }
+
     public String getTitle() {
         return title;
     }
@@ -63,24 +76,4 @@ public class ChallengeDTO implements Serializable {
         this.endDate = endDate;
     }
 
-    @Override
-    public String toString() {
-
-        String res = title + " " + sport.toUpperCase() + " "
-                + " " + startDate +  "/" + endDate + " ";
-
-        res += "Objetivo: ";
-
-        if (distanceToAchieve > 0) {
-
-            res += distanceToAchieve + " km";
-        }
-
-        else {
-
-            res += timeToAchieve + " min";
-        }
-
-        return res;
-    }
 }

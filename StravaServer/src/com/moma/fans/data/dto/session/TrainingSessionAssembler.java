@@ -22,7 +22,7 @@ public class TrainingSessionAssembler {
 
         trainingSessionDTO.setTitle(trainingSession.getTitle());
         trainingSessionDTO.setSport(trainingSession.getSport().toString());
-        trainingSessionDTO.setDate(trainingSession.getDate());
+        trainingSessionDTO.setDateTime(trainingSession.getDate());
         trainingSessionDTO.setDistance(trainingSession.getDistance());
         trainingSessionDTO.setDuration(trainingSession.getDuration());
 

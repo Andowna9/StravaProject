@@ -144,7 +144,7 @@ public class CreateTrainingSessionScreen implements Screen {
                     TrainingSessionDTO trainingSessionDTO = new TrainingSessionDTO();
                     trainingSessionDTO.setTitle(tfName.getText());
                     trainingSessionDTO.setSport(cbxSports.getValue());
-                    trainingSessionDTO.setDate(LocalDateTime.of(dpStartDate.getValue(), LocalTime.parse(tfStartime.getText())));
+                    trainingSessionDTO.setDateTime(LocalDateTime.of(dpStartDate.getValue(), LocalTime.parse(tfStartime.getText())));
                     trainingSessionDTO.setDuration(Duration.ofMinutes(Long.parseLong(tfDuration.getText())));
                     trainingSessionDTO.setDistance(Double.parseDouble(tfDistance.getText()));
                     trainingSessionController.createTrainingSession(userController.getToken(), trainingSessionDTO);

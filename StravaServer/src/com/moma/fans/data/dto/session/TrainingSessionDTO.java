@@ -21,7 +21,16 @@ public class TrainingSessionDTO implements Serializable {
     private LocalDateTime dateTime;
     private Duration duration;
 
-    // Implicit default constructor
+    // Default constructor
+
+    public TrainingSessionDTO() {
+
+        title = "";
+        sport = "Running";
+        distance = 0;
+        dateTime = LocalDateTime.MIN;
+        duration = Duration.ZERO;
+    }
 
     public String getTitle() {
         return title;
@@ -51,8 +60,8 @@ public class TrainingSessionDTO implements Serializable {
         return dateTime;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.dateTime = date;
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
     public Duration getDuration() {

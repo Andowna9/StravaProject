@@ -67,7 +67,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
 
         else {
 
-            throw new RemoteException("La cuenta ya existe!");
+            throw new RemoteException("Registro inválido!");
         }
 
     }

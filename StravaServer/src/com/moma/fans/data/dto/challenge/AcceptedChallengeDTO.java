@@ -10,7 +10,13 @@ public class AcceptedChallengeDTO extends ChallengeDTO {
 
     private double progress;
 
-    // Implicit default constructor
+    // Default constructor
+
+    public AcceptedChallengeDTO() {
+
+        super();
+        progress = 0;
+    }
 
     public double getProgress() {
         return progress;

@@ -33,7 +33,8 @@ public class ChallengeAppService {
         for (Challenge ch: allChallenges.values()) {
 
             // Si todavía no ha terminado el plazo
-            if (today.isAfter(ch.getStartDate()) && today.isBefore(ch.getEndDate())){
+            if ( (ch.getStartDate().isAfter(today) || ch.getStartDate().isEqual(today)) &&
+                    (today.isBefore(ch.getEndDate()) || today.isEqual(ch.getEndDate())) ) {
 
                 // Si el reto no ha sido aceptado ni creado por el usuario
                 if (!user.getAcceptedChallenges().contains(ch) && !user.getCreatedChallenges().contains(ch)) {
