@@ -1,13 +1,13 @@
 package com.moma.fans.services;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.moma.fans.data.domain.LocalUser;
 import com.moma.fans.data.domain.RegisterType;
 import com.moma.fans.data.domain.User;
 import com.moma.fans.gateway.AccountServiceFactory;
 import com.moma.fans.gateway.AccountServiceGateway;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Objeto que encapsula la lógica de negocio
@@ -18,11 +18,19 @@ public class UserAppService {
 
     // Mapa de usuarios con email como clave
     private Map<String, User> users = new HashMap<>();
-
+    
+    private Map<RegisterType, AccountServiceGateway> gateways = new HashMap<>();
+    
     // Eager initialization
     private static final UserAppService INSTANCE = new UserAppService();
 
-    private UserAppService() { }
+    private UserAppService() {
+    	for (RegisterType type : RegisterType.values()) {
+    		if (!type.equals(RegisterType.LOCAL)) {
+    			gateways.put(type, AccountServiceFactory.createAccountService(type));
+    		}
+		}
+    }
 
     public static UserAppService getInstance() {
 
@@ -56,8 +64,7 @@ public class UserAppService {
 
             else {
 
-                AccountServiceGateway gateway = AccountServiceFactory.createAccountService(
-                        user.getRegisterType().toString());
+                AccountServiceGateway gateway = gateways.get(user.getRegisterType());
 
                 if (gateway.authenticate(user.getEmail(), password)) {
 
@@ -98,7 +105,7 @@ public class UserAppService {
 
         else {
 
-            AccountServiceGateway gateway = AccountServiceFactory.createAccountService(registerType.toString());
+            AccountServiceGateway gateway = gateways.get(registerType);
 
             if (gateway.authenticate(email, password)) {
 
