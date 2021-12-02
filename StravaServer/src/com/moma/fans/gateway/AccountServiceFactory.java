@@ -13,24 +13,19 @@ public class AccountServiceFactory {
      * @param service nombre de servicio
      * @return servicio de cuentas para comprobar credenciales
      */
-    public static AccountServiceGateway createAccountService (Enum<RegisterType> service) {
+    public static AccountServiceGateway createAccountService (RegisterType service) {
 
-       if (service == null) {
+      switch (service) {
 
-           return null;
-       }
+          case GOOGLE:
+              return new GoogleAccountService();
 
-       if (service.equals(RegisterType.GOOGLE)) {
+          case FACEBOOK:
+              return new FacebookAccountService();
 
-           return new GoogleAccountService();
-       }
-
-       else if (service.equals(RegisterType.FACEBOOK)) {
-
-           return new FacebookAccountService();
-       }
-
-       return null;
+          default:
+              return null;
+      }
 
     }
 }

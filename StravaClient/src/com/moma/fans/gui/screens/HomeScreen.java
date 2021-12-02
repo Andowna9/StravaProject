@@ -52,13 +52,13 @@ public class HomeScreen implements Screen {
     private TrainingSessionController trainingSessionController;
     private ChallengeController challengeController;
 
-    TableView<TrainingSessionDTO> tblSessions;
-    Text tUser;
+    private TableView<TrainingSessionDTO> tblSessions;
+    private Text tUser;
 
-    ListView<ChallengeDTO> createdChallenges;
-    ListView<ChallengeDTO> availableChallenges;
+    private ListView<ChallengeDTO> createdChallenges;
+    private ListView<ChallengeDTO> availableChallenges;
 
-    Parent view;
+    private Parent view;
 	
     public HomeScreen(UserController userController, TrainingSessionController trainingSessionController, ChallengeController challengeController) {
 

@@ -20,9 +20,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
+
 /**
  * Vista para registrar una nueva cuenta.
  * @author JonanC
@@ -31,16 +31,18 @@ public class RegisterScreen implements Screen {
 
     private UserController controller;
 
-    TextField tfEmail;
-    TextField tfNickname;
-    PasswordField passField;
-    
-    ToggleGroup group;
-    RadioButton rbFacebook;
-    RadioButton rbGoogle;
-    RadioButton rbNormalRegister;
+    private TextField tfEmail;
+    private TextField tfNickname;
+    private PasswordField passField;
 
-    Parent view;
+    private Label errorLabel;
+    
+    private ToggleGroup group;
+    private RadioButton rbFacebook;
+    private RadioButton rbGoogle;
+    private RadioButton rbLocalRegister;
+
+    private Parent view;
 
     public RegisterScreen(UserController controller) {
 
@@ -92,17 +94,21 @@ public class RegisterScreen implements Screen {
 
         hlLogin.setOnAction(event -> ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN));
 
-        // Creacion radioButtons
+        // Mensaje de error de validación
+        HBox errorBox = new HBox();
+        errorBox.setAlignment(Pos.CENTER);
+        errorLabel = new Label("Falta algún campo!");
+        errorLabel.setTextFill(Paint.valueOf("red"));
+        errorLabel.setVisible(false);
+        errorBox.getChildren().add(errorLabel);
+
+        // Creación radioButtons
         group = new ToggleGroup();
         HBox radioHB = new HBox();
-
-        VBox radioVB = new VBox();
-
-        radioVB.setSpacing(5);
         
-        rbNormalRegister = new RadioButton("Local");
-        rbNormalRegister.setToggleGroup(group);
-        rbNormalRegister.setSelected(true);
+        rbLocalRegister = new RadioButton("Local");
+        rbLocalRegister.setToggleGroup(group);
+        rbLocalRegister.setSelected(true);
 
         rbGoogle = new RadioButton("Google");
         rbGoogle.setToggleGroup(group);
@@ -110,15 +116,15 @@ public class RegisterScreen implements Screen {
         rbFacebook = new RadioButton("Facebook");
         rbFacebook.setToggleGroup(group);
 
-        radioVB.getChildren().addAll(rbNormalRegister, rbGoogle, rbFacebook);
-
         radioHB.setAlignment(Pos.CENTER);
-        radioHB.getChildren().add(radioVB);
+        radioHB.setSpacing(10);
+        radioHB.getChildren().addAll(rbLocalRegister, rbGoogle, rbFacebook);
         
         root.setPadding(new Insets(20, 80, 20, 80));
         root.setSpacing(20.0d);
         root.getChildren().addAll(
                 eRegVbox,
+                errorBox,
                 radioHB,
                 createCenteredButton("Registrarse", btnNormalRegister),
                 hlLogin
@@ -131,9 +137,12 @@ public class RegisterScreen implements Screen {
             public void handle(ActionEvent arg0) {
 
                 try {
-                    String registerType = ((RadioButton) group.getSelectedToggle()).getText();
-                    controller.register(tfEmail.getText(), tfNickname.getText(), passField.getText(), registerType);
-                    ScreenController.getInstance().setScreen(ScreenController.State.PROFILE_CREATION);
+
+                    if (validateFields()) {
+                        String registerType = ((RadioButton) group.getSelectedToggle()).getText();
+                        controller.register(tfEmail.getText(), tfNickname.getText(), passField.getText(), registerType);
+                        ScreenController.getInstance().setScreen(ScreenController.State.PROFILE_CREATION);
+                    }
                 } catch (RemoteException e) {
 
                     Alert alert = new Alert(AlertType.ERROR);
@@ -172,6 +181,24 @@ public class RegisterScreen implements Screen {
         return hBox;
     }
 
+    public boolean validateFields() {
+
+        if (tfEmail.getText().isBlank() || tfNickname.getText().isBlank() || passField.getText().isBlank()) {
+
+            errorLabel.setVisible(true);
+            return false;
+
+        }
+
+        else {
+
+            errorLabel.setVisible(false);
+            return true;
+        }
+
+
+    }
+
 
     @Override
     public void initialize() {
@@ -179,7 +206,7 @@ public class RegisterScreen implements Screen {
         tfEmail.clear();
         passField.clear();
         tfNickname.clear();
-        rbNormalRegister.setSelected(true);
+        rbLocalRegister.setSelected(true);
     }
 
     @Override

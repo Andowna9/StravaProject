@@ -25,15 +25,15 @@ public class ProfileCreationScreen implements Screen {
 
     private UserController userController;
 
-    DatePicker dpBirth;
+    private DatePicker dpBirth;
 
-    Spinner<Double> spinWeight;
-    Spinner<Double> spinHeight;
+    private Spinner<Double> spinWeight;
+    private Spinner<Double> spinHeight;
 
-    Slider sldMinHeartRate;
-    Slider sldMaxHeartRate;
+    private Slider sldMinHeartRate;
+    private Slider sldMaxHeartRate;
 
-    Parent view;
+    private Parent view;
 
     public ProfileCreationScreen(UserController userController) {
 

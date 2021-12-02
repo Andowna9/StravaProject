@@ -18,7 +18,7 @@ public class UserAppService {
 
     // Mapa de usuarios con email como clave
     private Map<String, User> users = new HashMap<>();
-    
+    // Mapa de gateways correspondientes a servicios de cuentas
     private Map<RegisterType, AccountServiceGateway> gateways = new HashMap<>();
     
     // Eager initialization
@@ -26,7 +26,7 @@ public class UserAppService {
 
     private UserAppService() {
     	for (RegisterType type : RegisterType.values()) {
-    		if (!type.equals(RegisterType.LOCAL)) {
+    		if (!(type == RegisterType.LOCAL)) {
     			gateways.put(type, AccountServiceFactory.createAccountService(type));
     		}
 		}

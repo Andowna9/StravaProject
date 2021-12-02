@@ -30,17 +30,17 @@ public class CreateChallengeScreen implements Screen {
     private UserController userController;
     private ChallengeController challengeController;
 
-    TextField tfName;
-    ComboBox<String> cbxSports;
-    DatePicker dpStartDate;
-    DatePicker dpEndDate;
+    private TextField tfName;
+    private ComboBox<String> cbxSports;
+    private DatePicker dpStartDate;
+    private DatePicker dpEndDate;
 
-    ToggleGroup group;
-    RadioButton rbDistance;
-    RadioButton rbTime;
-    TextField tfOptionNums;
+    private ToggleGroup group;
+    private RadioButton rbDistance;
+    private RadioButton rbTime;
+    private TextField tfOptionNums;
 
-    Parent view;
+    private Parent view;
 
 	public CreateChallengeScreen(UserController userController, ChallengeController challengeController) {
 

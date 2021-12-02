@@ -38,9 +38,9 @@ public class CreateTrainingSessionScreen implements Screen {
     private TextField tfDuration;
     private TextField tfDistance;
     private ComboBox<String> cbxSports;
-    DatePicker dpStartDate;
+    private DatePicker dpStartDate;
 
-    Parent view;
+    private Parent view;
 
 	public CreateTrainingSessionScreen(UserController userController, TrainingSessionController trainingSessionController) {
 

@@ -36,7 +36,9 @@ public class LoginScreen implements Screen {
     private TextField tfEmail;
     private PasswordField passField;
 
-    Parent view;
+    private Label errorLabel;
+
+    private Parent view;
 
     public LoginScreen(UserController controller) {
 
@@ -76,7 +78,7 @@ public class LoginScreen implements Screen {
 
         HBox errorBox = new HBox();
         errorBox.setAlignment(Pos.CENTER);
-        Label errorLabel = new Label("");
+        errorLabel = new Label();
         errorLabel.setTextFill(Paint.valueOf("red"));
         errorBox.getChildren().add(errorLabel);
 
@@ -99,8 +101,11 @@ public class LoginScreen implements Screen {
 
                 // Controlar errores al hacer login
                 try {
-                    controller.login(tfEmail.getText(), passField.getText());
-                    ScreenController.getInstance().setScreen(ScreenController.State.HOME);
+
+                    if (validateFields()) {
+                        controller.login(tfEmail.getText(), passField.getText());
+                        ScreenController.getInstance().setScreen(ScreenController.State.HOME);
+                    }
                 } catch (RemoteException e) {
 
                     Alert alert = new Alert(AlertType.ERROR);
@@ -114,6 +119,31 @@ public class LoginScreen implements Screen {
         });
 
         return root;
+    }
+
+    private boolean validateFields() {
+
+        if (tfEmail.getText().isBlank() && passField.getText().isBlank()) {
+
+            errorLabel.setText("Email y contraseña requeridos!");
+            return false;
+
+        }
+
+        else if (tfEmail.getText().isBlank()) {
+
+            errorLabel.setText("Email requerido!");
+            return false;
+        }
+
+        else if (passField.getText().isBlank()) {
+
+            errorLabel.setText("Contraseña requerida!");
+            return  false;
+        }
+
+        errorLabel.setText("");
+        return true;
     }
 
 
