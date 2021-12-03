@@ -4,6 +4,8 @@ import com.moma.fans.controllers.UserController;
 import com.moma.fans.data.dto.user.ProfileCreationDTO;
 import com.moma.fans.gui.Screen;
 import com.moma.fans.gui.ScreenController;
+import com.moma.fans.gui.components.StravaAlert;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -11,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
@@ -122,7 +125,7 @@ public class ProfileCreationScreen implements Screen {
 
                 catch (RemoteException e) {
 
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                	Alert alert = new StravaAlert(AlertType.ERROR);
                     alert.setTitle("Error Dialog");
                     alert.setHeaderText("Error en la creación del perfil de usuario");
                     alert.setContentText(e.getCause().getMessage());

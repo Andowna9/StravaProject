@@ -13,6 +13,7 @@ import com.moma.fans.data.dto.challenge.ChallengeDTO;
 import com.moma.fans.data.dto.session.TrainingSessionDTO;
 import com.moma.fans.gui.Screen;
 import com.moma.fans.gui.ScreenController;
+import com.moma.fans.gui.components.StravaAlert;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -287,7 +288,7 @@ public class HomeScreen implements Screen {
                     userController.logout();
                     ScreenController.getInstance().setScreen(ScreenController.State.LOG_IN);
                 } catch (RemoteException e) {
-                    Alert alert = new Alert(AlertType.ERROR);
+                	Alert alert = new StravaAlert(AlertType.ERROR);
                     alert.setTitle("Error Dialog");
                     alert.setHeaderText("Error al iniciar sesión");
                     alert.setContentText(e.getCause().getMessage());

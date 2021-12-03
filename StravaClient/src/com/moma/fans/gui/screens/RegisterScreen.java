@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import com.moma.fans.controllers.UserController;
 import com.moma.fans.gui.Screen;
 import com.moma.fans.gui.ScreenController;
+import com.moma.fans.gui.components.StravaAlert;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -145,7 +146,7 @@ public class RegisterScreen implements Screen {
                     }
                 } catch (RemoteException e) {
 
-                    Alert alert = new Alert(AlertType.ERROR);
+                	Alert alert = new StravaAlert(AlertType.ERROR);
                     alert.setTitle("Error Dialog");
                     alert.setHeaderText("Error en el registro");
                     alert.setContentText(e.getCause().getMessage());

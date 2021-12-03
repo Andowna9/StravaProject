@@ -18,7 +18,11 @@ public class FacebookService extends Thread {
 
     // Mapa estático de usuarios
     // Sin problemas de concurrencia al usar varios hilos, ya que solo es de lectura
-    private static final Map<String, String> users = Collections.unmodifiableMap(new HashMap<>() {{
+    private static final Map<String, String> users = Collections.unmodifiableMap(new HashMap<>() {
+    	
+		private static final long serialVersionUID = 1L;
+
+	{
 
         put("alex@gmail.com", "alex");
         put("julen@gmail.com", "julen");

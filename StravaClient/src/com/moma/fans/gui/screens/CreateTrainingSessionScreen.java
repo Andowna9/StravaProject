@@ -11,6 +11,8 @@ import com.moma.fans.controllers.UserController;
 import com.moma.fans.data.dto.session.TrainingSessionDTO;
 import com.moma.fans.gui.Screen;
 import com.moma.fans.gui.ScreenController;
+import com.moma.fans.gui.components.StravaAlert;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,7 +20,13 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -154,7 +162,7 @@ public class CreateTrainingSessionScreen implements Screen {
 
                 catch (RemoteException e) {
 
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    Alert alert = new StravaAlert(AlertType.ERROR);
                     alert.setTitle("Error Dialog");
                     alert.setHeaderText("Error al crear sesión de entrenamiento");
                     alert.setContentText(e.getCause().getMessage());

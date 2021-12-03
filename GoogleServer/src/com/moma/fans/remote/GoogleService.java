@@ -15,7 +15,11 @@ import java.util.Map;
  */
 public class GoogleService extends UnicastRemoteObject implements IGoogleService {
 
-	Map<String, String> users = Collections.unmodifiableMap(new HashMap<>() {{
+	Map<String, String> users = Collections.unmodifiableMap(new HashMap<>() {
+		
+		private static final long serialVersionUID = 1L;
+
+	{
 
 		put("roberto@gmail.com", "diseñosoftware");
 		put("josuKa@gmail.com", "cyc");
