@@ -8,6 +8,7 @@ public class ChallengeDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private int id;
     private String title;
     private String sport;
     private double distanceToAchieve;
@@ -26,6 +27,16 @@ public class ChallengeDTO implements Serializable {
         startDate = LocalDate.EPOCH;
         endDate = LocalDate.EPOCH;
 
+    }
+
+    public ChallengeDTO(ChallengeDTO challengeDTO) {
+
+        title = challengeDTO.title;
+        sport = challengeDTO.sport;
+        distanceToAchieve = challengeDTO.distanceToAchieve;
+        timeToAchieve = challengeDTO.timeToAchieve;
+        startDate = challengeDTO.startDate;
+        endDate = challengeDTO.endDate;
     }
 
     public String getTitle() {
@@ -75,5 +86,14 @@ public class ChallengeDTO implements Serializable {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import com.moma.fans.controllers.ChallengeController;
 import com.moma.fans.controllers.TrainingSessionController;
 import com.moma.fans.controllers.UserController;
+import com.moma.fans.data.dto.challenge.AcceptedChallengeDTO;
 import com.moma.fans.data.dto.challenge.ChallengeDTO;
 import com.moma.fans.data.dto.session.TrainingSessionDTO;
 import com.moma.fans.gui.Screen;
@@ -20,19 +21,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
@@ -58,6 +48,7 @@ public class HomeScreen implements Screen {
 
     private ListView<ChallengeDTO> createdChallenges;
     private ListView<ChallengeDTO> availableChallenges;
+    private ListView<AcceptedChallengeDTO> acceptedChallenges;
 
     private Parent view;
 	
@@ -202,17 +193,17 @@ public class HomeScreen implements Screen {
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         Tab createdChallengesTab = new Tab("Mis retos");
-        Tab acceptedChallengesTab = new Tab("Retos aceptados");
         Tab availableChallengesTab = new Tab("Retos disponibles");
+        Tab acceptedChallengesTab = new Tab("Retos aceptados");
 
         createdChallenges = new ListView<>();
         createdChallengesTab.setContent(createdChallenges);
 
-        ListView<String> acceptedChallenges = new ListView<>();
-        acceptedChallengesTab.setContent(acceptedChallenges);
-
         availableChallenges = new ListView<>();
         availableChallengesTab.setContent(availableChallenges);
+
+        acceptedChallenges = new ListView<>();
+        acceptedChallengesTab.setContent(acceptedChallenges);
 
         createdChallenges.setCellFactory(new Callback<ListView<ChallengeDTO>, ListCell<ChallengeDTO>>() {
             @Override
@@ -221,7 +212,7 @@ public class HomeScreen implements Screen {
                      @Override
                     protected void updateItem(ChallengeDTO item, boolean empty) {
                         super.updateItem(item, empty);
-                        if(item != null) {
+                        if (item != null) {
                             setText(item.getTitle() + " " + item.getStartDate()
                                     + " " + item.getEndDate() + " " + item.getSport().toUpperCase());
                         } else {
@@ -240,20 +231,86 @@ public class HomeScreen implements Screen {
                      @Override
                     protected void updateItem(ChallengeDTO item, boolean empty) {
                         super.updateItem(item, empty);
-                        if(item != null) {
-                            setText(item.getTitle() + " " + item.getStartDate()
+                        if (item != null) {
+
+                            HBox hBox = new HBox();
+                            Label lInfo = new Label();
+                            lInfo.setText(item.getTitle() + " " + item.getStartDate()
                                     + " " + item.getEndDate() + " " + item.getSport().toUpperCase());
+                            Button btn = new Button("Aceptar");
+                            btn.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent actionEvent) {
+
+
+                                    try {
+
+                                        challengeController.acceptChallenge(userController.getToken(), item.getId());
+                                        availableChallenges.getItems().remove(getIndex());
+
+                                    }
+
+                                    catch (RemoteException e) {
+
+                                        Alert alert = new StravaAlert(AlertType.ERROR);
+                                        alert.setTitle("Error Dialog");
+                                        alert.setHeaderText("Error al aceptar reto");
+                                        alert.setContentText(e.getCause().getMessage());
+                                        alert.showAndWait();
+                                    }
+                                }
+                            });
+                            hBox.getChildren().addAll(lInfo, btn);
+                            hBox.setSpacing(5.0d);
+                            hBox.setAlignment(Pos.CENTER);
+
+                            setGraphic(hBox);
+
                         } else {
-                            setText(null);
+                            setGraphic(null);
                         }
                     }
                  };
                 return cell;
             }
         });
+
+        acceptedChallenges.setCellFactory(new Callback<ListView<AcceptedChallengeDTO>, ListCell<AcceptedChallengeDTO>>() {
+            @Override
+            public ListCell<AcceptedChallengeDTO> call(ListView<AcceptedChallengeDTO> param) {
+                ListCell<AcceptedChallengeDTO> cell = new ListCell<AcceptedChallengeDTO>() {
+                    @Override
+                    protected void updateItem(AcceptedChallengeDTO item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item != null) {
+
+                            HBox hBox = new HBox();
+                            Label lInfo = new Label();
+                            lInfo.setText(item.getTitle() + " " + item.getStartDate()
+                                    + " " + item.getEndDate() + " " + item.getSport().toUpperCase());
+                            ProgressBar progressBar = new ProgressBar();
+                            progressBar.setProgress(item.getProgress());
+                            hBox.getChildren().addAll(lInfo, progressBar);
+                            hBox.setSpacing(5.0d);
+                            hBox.setAlignment(Pos.CENTER);
+
+                            setGraphic(hBox);
+
+                        }
+
+                        else {
+                            setGraphic(null);
+                        }
+                    }
+                };
+
+                return cell;
+            }
+        });
         
         tabPane.getTabs().add(createdChallengesTab);
-        //tabPane.getTabs().add(acceptedChallengesTab); TODO
+        tabPane.getTabs().add(acceptedChallengesTab);
         tabPane.getTabs().add(availableChallengesTab);
 
         // Botones
@@ -312,10 +369,7 @@ public class HomeScreen implements Screen {
 
         createdChallenges.getItems().clear();
         availableChallenges.getItems().clear();
-
-        // TODO Utilizar un renderer más apropiado
-        // https://www.baeldung.com/javafx-listview-display-custom-items
-        // https://www.turais.de/how-to-custom-listview-cell-in-javafx/
+        acceptedChallenges.getItems().clear();
 
         for (ChallengeDTO ch : challengeController.getCreatedChallenges(userController.getToken())) {
 
@@ -325,6 +379,11 @@ public class HomeScreen implements Screen {
         for (ChallengeDTO ch : challengeController.getAvailableChallenges(userController.getToken())) {
 
         	availableChallenges.getItems().add(ch);
+        }
+
+        for (AcceptedChallengeDTO ach: challengeController.getAcceptedChallenges(userController.getToken())) {
+
+            acceptedChallenges.getItems().add(ach);
         }
         
     }

@@ -1,6 +1,8 @@
 package com.moma.fans.services;
 
 import com.moma.fans.data.domain.Challenge;
+import com.moma.fans.data.domain.ChallengeProgression;
+import com.moma.fans.data.domain.TrainingSession;
 import com.moma.fans.data.domain.User;
 import com.moma.fans.data.dto.challenge.ChallengeAssembler;
 
@@ -44,7 +46,7 @@ public class ChallengeAppService {
         for (Challenge ch: allChallenges.values()) {
 
             // Si todavía no ha terminado el plazo
-            if ( (ch.getStartDate().isAfter(today) || ch.getStartDate().isEqual(today)) &&
+            if ( (today.isEqual(ch.getStartDate()) || today.isAfter(ch.getStartDate())) &&
                     (today.isBefore(ch.getEndDate()) || today.isEqual(ch.getEndDate())) ) {
 
                 // Si el reto no ha sido aceptado ni creado por el usuario
@@ -61,6 +63,33 @@ public class ChallengeAppService {
     public List<Challenge> getCreatedChallenges(User user) {
 
         return user.getCreatedChallenges();
+    }
+
+    public List<ChallengeProgression> getAcceptedChallenges(User user) {
+
+        List<ChallengeProgression> challengeProgressions = new ArrayList<>();
+
+        for (Challenge challenge: user.getAcceptedChallenges()) {
+
+            if (!challenge.hasEnded()) {
+
+                double progress = 0.0d;
+
+                for (TrainingSession trainingSession: user.getTrainingSessions()) {
+
+                    progress += challenge.updateProgress(trainingSession);
+                }
+
+                ChallengeProgression challengeProgression = new ChallengeProgression();
+                challengeProgression.setChallenge(challenge);
+                challengeProgression.setProgress(Math.min(1.0d, progress));
+
+                challengeProgressions.add(challengeProgression);
+
+            }
+        }
+
+        return challengeProgressions;
     }
 
 

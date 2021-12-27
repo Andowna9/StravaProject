@@ -9,34 +9,44 @@ import java.util.Objects;
  * @author JonanC
  * @author AlexNitu
  */
-public class Challenge {
+public abstract class Challenge {
 
-    private int id;
-    private String title;
-    private Sport sport;
-    private double distanceToAchieve;
-    private Duration timeToAchieve;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    protected int id;
+    protected String title;
+    protected Sport sport;
+    protected LocalDate startDate;
+    protected LocalDate endDate;
 
-    private User creator;
+    protected User creator;
 
     // Constructor
 
-    public Challenge(String title, LocalDate startDate, LocalDate endDate, double distanceToAchieve, Duration timeToAchieve, Sport sport){
+    public Challenge(String title, LocalDate startDate, LocalDate endDate, Sport sport){
 
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.distanceToAchieve = distanceToAchieve;
-        this.timeToAchieve = timeToAchieve;
         this.sport = sport;
 
     }
 
+    public Challenge() { }
+
+    /**
+     * Calcula el valor del porcentaje de un reto aceptado
+     * de acuerdo a una sesión de entrenamiento dada.
+     * @param tr Sesión de entrenamiento
+     * @return porcentaje del reto cubierto
+     */
+    public abstract double updateProgress(TrainingSession tr);
+    public abstract String getObjective();
+
     // Métodos principales
 
-    // TODO
+    public boolean hasEnded() {
+
+        return LocalDate.now().isAfter(this.endDate);
+    }
 
     // Getters y setters
 
@@ -62,22 +72,6 @@ public class Challenge {
 
     public void setSport(Sport sport) {
         this.sport = sport;
-    }
-
-    public double getDistanceToAchieve() {
-        return distanceToAchieve;
-    }
-
-    public void setDistanceToAchieve(double distance) {
-        this.distanceToAchieve = distance;
-    }
-
-    public Duration getTimeToAchieve() {
-        return timeToAchieve;
-    }
-
-    public void setTimeToAchieve(Duration timeToAchieve) {
-        this.timeToAchieve = timeToAchieve;
     }
 
     public LocalDate getStartDate() {

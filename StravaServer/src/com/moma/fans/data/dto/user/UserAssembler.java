@@ -1,8 +1,6 @@
 package com.moma.fans.data.dto.user;
 
 import com.moma.fans.data.domain.User;
-import com.moma.fans.data.dto.user.ProfileCreationDTO;
-import com.moma.fans.data.dto.user.UserDTO;
 
 /**
  * Clase de utilidad que forma parte del patrón DTO.
@@ -27,7 +25,7 @@ public class UserAssembler {
        return InstanceHolder.INSTANCE;
     }
 
-    public UserDTO toDTO(User user) {
+    public UserDTO toUserDTO(User user) {
 
         UserDTO userDTO = new UserDTO();
         userDTO.setNickname(user.getNickname());

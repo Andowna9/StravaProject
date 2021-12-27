@@ -18,6 +18,12 @@ public class AcceptedChallengeDTO extends ChallengeDTO {
         progress = 0;
     }
 
+    public AcceptedChallengeDTO(ChallengeDTO challengeDTO, double progress) {
+
+        super(challengeDTO);
+        this.progress = progress;
+    }
+
     public double getProgress() {
         return progress;
     }

@@ -28,7 +28,7 @@ public class TrainingSessionAssembler {
         return InstanceHolder.INSTANCE;
     }
 
-    public TrainingSessionDTO toDTO(TrainingSession trainingSession) {
+    public TrainingSessionDTO toTrainingSessionDTO(TrainingSession trainingSession) {
 
         TrainingSessionDTO trainingSessionDTO = new TrainingSessionDTO();
 
@@ -42,13 +42,13 @@ public class TrainingSessionAssembler {
 
     }
 
-    public List<TrainingSessionDTO> toDTO(List<TrainingSession> trainingSessions) {
+    public List<TrainingSessionDTO> toTrainingSessionDTO(List<TrainingSession> trainingSessions) {
 
         List<TrainingSessionDTO> trainingSessionsDTO = new ArrayList<>();
 
         for (TrainingSession ts: trainingSessions) {
 
-            trainingSessionsDTO.add(this.toDTO(ts));
+            trainingSessionsDTO.add(this.toTrainingSessionDTO(ts));
         }
 
         return trainingSessionsDTO;

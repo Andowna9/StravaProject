@@ -98,5 +98,12 @@ public interface IRemoteFacade extends Remote {
      */
      public List<ChallengeDTO> getAvailableChallenges(long token) throws RemoteException;
 
+    /**
+     *
+     * @param token identificación del usuario
+     * @return lista de retos aceptados (incluido progreso)
+     */
+     public List<AcceptedChallengeDTO> getAcceptedChallenges(long token) throws RemoteException;
+
 
 }

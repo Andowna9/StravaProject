@@ -3,6 +3,7 @@ package com.moma.fans.remote;
 import com.moma.fans.data.domain.Challenge;
 import com.moma.fans.data.domain.RegisterType;
 import com.moma.fans.data.domain.User;
+import com.moma.fans.data.dto.challenge.AcceptedChallengeDTO;
 import com.moma.fans.data.dto.challenge.ChallengeAssembler;
 import com.moma.fans.data.dto.challenge.ChallengeDTO;
 import com.moma.fans.data.dto.session.TrainingSessionAssembler;
@@ -133,7 +134,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     public UserDTO getUserData(long token) {
 
        User user = serverState.get(token);
-       return UserAssembler.getInstance().toDTO(user);
+       return UserAssembler.getInstance().toUserDTO(user);
     }
 
     @Override
@@ -197,7 +198,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
         if (serverState.containsKey(token)) {
 
             User user = serverState.get(token);
-            return TrainingSessionAssembler.getInstance().toDTO(
+            return TrainingSessionAssembler.getInstance().toTrainingSessionDTO(
                     TrainingSessionAppService.getInstance().getTrainingSessions(user));
         }
 
@@ -212,7 +213,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
     public List<ChallengeDTO> getCreatedChallenges(long token) throws RemoteException {
 
         User user = serverState.get(token);
-        return ChallengeAssembler.getInstance().toDTO(
+        return ChallengeAssembler.getInstance().toChallengeDTO(
                 ChallengeAppService.getInstance().getCreatedChallenges(user));
     }
 
@@ -222,13 +223,30 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
         if (serverState.containsKey(token)) {
 
             User user = serverState.get(token);
-            return ChallengeAssembler.getInstance().toDTO(
+            return ChallengeAssembler.getInstance().toChallengeDTO(
                     ChallengeAppService.getInstance().getAvailableChallenges(user));
         }
 
         else {
 
             throw new RemoteException("Hay que iniciar sesión para consultar los retos");
+        }
+    }
+
+    @Override
+    public List<AcceptedChallengeDTO> getAcceptedChallenges(long token) throws RemoteException {
+
+        if (serverState.containsKey(token)) {
+
+            User user = serverState.get(token);
+            return ChallengeAssembler.getInstance().toAcceptedChallengeDTO(
+                    ChallengeAppService.getInstance().getAcceptedChallenges(user));
+
+        }
+
+        else {
+
+            throw new RemoteException("Hay que iniciar sesión para consultar los retos aceptados");
         }
     }
 }

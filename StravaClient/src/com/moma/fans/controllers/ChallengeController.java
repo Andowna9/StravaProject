@@ -1,5 +1,6 @@
 package com.moma.fans.controllers;
 
+import com.moma.fans.data.dto.challenge.AcceptedChallengeDTO;
 import com.moma.fans.data.dto.challenge.ChallengeDTO;
 import com.moma.fans.remote.ServiceLocator;
 
@@ -43,6 +44,26 @@ public class ChallengeController {
         try {
             return this.serviceLocator.getService().getAvailableChallenges(token);
         } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
+    }
+
+    public void acceptChallenge(long token, int challengeID) throws RemoteException {
+
+        this.serviceLocator.getService().acceptChallenge(token, challengeID);
+    }
+
+    public List<AcceptedChallengeDTO> getAcceptedChallenges(long token) {
+
+        try {
+
+            return this.serviceLocator.getService().getAcceptedChallenges(token);
+        }
+
+        catch (RemoteException e) {
+
             e.printStackTrace();
         }
 
