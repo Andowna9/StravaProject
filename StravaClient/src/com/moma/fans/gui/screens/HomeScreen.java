@@ -262,7 +262,7 @@ public class HomeScreen implements Screen {
                             });
                             hBox.getChildren().addAll(lInfo, btn);
                             hBox.setSpacing(5.0d);
-                            hBox.setAlignment(Pos.CENTER);
+                            hBox.setAlignment(Pos.CENTER_LEFT);
 
                             setGraphic(hBox);
 
@@ -293,7 +293,7 @@ public class HomeScreen implements Screen {
                             progressBar.setProgress(item.getProgress());
                             hBox.getChildren().addAll(lInfo, progressBar);
                             hBox.setSpacing(5.0d);
-                            hBox.setAlignment(Pos.CENTER);
+                            hBox.setAlignment(Pos.CENTER_LEFT);
 
                             setGraphic(hBox);
 

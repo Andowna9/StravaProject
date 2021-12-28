@@ -2,6 +2,7 @@ package com.moma.fans.data.domain;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -18,6 +19,8 @@ public abstract class Challenge {
     protected LocalDate endDate;
 
     protected User creator;
+
+    protected List<User> participants;
 
     // Constructor
 
@@ -46,6 +49,11 @@ public abstract class Challenge {
     public boolean hasEnded() {
 
         return LocalDate.now().isAfter(this.endDate);
+    }
+
+    public void addParticipant(User user) {
+
+        participants.add(user);
     }
 
     // Getters y setters
@@ -98,6 +106,11 @@ public abstract class Challenge {
     public User getCreator() {
 
         return creator;
+    }
+
+    public List<User> getParticipants() {
+
+        return participants;
     }
 
     @Override

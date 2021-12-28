@@ -110,6 +110,7 @@ public class ChallengeAppService {
         // Obtener reto a partir de id y añadirlo a lista de usuario
 
         Challenge challenge = allChallenges.get(challengeID);
+        challenge.addParticipant(user);
         user.addAcceptedChallenge(challenge);
 
     }
