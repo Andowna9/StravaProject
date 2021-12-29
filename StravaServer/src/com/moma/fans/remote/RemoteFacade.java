@@ -1,10 +1,10 @@
 package com.moma.fans.remote;
 
-import com.moma.fans.data.domain.Challenge;
 import com.moma.fans.data.domain.RegisterType;
 import com.moma.fans.data.domain.User;
 import com.moma.fans.data.dto.challenge.AcceptedChallengeDTO;
 import com.moma.fans.data.dto.challenge.ChallengeAssembler;
+import com.moma.fans.data.dto.challenge.ChallengeCreationDTO;
 import com.moma.fans.data.dto.challenge.ChallengeDTO;
 import com.moma.fans.data.dto.session.TrainingSessionAssembler;
 import com.moma.fans.data.dto.session.TrainingSessionDTO;
@@ -17,6 +17,7 @@ import com.moma.fans.services.UserAppService;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.time.Duration;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -156,22 +157,42 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
         }
     }
 
+
     @Override
-    public boolean createChallenge(long token, ChallengeDTO challengeDTO) throws RemoteException {
+    public boolean createDistanceChallenge(long token, ChallengeCreationDTO challengeCreationDTO, double distanceToAchieve) throws RemoteException {
+
+        logger.info("Creando reto de distancia");
 
         if (serverState.containsKey(token)) {
 
             User user = serverState.get(token);
-            Challenge challenge = ChallengeAssembler.getInstance().toChallenge(challengeDTO);
-
-            ChallengeAppService.getInstance().createChallenge(user, challenge);
-
+            ChallengeAppService.getInstance().createChallenge(user,
+                    ChallengeAssembler.getInstance().toDistanceChallenge(challengeCreationDTO, distanceToAchieve));
             return true;
         }
 
         else {
 
-            throw new RemoteException("Hay que iniciar sesión para crear un reto");
+            throw new RemoteException("Error al crear reto de distancia");
+        }
+    }
+
+    @Override
+    public boolean createTimeChallenge(long token, ChallengeCreationDTO challengeCreationDTO, Duration timeToAchieve) throws RemoteException {
+
+        logger.info("Creando reto de tiempo");
+
+        if (serverState.containsKey(token)) {
+
+            User user = serverState.get(token);
+            ChallengeAppService.getInstance().createChallenge(user,
+                    ChallengeAssembler.getInstance().toTimeChallenge(challengeCreationDTO, timeToAchieve));
+            return true;
+        }
+
+        else {
+
+            throw new RemoteException("Error al crear reto de tiempo");
         }
     }
 

@@ -2,6 +2,7 @@ package com.moma.fans.data.dto.challenge;
 
 import com.moma.fans.data.domain.*;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,14 +36,7 @@ public class ChallengeAssembler {
         challengeDTO.setSport(challenge.getSport().toString());
         challengeDTO.setStartDate(challenge.getStartDate());
         challengeDTO.setEndDate(challenge.getEndDate());
-
-        if (challenge instanceof TimeChallenge) {
-            challengeDTO.setTimeToAchieve(((TimeChallenge) challenge).getTimeToAchieve());
-        }
-
-        else if (challenge instanceof  DistanceChallenge) {
-            challengeDTO.setDistanceToAchieve(((DistanceChallenge) challenge).getDistanceToAchieve());
-        }
+        challengeDTO.setGoal(challenge.getObjective());
 
         return challengeDTO;
     }
@@ -59,26 +53,29 @@ public class ChallengeAssembler {
         return challengesDTO;
     }
 
-    public Challenge toChallenge(ChallengeDTO challengeDTO) {
+    private void setUpChallenge(Challenge challenge, ChallengeCreationDTO challengeCreationDTO) {
 
-        Challenge challenge;
+        challenge.setTitle(challengeCreationDTO.getTitle());
+        challenge.setSport(Sport.valueOfSport(challengeCreationDTO.getSport()));
+        challenge.setStartDate(challengeCreationDTO.getStartDate());
+        challenge.setEndDate(challengeCreationDTO.getEndDate());
+    }
 
-        if (challengeDTO.getDistanceToAchieve() > 0) {
+    public Challenge toDistanceChallenge(ChallengeCreationDTO challengeCreationDTO, double distanceToAchieve) {
 
-            challenge = new DistanceChallenge(challengeDTO.getDistanceToAchieve());
-        }
+        Challenge challenge = new DistanceChallenge(distanceToAchieve);
+        setUpChallenge(challenge, challengeCreationDTO);
 
-        else {
+        return challenge;
+    }
 
-            challenge = new TimeChallenge(challengeDTO.getTimeToAchieve());
-        }
+    public Challenge toTimeChallenge(ChallengeCreationDTO challengeCreationDTO, Duration timeToAchieve) {
 
-       challenge.setTitle(challengeDTO.getTitle());
-       challenge.setSport(Sport.valueOfSport(challengeDTO.getSport()));
-       challenge.setStartDate(challengeDTO.getStartDate());
-       challenge.setEndDate(challengeDTO.getEndDate());
+        Challenge challenge = new TimeChallenge(timeToAchieve);
+        setUpChallenge(challenge, challengeCreationDTO);
 
-       return challenge;
+        return challenge;
+
     }
 
     public AcceptedChallengeDTO toAcceptedChallengeDTO(ChallengeProgression challengeProgression) {

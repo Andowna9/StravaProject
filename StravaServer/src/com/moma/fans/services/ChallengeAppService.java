@@ -4,7 +4,6 @@ import com.moma.fans.data.domain.Challenge;
 import com.moma.fans.data.domain.ChallengeProgression;
 import com.moma.fans.data.domain.TrainingSession;
 import com.moma.fans.data.domain.User;
-import com.moma.fans.data.dto.challenge.ChallengeAssembler;
 
 import java.time.LocalDate;
 import java.util.*;

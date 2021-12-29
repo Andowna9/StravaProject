@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 import com.moma.fans.controllers.ChallengeController;
 import com.moma.fans.controllers.UserController;
-import com.moma.fans.data.dto.challenge.ChallengeDTO;
+import com.moma.fans.data.dto.challenge.ChallengeCreationDTO;
 import com.moma.fans.gui.Screen;
 import com.moma.fans.gui.ScreenController;
 import com.moma.fans.gui.components.StravaAlert;
@@ -155,26 +155,26 @@ public class CreateChallengeScreen implements Screen {
 
                 try {
 
-                    ChallengeDTO challengeDTO = new ChallengeDTO();
+                    ChallengeCreationDTO challengeCreationDTO = new ChallengeCreationDTO();
 
-                    challengeDTO.setTitle(tfName.getText());
-                    challengeDTO.setStartDate(dpStartDate.getValue());
-                    challengeDTO.setEndDate(dpEndDate.getValue());
-                    challengeDTO.setSport(cbxSports.getValue());
+                    challengeCreationDTO.setTitle(tfName.getText());
+                    challengeCreationDTO.setStartDate(dpStartDate.getValue());
+                    challengeCreationDTO.setEndDate(dpEndDate.getValue());
+                    challengeCreationDTO.setSport(cbxSports.getValue());
 
                     if (group.getSelectedToggle() == rbDistance) {
 
-                        challengeDTO.setDistanceToAchieve(Double.parseDouble(tfOptionNums.getText()));
+                        challengeController.createDistanceChallenge(userController.getToken(),
+                                challengeCreationDTO, Double.parseDouble(tfOptionNums.getText()));
                     }
 
                     else {
 
-                        challengeDTO.setTimeToAchieve(Duration.ofMinutes(Long.parseLong(tfOptionNums.getText())));
+                        challengeController.createTimeChallenge(userController.getToken(),
+                                challengeCreationDTO, Duration.ofMinutes(Long.parseLong(tfOptionNums.getText())));
 
                     }
 
-
-                    challengeController.createChallenge(userController.getToken(), challengeDTO);
                     ScreenController.getInstance().setScreen(ScreenController.State.HOME);
                 }
 

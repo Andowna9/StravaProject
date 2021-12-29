@@ -1,7 +1,6 @@
 package com.moma.fans.data.dto.challenge;
 
 import java.io.Serializable;
-import java.time.Duration;
 import java.time.LocalDate;
 
 public class ChallengeDTO implements Serializable {
@@ -11,10 +10,9 @@ public class ChallengeDTO implements Serializable {
     private int id;
     private String title;
     private String sport;
-    private double distanceToAchieve;
-    private Duration timeToAchieve;
     private LocalDate startDate;
     private LocalDate endDate;
+    private String goal;
 
     // Default constructor
 
@@ -22,10 +20,9 @@ public class ChallengeDTO implements Serializable {
 
         title = "";
         sport = "Running";
-        distanceToAchieve = 0;
-        timeToAchieve = Duration.ZERO;
         startDate = LocalDate.EPOCH;
         endDate = LocalDate.EPOCH;
+        goal = "";
 
     }
 
@@ -33,10 +30,9 @@ public class ChallengeDTO implements Serializable {
 
         title = challengeDTO.title;
         sport = challengeDTO.sport;
-        distanceToAchieve = challengeDTO.distanceToAchieve;
-        timeToAchieve = challengeDTO.timeToAchieve;
         startDate = challengeDTO.startDate;
         endDate = challengeDTO.endDate;
+        goal = challengeDTO.goal;
     }
 
     public String getTitle() {
@@ -55,22 +51,6 @@ public class ChallengeDTO implements Serializable {
         this.sport = sport;
     }
 
-    public double getDistanceToAchieve() {
-        return distanceToAchieve;
-    }
-
-    public void setDistanceToAchieve(double distanceToAchieve) {
-        this.distanceToAchieve = distanceToAchieve;
-    }
-
-    public Duration getTimeToAchieve() {
-        return timeToAchieve;
-    }
-
-    public void setTimeToAchieve(Duration timeToAchieve) {
-        this.timeToAchieve = timeToAchieve;
-    }
-
     public LocalDate getStartDate() {
         return startDate;
     }
@@ -85,6 +65,14 @@ public class ChallengeDTO implements Serializable {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public String getGoal() {
+        return goal;
+    }
+
+    public void setGoal(String goal) {
+        this.goal = goal;
     }
 
     public int getId() {

@@ -1,7 +1,7 @@
 package com.moma.fans.data.domain;
 
-import java.time.Duration;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,7 +20,7 @@ public abstract class Challenge {
 
     protected User creator;
 
-    protected List<User> participants;
+    protected List<User> participants = new ArrayList<>();
 
     // Constructor
 

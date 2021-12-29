@@ -1,5 +1,6 @@
 package com.moma.fans.remote;
 
+import com.moma.fans.data.dto.challenge.ChallengeCreationDTO;
 import com.moma.fans.data.dto.challenge.ChallengeDTO;
 import com.moma.fans.data.dto.challenge.AcceptedChallengeDTO;
 import com.moma.fans.data.dto.user.ProfileCreationDTO;
@@ -8,6 +9,7 @@ import com.moma.fans.data.dto.user.UserDTO;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.time.Duration;
 import java.util.List;
 
 /**
@@ -66,10 +68,20 @@ public interface IRemoteFacade extends Remote {
     /**
      * Crea un reto al que cualquier usuario puede apuntarse.
      * @param token identificación del usuario
-     * @param  challengeDTO contenedor de información de reto
+     * @param  challengeCreationDTO contenedor de información de creación de reto
+     * @param distanceToAchieve distancia objetivo
      * @return true si se crea el reto correctamente, false en caso contrario
      */
-    public boolean createChallenge(long token, ChallengeDTO challengeDTO) throws RemoteException;
+    public boolean createDistanceChallenge(long token, ChallengeCreationDTO challengeCreationDTO, double distanceToAchieve) throws RemoteException;
+
+    /**
+     * Crea un reto al que cualquier usuario puede apuntarse.
+     * @param token identificación del usuario
+     * @param  challengeCreationDTO contenedor de información de creación de reto
+     * @param timeToAchieve tiempo (duración) de entrenamiento objetivo
+     * @return true si se crea el reto correctamente, false en caso contrario
+     */
+    public boolean createTimeChallenge(long token, ChallengeCreationDTO challengeCreationDTO, Duration timeToAchieve) throws RemoteException;
 
     /**
      * Añade un reto a la lista de aceptados de un usuario.

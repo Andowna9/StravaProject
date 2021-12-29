@@ -1,5 +1,6 @@
 package com.moma.fans.remote;
 
+import com.moma.fans.data.dto.challenge.ChallengeCreationDTO;
 import com.moma.fans.data.dto.challenge.ChallengeDTO;
 import com.moma.fans.data.dto.session.TrainingSessionDTO;
 import com.moma.fans.data.dto.user.ProfileCreationDTO;
@@ -7,6 +8,7 @@ import com.moma.fans.data.dto.user.UserDTO;
 import org.junit.jupiter.api.*;
 
 import java.rmi.RemoteException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -155,20 +157,20 @@ class RemoteFacadeTest {
 
             // Creación de retos
 
-            ChallengeDTO ch1 = new ChallengeDTO();
+            ChallengeCreationDTO ch1 = new ChallengeCreationDTO();
             ch1.setStartDate(LocalDate.now().plusDays(1));
             ch1.setEndDate(LocalDate.now().plusDays(5));
-            remoteFacade.createChallenge(user1Token, ch1);
+            remoteFacade.createDistanceChallenge(user1Token, ch1, 12);
 
-            ChallengeDTO ch2 = new ChallengeDTO();
+            ChallengeCreationDTO ch2 = new ChallengeCreationDTO();
             ch2.setStartDate(LocalDate.now().plusDays(2));
             ch2.setEndDate(LocalDate.now().plusDays(10));
-            remoteFacade.createChallenge(user2Token, ch2);
+            remoteFacade.createTimeChallenge(user2Token, ch2, Duration.ofHours(2));
 
-            ChallengeDTO ch3 = new ChallengeDTO();
+            ChallengeCreationDTO ch3 = new ChallengeCreationDTO();
             ch3.setStartDate(LocalDate.now().plusDays(1));
             ch3.setEndDate(LocalDate.now().plusDays(3));
-            remoteFacade.createChallenge(user3Token, ch3);
+            remoteFacade.createDistanceChallenge(user3Token, ch3, 3);
 
             // Recuperción de retos
 
