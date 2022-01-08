@@ -1,5 +1,7 @@
 package com.moma.fans.data.domain;
 
+import javax.jdo.annotations.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,9 @@ import java.util.Objects;
  * @author JonanC
  * @author AlexNitu
  */
+
+@PersistenceCapable(detachable = "true")
+@Discriminator(strategy = DiscriminatorStrategy.CLASS_NAME)
 public class User {
 
     private String email;
@@ -22,11 +27,21 @@ public class User {
     private short minHeartRate;
     private short maxHeartRate;
 
-    // Sesiones de entrenamiento
+    // Sesiones de entrenamiento (1-N Unidireccional)
+    @Persistent(dependentElement = "true", defaultFetchGroup = "true")
+    @Join
     List<TrainingSession> trainingSessions = new ArrayList<>();
 
-    // Retos
+    // Retos creados (1-N Bidireccional)
+    @Persistent(mappedBy = "creator", dependentElement = "true", defaultFetchGroup = "true")
+    @Join
     List<Challenge> createdChallenges = new ArrayList<>();
+
+    // Retos aceptados (N-M)
+    @Persistent(table = "USERS_CHALLENGES", defaultFetchGroup = "true")
+    @Join(column = "USER_ID")
+    @Element(column = "CHALLENGE_ID")
+    @Order(extensions = @Extension(vendorName = "datanucleus", key = "list-ordering", value = "id ASC"))
     List<Challenge> acceptedChallenges = new ArrayList<>();
 
     public User(RegisterType registerType, String email, String nickname) {

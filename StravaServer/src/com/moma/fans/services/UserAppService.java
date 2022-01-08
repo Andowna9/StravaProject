@@ -3,6 +3,7 @@ package com.moma.fans.services;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.moma.fans.data.dao.UserDAO;
 import com.moma.fans.data.domain.LocalUser;
 import com.moma.fans.data.domain.RegisterType;
 import com.moma.fans.data.domain.User;
@@ -16,8 +17,6 @@ import com.moma.fans.gateway.AccountServiceGateway;
  */
 public class UserAppService {
 
-    // Mapa de usuarios con email como clave
-    private Map<String, User> users = new HashMap<>();
     // Mapa de gateways correspondientes a servicios de cuentas
     private Map<RegisterType, AccountServiceGateway> gateways = new HashMap<>();
     
@@ -44,7 +43,7 @@ public class UserAppService {
      */
     public User login(String email, String password) {
 
-        User user = users.get(email);
+        User user = UserDAO.getInstance().getByEmail(email);
 
         if (user != null) {
 
@@ -89,10 +88,12 @@ public class UserAppService {
 
         // El usuario existe, registro inválido
 
-        if (users.containsKey(email)) {
+        if (UserDAO.getInstance().getByEmail(email) != null) {
 
             return null;
         }
+
+        System.out.println(registerType);
 
         User user = null;
 
@@ -113,7 +114,7 @@ public class UserAppService {
             }
         }
 
-        if (user != null) users.put(user.getEmail(), user);
+        if (user != null) UserDAO.getInstance().save(user);
 
         return user;
     }

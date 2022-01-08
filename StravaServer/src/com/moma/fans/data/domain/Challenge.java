@@ -1,5 +1,7 @@
 package com.moma.fans.data.domain;
 
+import javax.jdo.annotations.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,20 +12,28 @@ import java.util.Objects;
  * @author JonanC
  * @author AlexNitu
  */
+
+@PersistenceCapable
+@Discriminator(strategy = DiscriminatorStrategy.CLASS_NAME)
 public abstract class Challenge {
 
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.INCREMENT)
     protected int id;
+
     protected String title;
     protected Sport sport;
     protected LocalDate startDate;
     protected LocalDate endDate;
 
+    @Persistent(defaultFetchGroup = "true")
     protected User creator;
 
+    @Persistent(mappedBy = "acceptedChallenges", defaultFetchGroup = "true")
+    @Order(extensions = @Extension(vendorName = "datanucleus", key = "list-ordering", value = "id ASC"))
     protected List<User> participants = new ArrayList<>();
 
     // Constructor
-
     public Challenge(String title, LocalDate startDate, LocalDate endDate, Sport sport){
 
         this.title = title;

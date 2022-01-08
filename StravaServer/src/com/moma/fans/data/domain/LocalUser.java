@@ -1,5 +1,6 @@
 package com.moma.fans.data.domain;
 
+import javax.jdo.annotations.PersistenceCapable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -10,6 +11,8 @@ import java.security.NoSuchAlgorithmException;
  * @see User
  * @author JonanC
  */
+
+@PersistenceCapable(detachable = "true")
 public class LocalUser extends User {
 
     private String password;

@@ -1,5 +1,6 @@
 package com.moma.fans.data.domain;
 
+import javax.jdo.annotations.PersistenceCapable;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -8,6 +9,8 @@ import java.time.LocalDateTime;
  * @author JonanC
  * @author Julen
  */
+
+@PersistenceCapable
 public class TrainingSession {
 
     private String title;
@@ -15,10 +18,6 @@ public class TrainingSession {
     private double distance;
     private LocalDateTime dateTime;
     private Duration duration;
-
-    // Métodos principales
-
-    // TODO
     
     public TrainingSession(String title, Sport sport, double distance, LocalDateTime dateTime, Duration duration) {
 		super();

@@ -1,6 +1,9 @@
 package com.moma.fans.services;
 
 import java.util.List;
+
+import com.moma.fans.data.dao.TrainingSessionDAO;
+import com.moma.fans.data.dao.UserDAO;
 import com.moma.fans.data.domain.TrainingSession;
 import com.moma.fans.data.domain.User;
 
@@ -25,10 +28,11 @@ public class TrainingSessionAppService {
 	public void createTrainingSession(User user, TrainingSession tr) {
 
 		user.addTrainingSession(tr);
+		UserDAO.getInstance().save(user);
 	}
 	
 	public List<TrainingSession> getTrainingSessions(User user) {
-		
+
 		return user.getTrainingSessions();
 	}
 }

@@ -1,8 +1,15 @@
 package com.moma.fans.data.dao;
 
-import java.util.List;
-
 public class TrainingSessionDAO extends DataAccessObjectBase implements IDataAccessObject<TrainingSessionDAO> {
+
+    // Singleton on demand
+    private static class InstanceHolder {
+        private static final TrainingSessionDAO INSTANCE = new TrainingSessionDAO();
+    }
+
+    public static TrainingSessionDAO getInstance() {
+        return TrainingSessionDAO.InstanceHolder.INSTANCE;
+    }
 
     @Override
     public void save(TrainingSessionDAO object) {
@@ -14,15 +21,5 @@ public class TrainingSessionDAO extends DataAccessObjectBase implements IDataAcc
     public void delete(TrainingSessionDAO object) {
 
         super.deleteObject(object);
-    }
-
-    @Override
-    public List<TrainingSessionDAO> getAll() {
-        return null;
-    }
-
-    @Override
-    public TrainingSessionDAO find(String param) {
-        return null;
     }
 }

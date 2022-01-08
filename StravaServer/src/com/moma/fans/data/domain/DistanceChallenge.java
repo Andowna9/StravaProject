@@ -1,7 +1,10 @@
 package com.moma.fans.data.domain;
 
+import javax.jdo.annotations.PersistenceCapable;
+
 import java.time.LocalDate;
 
+@PersistenceCapable
 public class DistanceChallenge extends Challenge {
 
     private double distanceToAchieve;

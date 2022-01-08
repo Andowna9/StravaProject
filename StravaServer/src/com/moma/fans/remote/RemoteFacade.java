@@ -1,5 +1,6 @@
 package com.moma.fans.remote;
 
+import com.moma.fans.data.dao.UserDAO;
 import com.moma.fans.data.domain.RegisterType;
 import com.moma.fans.data.domain.User;
 import com.moma.fans.data.dto.challenge.AcceptedChallengeDTO;
@@ -71,6 +72,8 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
 
             User user = serverState.get(token);
             UserAssembler.getInstance().createProfile(user, userDTO);
+            System.out.println(user.getBirthDate());
+            UserDAO.getInstance().save(user);
         }
         else {
 

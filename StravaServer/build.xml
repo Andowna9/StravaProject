@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project basedir="." default="7.server" name="StravaServer">
+<project basedir="." default="6.server" name="StravaServer">
     <property environment="env"/>
 
     <property name="source.dir" location="src"/>
@@ -43,7 +43,27 @@
         <jar destfile="${dist.dir}/${export.file}" basedir="${build.dir}" includes="**/IRemoteFacade.class, **/dto/**/*DTO.class"/>
     </target>
 
-    <target name="4.server" depends="2.enhance-classes" description="Runs the com.moma.fans.Server">
+    <target name="4.create-db-schema" depends="2.enhance-classes" description="Creates DB Schema on the DB Server">
+        <taskdef name="schematool" classpathref="full.classpath" classname="org.datanucleus.store.schema.SchemaToolTask"/>
+        <schematool mode="create" classpathref="full.classpath" props="datanucleus.properties" failonerror="true">
+            <sysproperty key="log4j.configuration" value="file:${resources.dir}/log4j.properties"/>
+            <fileset dir="${build.dir}">
+                <include name="**/*.class"/>
+            </fileset>
+        </schematool>
+    </target>
+
+    <target name="5.delete-db-schema" depends="2.enhance-classes" description="Drops DB sechema from the DB Server">
+        <taskdef name="schematool" classpathref="full.classpath" classname="org.datanucleus.store.schema.SchemaToolTask"/>
+        <schematool mode="delete" classpathref="full.classpath" props="datanucleus.properties" failonerror="true">
+            <sysproperty key="log4j.configuration" value="file:${resources.dir}/log4j.properties"/>
+            <fileset dir="${build.dir}">
+                <include name="**/*.class"/>
+            </fileset>
+        </schematool>
+    </target>
+
+    <target name="6.server" depends="4.create-db-schema" description="Runs the com.moma.fans.Server">
         <java classname="com.moma.fans.Server" classpathref="full.classpath" fork="true">
             <jvmarg value="-Djava.rmi.server.codebase=file:${build.dir}/"/>
             <jvmarg value="-Djava.security.policy=${policy.file}"/>

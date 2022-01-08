@@ -21,7 +21,6 @@ public class ServiceLocator {
      */
     public void setService(String ip, String port, String serviceName) {
 
-
         try {
 
             Registry registry = LocateRegistry.getRegistry(ip, Integer.parseInt(port));
