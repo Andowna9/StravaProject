@@ -72,4 +72,11 @@
             <arg value="${server.name}"/>
         </java>
     </target>
+
+    <target name="7.server-local" description="Runs a local test of the Server" depends="4.create-db-schema">
+        <java classname="com.moma.fans.LocalDataBaseTest" classpathref="full.classpath" fork="true">
+            <jvmarg value="-Dlog4j.configuration=log4j.properties"/>
+            <jvmarg value="-Dfile.encoding=UTF-8"/>
+        </java>
+    </target>
 </project>
