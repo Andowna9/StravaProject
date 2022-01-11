@@ -24,7 +24,7 @@ public class UserAppService {
     private static final UserAppService INSTANCE = new UserAppService();
 
     private UserAppService() {
-    	for (RegisterType type : RegisterType.values()) {
+    	 for (RegisterType type : RegisterType.values()) {
     		if (!(type == RegisterType.LOCAL)) {
     			gateways.put(type, AccountServiceFactory.createAccountService(type));
     		}
@@ -51,11 +51,19 @@ public class UserAppService {
 
             if (user.getRegisterType() == RegisterType.LOCAL) {
 
-                LocalUser localUser = (LocalUser) user;
+                try {
 
-                if (localUser.isPasswordValid(password)) {
+                    LocalUser localUser = (LocalUser) user;
 
-                    return localUser;
+                    if (localUser.isPasswordValid(password)) {
+
+                        return localUser;
+                    }
+                }
+
+                catch(Exception e) {
+
+                    e.printStackTrace();
                 }
             }
 

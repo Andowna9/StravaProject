@@ -2,7 +2,6 @@ package com.moma.fans.data.dao;
 
 import com.moma.fans.data.domain.Challenge;
 import com.moma.fans.data.domain.User;
-import com.moma.fans.data.dto.challenge.ChallengeAssembler;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -11,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChallengeDAO extends DataAccessObjectBase implements IDataAccessObject<Challenge> {
+
+    private ChallengeDAO() {}
 
     // Singleton on demand
     private static class InstanceHolder {

@@ -5,7 +5,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import java.time.Duration;
 import java.time.LocalDate;
 
-@PersistenceCapable
+@PersistenceCapable(detachable = "true")
 public class TimeChallenge extends Challenge {
 
     private Duration timeToAchieve;

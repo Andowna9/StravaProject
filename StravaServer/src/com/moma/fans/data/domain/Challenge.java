@@ -13,11 +13,12 @@ import java.util.Objects;
  * @author AlexNitu
  */
 
-@PersistenceCapable
+@PersistenceCapable(detachable = "true")
 @Discriminator(strategy = DiscriminatorStrategy.CLASS_NAME)
 public abstract class Challenge {
 
     @PrimaryKey
+    @Column(name = "CHALLENGE_ID")
     @Persistent(valueStrategy = IdGeneratorStrategy.INCREMENT)
     protected int id;
 

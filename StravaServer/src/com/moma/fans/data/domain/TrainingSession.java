@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  * @author Julen
  */
 
-@PersistenceCapable
+@PersistenceCapable(detachable = "true")
 public class TrainingSession {
 
     private String title;

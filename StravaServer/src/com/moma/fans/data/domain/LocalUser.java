@@ -1,5 +1,7 @@
 package com.moma.fans.data.domain;
 
+import javax.jdo.annotations.Inheritance;
+import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -13,6 +15,7 @@ import java.security.NoSuchAlgorithmException;
  */
 
 @PersistenceCapable(detachable = "true")
+@Inheritance(strategy = InheritanceStrategy.NEW_TABLE)
 public class LocalUser extends User {
 
     private String password;
@@ -60,6 +63,11 @@ public class LocalUser extends User {
     public boolean isPasswordValid(String password) {
 
         return this.encrypt(password).equals(this.password);
+    }
+
+    public String getPassword() {
+
+        return password;
     }
 
 }

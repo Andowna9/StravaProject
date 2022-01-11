@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 
 @PersistenceCapable(detachable = "true")
-@Discriminator(strategy = DiscriminatorStrategy.CLASS_NAME)
+@Inheritance(strategy = InheritanceStrategy.NEW_TABLE)
 public class User {
 
     private String email;

@@ -1,14 +1,14 @@
 package com.moma.fans.data.dao;
 
-import com.moma.fans.data.domain.LocalUser;
 import com.moma.fans.data.domain.User;
 
-import javax.jdo.Extent;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 
 public class UserDAO extends DataAccessObjectBase implements IDataAccessObject<User> {
+
+    private UserDAO() {}
 
     // Singleton on demand
     private static class InstanceHolder {
@@ -34,19 +34,17 @@ public class UserDAO extends DataAccessObjectBase implements IDataAccessObject<U
     public User getByEmail(String email) {
 
         PersistenceManager pm = pmf.getPersistenceManager();
-        Transaction tx = pm.currentTransaction();
 
+        Transaction tx = pm.currentTransaction();
         User user = null;
 
         try {
 
             tx.begin();
 
-            Extent<User> extent = pm.getExtent(User.class, true);
-            user = extent.iterator().next();
-
-            if (user instanceof LocalUser) System.out.println("Go!!!");
-            System.out.println(user);
+            Query<?> query = pm.newQuery("SELECT FROM " + User.class.getName() + " WHERE email == '" + email + "'");
+            query.setUnique(true);
+            user = (User) query.execute();
 
             tx.commit();
 

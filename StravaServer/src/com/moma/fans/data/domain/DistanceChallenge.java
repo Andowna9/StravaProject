@@ -4,7 +4,7 @@ import javax.jdo.annotations.PersistenceCapable;
 
 import java.time.LocalDate;
 
-@PersistenceCapable
+@PersistenceCapable(detachable = "true")
 public class DistanceChallenge extends Challenge {
 
     private double distanceToAchieve;
