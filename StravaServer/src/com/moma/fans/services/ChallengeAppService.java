@@ -7,6 +7,7 @@ import com.moma.fans.data.domain.ChallengeProgression;
 import com.moma.fans.data.domain.TrainingSession;
 import com.moma.fans.data.domain.User;
 
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -37,7 +38,24 @@ public class ChallengeAppService {
      */
     public List<Challenge> getAvailableChallenges(User user) {
 
-        return ChallengeDAO.getInstance().getAvailableChallenges(user);
+        LocalDate today = LocalDate.now(); // Obtenemos la fecha de hoy
+        List<Challenge> availableChallenges = new ArrayList<>();
+
+        for (Challenge ch: ChallengeDAO.getInstance().getAllChallenges()) {
+
+            // Si todavía no ha terminado el plazo
+            if ( (today.isEqual(ch.getStartDate()) || today.isAfter(ch.getStartDate())) &&
+                    (today.isBefore(ch.getEndDate()) || today.isEqual(ch.getEndDate())) ) {
+
+                // Si el reto no ha sido aceptado ni creado por el usuario
+                if (!user.getAcceptedChallenges().contains(ch) && !user.getCreatedChallenges().contains(ch)) {
+
+                    availableChallenges.add(ch);
+                }
+            }
+        }
+
+        return availableChallenges;
     }
 
     public List<Challenge> getCreatedChallenges(User user) {
@@ -77,8 +95,8 @@ public class ChallengeAppService {
 
         // Se genera un id y se añade el reto al usuario correspondiente
 
-        challenge.setCreator(creator);
         creator.addCreatedChallenge(challenge);
+        challenge.setCreator(creator);
 
         UserDAO.getInstance().save(creator);
 

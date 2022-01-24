@@ -19,21 +19,22 @@ public class UserAppService {
 
     // Mapa de gateways correspondientes a servicios de cuentas
     private Map<RegisterType, AccountServiceGateway> gateways = new HashMap<>();
-    
+
     // Eager initialization
     private static final UserAppService INSTANCE = new UserAppService();
 
+    public static UserAppService getInstance() {
+
+        return INSTANCE;
+    }
+
     private UserAppService() {
+
     	 for (RegisterType type : RegisterType.values()) {
     		if (!(type == RegisterType.LOCAL)) {
     			gateways.put(type, AccountServiceFactory.createAccountService(type));
     		}
 		}
-    }
-
-    public static UserAppService getInstance() {
-
-        return INSTANCE;
     }
 
     /**
@@ -51,20 +52,13 @@ public class UserAppService {
 
             if (user.getRegisterType() == RegisterType.LOCAL) {
 
-                try {
+                LocalUser localUser = (LocalUser) user;
 
-                    LocalUser localUser = (LocalUser) user;
+                if (localUser.isPasswordValid(password)) {
 
-                    if (localUser.isPasswordValid(password)) {
-
-                        return localUser;
-                    }
+                    return localUser;
                 }
 
-                catch(Exception e) {
-
-                    e.printStackTrace();
-                }
             }
 
             // External user check
@@ -101,8 +95,6 @@ public class UserAppService {
             return null;
         }
 
-        System.out.println(registerType);
-
         User user = null;
 
         if (registerType == RegisterType.LOCAL) {
@@ -125,6 +117,11 @@ public class UserAppService {
         if (user != null) UserDAO.getInstance().save(user);
 
         return user;
+    }
+
+    public void saveProfile(User user) {
+
+        UserDAO.getInstance().save(user);
     }
 
 }

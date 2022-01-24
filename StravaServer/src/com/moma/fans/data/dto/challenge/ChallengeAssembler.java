@@ -29,9 +29,9 @@ public class ChallengeAssembler {
 
     public ChallengeDTO toChallengeDTO(Challenge challenge) {
 
-        ChallengeDTO challengeDTO = new AcceptedChallengeDTO();
+        ChallengeDTO challengeDTO = new ChallengeDTO();
 
-        challengeDTO.setId(challengeDTO.getId());
+        challengeDTO.setId(challenge.getId());
         challengeDTO.setTitle(challenge.getTitle());
         challengeDTO.setSport(challenge.getSport().toString());
         challengeDTO.setStartDate(challenge.getStartDate());

@@ -246,7 +246,7 @@ public class HomeScreen implements Screen {
                                     try {
 
                                         challengeController.acceptChallenge(userController.getToken(), item.getId());
-                                        availableChallenges.getItems().remove(getIndex());
+                                        updateChallenges();
 
                                     }
 

@@ -72,8 +72,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade {
 
             User user = serverState.get(token);
             UserAssembler.getInstance().createProfile(user, userDTO);
-            System.out.println(user.getBirthDate());
-            UserDAO.getInstance().save(user);
+            UserAppService.getInstance().saveProfile(user);
         }
         else {
 

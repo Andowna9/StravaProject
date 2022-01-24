@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 
 @PersistenceCapable(detachable = "true")
-@Discriminator(strategy = DiscriminatorStrategy.CLASS_NAME)
+@Inheritance(strategy = InheritanceStrategy.NEW_TABLE)
 public abstract class Challenge {
 
     @PrimaryKey
@@ -31,7 +31,7 @@ public abstract class Challenge {
     protected User creator;
 
     @Persistent(mappedBy = "acceptedChallenges", defaultFetchGroup = "true")
-    @Order(extensions = @Extension(vendorName = "datanucleus", key = "list-ordering", value = "id ASC"))
+    @Order(extensions = @Extension(vendorName = "datanucleus", key = "list-ordering", value = "email ASC"))
     protected List<User> participants = new ArrayList<>();
 
     // Constructor

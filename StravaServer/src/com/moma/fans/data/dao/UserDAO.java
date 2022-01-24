@@ -2,6 +2,7 @@ package com.moma.fans.data.dao;
 
 import com.moma.fans.data.domain.User;
 
+import javax.jdo.Extent;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
@@ -42,11 +43,15 @@ public class UserDAO extends DataAccessObjectBase implements IDataAccessObject<U
 
             tx.begin();
 
-            Query<?> query = pm.newQuery("SELECT FROM " + User.class.getName() + " WHERE email == '" + email + "'");
+            Extent<?> e = pm.getExtent(User.class, true);
+            Query<?> query = pm.newQuery(e);
             query.setUnique(true);
+            query.setFilter("email == '" + email + "'");
+
             user = (User) query.execute();
 
             tx.commit();
+
 
         }
 
