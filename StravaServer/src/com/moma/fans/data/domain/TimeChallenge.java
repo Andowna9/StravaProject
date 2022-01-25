@@ -7,6 +7,11 @@ import javax.jdo.annotations.PersistenceCapable;
 import java.time.Duration;
 import java.time.LocalDate;
 
+/**
+ * Clase que representa un reto de tiempo.
+ * @see Challenge
+ * @author JonanC
+ */
 @PersistenceCapable(detachable = "true")
 @Inheritance(strategy = InheritanceStrategy.NEW_TABLE)
 public class TimeChallenge extends Challenge {

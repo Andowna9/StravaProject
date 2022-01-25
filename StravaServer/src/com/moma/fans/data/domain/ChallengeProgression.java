@@ -1,5 +1,11 @@
 package com.moma.fans.data.domain;
 
+/**
+ * Clase contenedora para almacenar el progreso acumulado de un
+ * reto y la referencia al reto en cuestión.
+ * @see Challenge
+ * @author JonanC
+ */
 public class ChallengeProgression {
 
     private Challenge challenge;

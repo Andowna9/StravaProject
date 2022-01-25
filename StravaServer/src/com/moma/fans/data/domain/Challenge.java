@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Clase que representa un reto deportivo.
+ * Clase abstracta que representa un reto deportivo.
  * @author JonanC
  * @author AlexNitu
  */
@@ -53,6 +53,11 @@ public abstract class Challenge {
      * @return porcentaje del reto cubierto
      */
     public abstract double updateProgress(TrainingSession tr);
+
+    /**
+     * Devuelve la representación textual del objetivo de un reto.
+     * @return objetivo resumido
+     */
     public abstract String getObjective();
 
     // Métodos principales

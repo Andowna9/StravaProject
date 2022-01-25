@@ -5,10 +5,20 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
 
+/**
+ * Clase que implementa los métodos de interacción con BD más
+ * comunes, de tal forma que las clases hijas no tengan que hacerlo y
+ * baste con realizar una simple llamada.
+ * @author JonanC
+ */
 public class DataAccessObjectBase {
 
     protected static PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 
+    /**
+     * Guarda un objeto en la BD.
+     * @param object objeto génerico
+     */
     public void saveObject(Object object) {
 
         PersistenceManager pm = pmf.getPersistenceManager();
@@ -35,6 +45,10 @@ public class DataAccessObjectBase {
 
     }
 
+    /**
+     * Elimina un objeto de la BD.
+     * @param object objeto genérico
+     */
     public void deleteObject(Object object) {
 
         PersistenceManager pm = pmf.getPersistenceManager();

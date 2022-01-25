@@ -3,6 +3,12 @@ package com.moma.fans.data.dto.challenge;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+/**
+ * Clase que representa el objeto de transferencia para
+ * la creación de un reto.
+ * Implementa el patrón de diseño DAO.
+ * @author JonanC
+ */
 public class ChallengeCreationDTO implements Serializable {
 
     private String title;

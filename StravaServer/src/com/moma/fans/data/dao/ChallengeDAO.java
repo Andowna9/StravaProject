@@ -1,16 +1,18 @@
 package com.moma.fans.data.dao;
 
 import com.moma.fans.data.domain.Challenge;
-import com.moma.fans.data.domain.User;
 
 import javax.jdo.Extent;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Patrón DAO para objetos de tipo reto.
+ * @author JonanC
+ */
 public class ChallengeDAO extends DataAccessObjectBase implements IDataAccessObject<Challenge> {
 
     private ChallengeDAO() {}

@@ -34,7 +34,7 @@ public class ChallengeAppService {
      * para un usuario, es decir, aquellos
      * que no son suyos y todavía no ha aceptado.
      * @param user usuario
-     * @return
+     * @return lista de retos disponibles
      */
     public List<Challenge> getAvailableChallenges(User user) {
 

@@ -3,6 +3,7 @@ package com.moma.fans.data.domain;
 /**
  * Enumeración para tipos de
  * registro disponibles.
+ * @author JonanC
  */
 public enum RegisterType {
 

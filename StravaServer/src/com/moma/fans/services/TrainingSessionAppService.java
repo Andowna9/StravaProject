@@ -2,7 +2,6 @@ package com.moma.fans.services;
 
 import java.util.List;
 
-import com.moma.fans.data.dao.TrainingSessionDAO;
 import com.moma.fans.data.dao.UserDAO;
 import com.moma.fans.data.domain.TrainingSession;
 import com.moma.fans.data.domain.User;

@@ -1,5 +1,9 @@
 package com.moma.fans.data.dao;
 
+/**
+ * Patrón DAO para objetos de tipo sesión de entrenamiento.
+ * @author JonanC
+ */
 public class TrainingSessionDAO extends DataAccessObjectBase implements IDataAccessObject<TrainingSessionDAO> {
 
     private TrainingSessionDAO() {}

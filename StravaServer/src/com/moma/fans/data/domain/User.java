@@ -13,7 +13,6 @@ import java.util.Objects;
  * @author JonanC
  * @author AlexNitu
  */
-
 @PersistenceCapable(detachable = "true")
 @Discriminator(strategy = DiscriminatorStrategy.CLASS_NAME)
 public class User {

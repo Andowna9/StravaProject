@@ -6,6 +6,11 @@ import javax.jdo.annotations.PersistenceCapable;
 
 import java.time.LocalDate;
 
+/**
+ * Clase que representa un reto de distancia.
+ * @see Challenge
+ * @author JonanC
+ */
 @PersistenceCapable(detachable = "true")
 @Inheritance(strategy = InheritanceStrategy.NEW_TABLE)
 public class DistanceChallenge extends Challenge {
